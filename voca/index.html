@@ -6,9 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="単語帳">
-<title>単語帳 - Phase 9 (Hover & AI UI)</title>
-
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<title>単語帳 - Phase Final (UX & Cache)</title>
 
 <style>
   body { 
@@ -17,7 +15,7 @@
     margin: 0; padding: 0; color: #1d1d1f; -webkit-tap-highlight-color: transparent; 
   }
 
-  /* 1. 대시보드 UI */
+  /* 대시보드 UI */
   #dashboard-view {
     padding: 20px 20px calc(40px + env(safe-area-inset-bottom)) 20px;
     animation: fadeIn 0.3s ease;
@@ -64,7 +62,7 @@
   .day-stats { font-size: 12px; color: #86868b; font-weight: 600; }
   .day-icon { color: #b2bec3; font-weight: bold; }
 
-  /* 2. 학습 화면 UI */
+  /* 학습 화면 UI */
   #study-view {
     display: none; flex-direction: column; align-items: center;
     padding: 0 20px calc(20px + env(safe-area-inset-bottom));
@@ -109,7 +107,7 @@
   .ex-ja { font-size: 15px; color: #1d1d1f; margin-bottom: 8px; line-height: 1.5; font-weight: 600;}
   .ex-ko { font-size: 14px; color: #86868b; line-height: 1.4; }
 
-  /* 🌟 수정: Hover 효과가 명확한 고스트 버튼 */
+  /* O/X 고스트 버튼 */
   .buttons { display: flex; justify-content: center; gap: 12px; margin-top: 24px; width: 100%; max-width: 350px; }
   .btn { 
     flex: 1; padding: 16px 0; border-radius: 18px; 
@@ -117,26 +115,25 @@
     transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; gap: 6px;
   }
   .btn-no { color: #E07A5F; border: 2px solid #E07A5F; } 
-  .btn-no:hover { background-color: #fff0ec; transform: translateY(-2px); } /* 🌟 호버 시 옅은 붉은색 */
+  .btn-no:hover { background-color: #fff0ec; transform: translateY(-2px); }
   .btn-no:active { background-color: #fdf3f0; transform: scale(0.95) translateY(0); }
   
   .btn-yes { color: #81B29A; border: 2px solid #81B29A; }
-  .btn-yes:hover { background-color: #f0f7f4; transform: translateY(-2px); } /* 🌟 호버 시 옅은 녹색 */
+  .btn-yes:hover { background-color: #f0f7f4; transform: translateY(-2px); }
   .btn-yes:active { background-color: #e5efe9; transform: scale(0.95) translateY(0); }
 
-  /* 🌟 수정: AI 뉘앙스 질문 버튼 (스마트한 느낌의 보라색 톤) */
+  /* 🌟 수정: 직관적인 아이콘(말풍선+물음표)과 은은한 소프트 섀도우를 적용한 AI 버튼 */
   .fab-ai {
     position: fixed;
     bottom: calc(24px + env(safe-area-inset-bottom));
     right: 24px;
-    background: linear-gradient(135deg, #A78BFA, #7C3AED); /* 보라/인디고 그라데이션 */
+    background: linear-gradient(135deg, #A78BFA, #7C3AED);
     color: white;
     border: none;
     border-radius: 50%;
     width: 58px;
     height: 58px;
-    font-size: 26px; 
-    box-shadow: 0 6px 16px rgba(124, 58, 237, 0.4);
+    box-shadow: 0 4px 16px rgba(124, 58, 237, 0.25); /* 은은하고 부드러운 그림자 */
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -144,10 +141,10 @@
     transition: all 0.2s ease;
     z-index: 50;
   }
-  .fab-ai:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 10px 20px rgba(124, 58, 237, 0.5); }
-  .fab-ai:active { transform: scale(0.9); box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3); }
+  .fab-ai:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 8px 20px rgba(124, 58, 237, 0.35); }
+  .fab-ai:active { transform: scale(0.9); box-shadow: 0 2px 8px rgba(124, 58, 237, 0.2); }
 
-  /* AI 팝업창 UI */
+  /* AI 팝업창 UI (팝업 방식 유지) */
   .ai-modal-overlay {
     display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0, 0, 0, 0.4); z-index: 999; 
@@ -160,13 +157,15 @@
     display: flex; flex-direction: column;
   }
   .ai-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-  .ai-modal-title { font-size: 18px; font-weight: 800; color: #7C3AED; margin: 0; display: flex; align-items: center; gap: 6px;} /* 타이틀도 보라색으로 통일 */
+  
+  /* 🌟 수정: 헤더 디자인 일본어로 통일 */
+  .ai-modal-title { font-size: 18px; font-weight: 800; color: #7C3AED; margin: 0; display: flex; align-items: center; gap: 6px;}
   .ai-close-btn { background: #f1f2f6; border: none; border-radius: 50%; width: 30px; height: 30px; font-weight: bold; color: #2d3436; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s;}
   .ai-close-btn:hover { background: #e2e4eb; }
   
   .ai-modal-body { flex: 1; overflow-y: auto; font-size: 15px; line-height: 1.6; color: #424245; }
   .ai-modal-body p { margin-top: 0; margin-bottom: 12px; }
-  .ai-modal-body strong { color: #7C3AED; background-color: #f3e8ff; padding: 0 4px; border-radius: 4px; } /* 강조 텍스트도 보라색 계열로 */
+  .ai-modal-body strong { color: #7C3AED; background-color: #f3e8ff; padding: 0 4px; border-radius: 4px; }
   .ai-modal-body ul { padding-left: 20px; margin-top: 0; }
   .ai-modal-body li { margin-bottom: 6px; }
 
@@ -221,13 +220,22 @@
     <button class="btn btn-yes" onclick="mark(true)">✅ 分かる</button>
   </div>
   
-  <button class="fab-ai" onclick="askAI()">✨</button>
+  <button class="fab-ai" onclick="askAI()">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+      <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+      <line x1="12" y1="17" x2="12.01" y2="17"/>
+    </svg>
+  </button>
 </div>
 
 <div class="ai-modal-overlay" id="aiModal">
   <div class="ai-modal-content">
     <div class="ai-modal-header">
-      <h3 class="ai-modal-title">✨ AI 先生</h3>
+      <h3 class="ai-modal-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        AI 先生
+      </h3>
       <button class="ai-close-btn" onclick="closeAI()">✕</button>
     </div>
     <div class="ai-modal-body" id="aiResultText"></div>
@@ -242,6 +250,8 @@
   let currentCard = null;
   let currentMode = ""; 
   let userStats = JSON.parse(localStorage.getItem('noodVocaStats2')) || {};
+  // 🌟 신규: AI 해설 영구 저장용 캐시 객체
+  let aiCache = JSON.parse(localStorage.getItem('noodVocaAICache')) || {};
 
   function init() {
     renderDashboard();
@@ -407,26 +417,45 @@
     localStorage.setItem('noodVocaStats2', JSON.stringify(userStats));
   }
 
-  // 🌟 AI API 호출 로직 (에러 핸들링 고도화)
-  async function askAI() {
-    let apiKey = localStorage.getItem('geminiApiKey');
-    if (!apiKey) {
-      apiKey = prompt("Google AI Studio에서 발급받은 Gemini API 키를 입력해주세요.\n(키는 스마트폰 브라우저에만 보관됩니다.)");
-      if (!apiKey) return; 
-      localStorage.setItem('geminiApiKey', apiKey);
-    }
+  // 🌟 신규: 자체 마크다운 변환 함수 (절대 깨지지 않음)
+  function simpleMarkdownToHTML(text) {
+    let html = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); // 굵은 글씨
+    html = html.replace(/\*(.*?)\*/g, '<strong>$1</strong>');
+    html = html.replace(/\n/g, '<br>'); // 줄바꿈
+    return html;
+  }
 
+  // 🌟 AI API 호출 로직 (영구 캐싱 + 깔끔한 로딩 문구 적용)
+  async function askAI() {
     const modal = document.getElementById('aiModal');
     const resultBox = document.getElementById('aiResultText');
     modal.style.display = 'flex';
     
-    resultBox.innerHTML = `<p>「${currentCard.word}」에 대해 AI 선생님が 分析中...<br><span style="color:#86868b; font-size:13px;">(약 2~3초 소요)</span></p>`;
+    // 🌟 1. 저장된 답변(캐시)이 있는지 먼저 확인
+    if (aiCache[currentCard.word]) {
+      resultBox.innerHTML = simpleMarkdownToHTML(aiCache[currentCard.word]);
+      return; // 0.1초 만에 띄우고 종료!
+    }
+
+    // 2. 캐시가 없을 때만 API 키 확인 및 구글 서버 호출
+    let apiKey = localStorage.getItem('geminiApiKey');
+    if (!apiKey) {
+      apiKey = prompt("Google AI Studioから取得した Gemini APIキーを入力してください。\n(キーは端末内に安全に保存されます)");
+      if (!apiKey) {
+        closeAI();
+        return; 
+      }
+      localStorage.setItem('geminiApiKey', apiKey);
+    }
+
+    // 🌟 3. 사족을 없앤 깔끔한 일본어 로딩 문구
+    resultBox.innerHTML = `<p>「${currentCard.word}」についてAI先生が分析中です...</p>`;
 
     const promptText = `일본어 교육 전문가로서 일본어 단어 「${currentCard.word}」 (뜻: ${currentCard.meaning})에 대해 다음 3가지만 짧고 명확하게 한국어로 설명해.
 1. 1줄 뜻 요약
 2. 실생활 예문 1개 (일본어 원문과 한국어 해석)
 3. 비슷한 유의어와의 미묘한 뉘앙스 차이 1줄
-*주의: 장황한 설명은 빼고, 마크다운(**, - 등)을 적절히 써서 가독성 좋고 빠르게 읽히게 구성할 것.`;
+*주의: 장황한 설명은 빼고, 마크다운(** 등)을 써서 핵심만 빠르게 읽히게 구성할 것.`;
 
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent?key=${apiKey}`;
 
@@ -441,24 +470,28 @@
 
       const data = await response.json();
 
-      // 🌟 수정: 서버 사용량 초과(High demand) 에러에 대한 친절한 예외 처리
       if (data.error) {
         const errMsg = data.error.message.toLowerCase();
         if (errMsg.includes("high demand") || errMsg.includes("overloaded") || errMsg.includes("quota")) {
-          resultBox.innerHTML = `<p style="color:#E07A5F; font-weight:bold;">현재 구글 AI 서버 접속자가 너무 많아 응답이 지연되고 있습니다.</p><p>창을 닫고 5초 뒤에 버튼을 다시 눌러주세요!</p>`;
-          // 서버 문제이므로 API 키를 지우지 않습니다.
+          resultBox.innerHTML = `<p style="color:#E07A5F; font-weight:bold;">現在Google AIサーバーが混み合っています。</p><p>少し待ってからもう一度お試しください。</p>`;
         } else {
-          resultBox.innerHTML = `<p>에러가 발생했습니다: ${data.error.message}</p><p>API 키가 잘못되었을 수 있습니다.</p>`;
-          localStorage.removeItem('geminiApiKey'); // 진짜 잘못된 키일 때만 삭제
+          resultBox.innerHTML = `<p>エラーが発生しました: ${data.error.message}</p><p>APIキーが間違っている可能性があります。</p>`;
+          localStorage.removeItem('geminiApiKey'); 
         }
         return;
       }
 
       const aiResponse = data.candidates[0].content.parts[0].text;
-      resultBox.innerHTML = marked.parse(aiResponse);
+      
+      // 🌟 4. 받아온 답변을 폰에 영구 저장 (캐싱)
+      aiCache[currentCard.word] = aiResponse;
+      localStorage.setItem('noodVocaAICache', JSON.stringify(aiCache));
+
+      // 🌟 5. 자체 마크다운 변환기를 통해 예쁘게 출력
+      resultBox.innerHTML = simpleMarkdownToHTML(aiResponse);
       
     } catch (error) {
-      resultBox.innerHTML = "<p>통신에 실패했습니다. 인터넷 연결을 확인해주세요.</p>";
+      resultBox.innerHTML = "<p>通信に失敗しました。インターネット接続を確認してください。</p>";
     }
   }
 
