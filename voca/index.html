@@ -6,7 +6,10 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="単語帳">
-<title>単語帳 - Phase 7 (AI & UX Final)</title>
+<title>単語帳 - Phase 8 (FAB & Markdown Final)</title>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
 <style>
   body { 
     background-color: #F2F0EB;
@@ -101,33 +104,42 @@
   .ex-ja { font-size: 15px; color: #1d1d1f; margin-bottom: 8px; line-height: 1.5; font-weight: 600;}
   .ex-ko { font-size: 14px; color: #86868b; line-height: 1.4; }
 
-  /* 🌟 수정: 확실한 시각적 위계(Hierarchy)를 준 O/X 버튼 */
+  /* 🌟 수정: 공간을 효율적으로 쓰는 Ghost Button 스타일 (테두리형) */
   .buttons { display: flex; justify-content: center; gap: 12px; margin-top: 24px; width: 100%; max-width: 350px; }
   .btn { 
     flex: 1; padding: 16px 0; border-radius: 18px; 
-    font-size: 16px; font-weight: 700; cursor: pointer; 
+    font-size: 16px; font-weight: 700; cursor: pointer; background: transparent;
     transition: all 0.1s ease; display: flex; align-items: center; justify-content: center; gap: 6px;
   }
-  /* 모른다 (Ghost Button 스타일: 눈에 덜 띄면서도 명확하게) */
-  .btn-no { background-color: #ffffff; color: #E07A5F; border: 2px solid #E07A5F; } 
+  .btn-no { color: #E07A5F; border: 2px solid #E07A5F; } 
   .btn-no:active { background-color: #fdf3f0; transform: scale(0.95); }
   
-  /* 안다 (Solid Button 스타일: 달성감을 주는 메인 버튼) */
-  .btn-yes { background-color: #81B29A; color: white; border: 2px solid #81B29A; box-shadow: 0 4px 12px rgba(129, 178, 154, 0.3); }
-  .btn-yes:active { background-color: #72A28B; transform: scale(0.95); box-shadow: none; }
+  .btn-yes { color: #81B29A; border: 2px solid #81B29A; }
+  .btn-yes:active { background-color: #f2f7f4; transform: scale(0.95); }
 
-  /* 🌟 신규: AI 버튼 UI */
-  .btn-ai {
-    width: 100%; max-width: 350px; margin-top: 12px; padding: 14px 0;
-    background: linear-gradient(135deg, #a8caba, #6c9c84); color: white;
-    border: none; border-radius: 16px; font-size: 15px; font-weight: 700;
-    cursor: pointer; box-shadow: 0 4px 12px rgba(108, 156, 132, 0.2);
-    display: flex; align-items: center; justify-content: center; gap: 6px;
-    transition: transform 0.1s ease;
+  /* 🌟 신규: AI 뉘앙스 해설 플로팅 버튼 (FAB) */
+  .fab-ai {
+    position: fixed;
+    bottom: calc(24px + env(safe-area-inset-bottom));
+    right: 24px;
+    background: linear-gradient(135deg, #a8caba, #6c9c84);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    font-size: 24px; /* ✨ 이모티콘 크기 */
+    box-shadow: 0 6px 16px rgba(108, 156, 132, 0.4);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    z-index: 50;
   }
-  .btn-ai:active { transform: scale(0.96); }
+  .fab-ai:active { transform: scale(0.9); box-shadow: 0 2px 8px rgba(108, 156, 132, 0.2); }
 
-  /* 🌟 신규: AI 팝업창 UI */
+  /* 🌟 신규: AI 팝업창 UI 및 마크다운 스타일링 */
   .ai-modal-overlay {
     display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0, 0, 0, 0.4); z-index: 999; 
@@ -142,10 +154,15 @@
   .ai-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
   .ai-modal-title { font-size: 18px; font-weight: 800; color: #2d3436; margin: 0; }
   .ai-close-btn { background: #f1f2f6; border: none; border-radius: 50%; width: 30px; height: 30px; font-weight: bold; color: #2d3436; cursor: pointer; display: flex; align-items: center; justify-content: center;}
+  
+  /* 마크다운 텍스트 예쁘게 출력되도록 설정 */
   .ai-modal-body { 
     flex: 1; overflow-y: auto; font-size: 15px; line-height: 1.6; color: #424245; 
-    white-space: pre-wrap;
   }
+  .ai-modal-body p { margin-top: 0; margin-bottom: 12px; }
+  .ai-modal-body strong { color: #2d3436; background-color: #f6f8fa; padding: 0 4px; border-radius: 4px; }
+  .ai-modal-body ul { padding-left: 20px; margin-top: 0; }
+  .ai-modal-body li { margin-bottom: 6px; }
 
   @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 </style>
@@ -198,7 +215,7 @@
     <button class="btn btn-yes" onclick="mark(true)">✅ 分かる</button>
   </div>
   
-  <button class="btn-ai" onclick="askAI()">✨ AI ニュアンス解説 (AI 해설)</button>
+  <button class="fab-ai" onclick="askAI()">✨</button>
 </div>
 
 <div class="ai-modal-overlay" id="aiModal">
@@ -207,9 +224,7 @@
       <h3 class="ai-modal-title">✨ AI 先生</h3>
       <button class="ai-close-btn" onclick="closeAI()">✕</button>
     </div>
-    <div class="ai-modal-body" id="aiResultText">
-      回答を読み込んでいます...
-    </div>
+    <div class="ai-modal-body" id="aiResultText"></div>
   </div>
 </div>
 
@@ -386,11 +401,11 @@
     localStorage.setItem('noodVocaStats2', JSON.stringify(userStats));
   }
 
-  // 🌟 AI API 호출 로직 (Gemini 3.1 Flash Lite)
+  // 🌟 최적화된 프롬프트 & 마크다운 렌더링 AI 호출
   async function askAI() {
     let apiKey = localStorage.getItem('geminiApiKey');
     if (!apiKey) {
-      apiKey = prompt("Google AI Studio에서 발급받은 Gemini API 키를 입력해주세요.\n(키는 스마트폰 브라우저에만 안전하게 보관됩니다.)");
+      apiKey = prompt("Google AI Studio에서 발급받은 Gemini API 키를 입력해주세요.\n(키는 스마트폰 브라우저에만 보관됩니다.)");
       if (!apiKey) return; 
       localStorage.setItem('geminiApiKey', apiKey);
     }
@@ -398,13 +413,16 @@
     const modal = document.getElementById('aiModal');
     const resultBox = document.getElementById('aiResultText');
     modal.style.display = 'flex';
-    resultBox.innerText = `「${currentCard.word}」에 대해 AI 선생님이 분석 중입니다...\n(약 2~3초 소요)`;
+    
+    // 로딩 중에는 일반 텍스트로 표시
+    resultBox.innerHTML = `<p>「${currentCard.word}」에 대해 AI 선생님이 분석 중입니다...<br><span style="color:#86868b; font-size:13px;">(약 2~3초 소요)</span></p>`;
 
-    const promptText = `당신은 일본어 교육 전문가입니다. 일본어 단어 「${currentCard.word}」 (뜻: ${currentCard.meaning})에 대해 다음을 한국어로 설명해주세요.
-1. 단어의 정확한 뉘앙스와 어원 (가볍게)
-2. 비즈니스나 실생활에서 원어민이 자주 쓰는 예문 1개
-3. 비슷한 의미를 가진 다른 단어와의 미묘한 차이점
-설명은 가독성 좋게 글머리 기호를 써서 핵심만 짧게 정리해주세요.`;
+    // 🌟 수정: 속도 최적화를 위해 짧고 간결하게 지시하는 프롬프트
+    const promptText = `일본어 교육 전문가로서 일본어 단어 「${currentCard.word}」 (뜻: ${currentCard.meaning})에 대해 다음 3가지만 짧고 명확하게 한국어로 설명해.
+1. 1줄 뜻 요약
+2. 실생활 예문 1개 (일본어 원문과 한국어 해석)
+3. 비슷한 유의어와의 미묘한 뉘앙스 차이 1줄
+*주의: 장황한 설명은 빼고, 마크다운(**, - 등)을 적절히 써서 가독성 좋고 빠르게 읽히게 구성할 것.`;
 
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent?key=${apiKey}`;
 
@@ -420,16 +438,18 @@
       const data = await response.json();
 
       if (data.error) {
-        resultBox.innerText = `에러가 발생했습니다: ${data.error.message}\n\nAPI 키를 다시 확인해주세요.`;
+        resultBox.innerHTML = `<p>에러가 발생했습니다: ${data.error.message}</p><p>API 키를 다시 확인해주세요.</p>`;
         localStorage.removeItem('geminiApiKey');
         return;
       }
 
       const aiResponse = data.candidates[0].content.parts[0].text;
-      resultBox.innerText = aiResponse;
+      
+      // 🌟 수정: marked.js 라이브러리를 사용해 마크다운 렌더링 후 HTML로 주입
+      resultBox.innerHTML = marked.parse(aiResponse);
       
     } catch (error) {
-      resultBox.innerText = "통신에 실패했습니다. 인터넷 연결을 확인해주세요.";
+      resultBox.innerHTML = "<p>통신에 실패했습니다. 인터넷 연결을 확인해주세요.</p>";
     }
   }
 
