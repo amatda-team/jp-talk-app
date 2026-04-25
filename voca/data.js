@@ -1,140 +1,140 @@
 const db = [
   {
     id: 1,
-    word: "頭に来る", /* [cite: 4] */
-    reading: "あたまにくる", /* [cite: 4] */
-    meaning: "화가 나다; 기분 나빠지다", /* [cite: 6] */
+    word: "頭に来る",
+    reading: "あたまにくる",
+    meaning: "화가 나다; 기분 나빠지다",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 2,
-    word: "気張る", /* [cite: 8] */
-    reading: "きばる", /* [cite: 8] */
-    meaning: "힘을 주다; 분발하다", /* [cite: 9, 10] */
+    word: "気張る",
+    reading: "きばる",
+    meaning: "힘을 주다; 분발하다",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 3,
-    word: "臆病者", /* [cite: 12] */
-    reading: "おくびょうもの", /* [cite: 12] */
-    meaning: "겁쟁이", /* [cite: 13] */
+    word: "臆病者",
+    reading: "おくびょうもの",
+    meaning: "겁쟁이",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 4,
-    word: "鼻血", /* [cite: 16] */
-    reading: "はなぢ", /* [cite: 16] */
-    meaning: "코피; 빈털터리가 되다", /* [cite: 17, 18] */
+    word: "鼻血",
+    reading: "はなぢ",
+    meaning: "코피; 빈털터리가 되다",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 5,
-    word: "守秘", /* [cite: 19] */
-    reading: "しゅひ", /* [cite: 19] */
-    meaning: "비밀을 지킴", /* [cite: 20] */
+    word: "守秘",
+    reading: "しゅひ",
+    meaning: "비밀을 지킴",
     tag: "ビジネス",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 6,
-    word: "助かる", /* [cite: 21] */
-    reading: "たすかる", /* [cite: 21] */
-    meaning: "살아나다; 도움이 되다", /* [cite: 22, 24] */
+    word: "助かる",
+    reading: "たすかる",
+    meaning: "살아나다; 도움이 되다",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 7,
-    word: "只管・一向", /* [cite: 25] */
-    reading: "ひたすら", /* [cite: 25] */
-    meaning: "오로지; 한결같이", /* [cite: 27] */
+    word: "只管・一向",
+    reading: "ひたすら",
+    meaning: "오로지; 한결같이",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 8,
-    word: "ワロタ", /* [cite: 32] */
-    reading: "わろた", /* [cite: 32] */
-    meaning: "빵터짐", /* [cite: 33] */
+    word: "ワロタ",
+    reading: "わろた",
+    meaning: "빵터짐",
     tag: "スラング",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 9,
-    word: "おなら", /* [cite: 36] */
-    reading: "おなら", /* [cite: 36] */
-    meaning: "방귀", /* [cite: 37] */
+    word: "おなら",
+    reading: "おなら",
+    meaning: "방귀",
     tag: "日常",
-    exJa: "おならをする", /* [cite: 34] */
-    exKo: "방귀를 뀌다" /* [cite: 35] */
+    exJa: "おならをする",
+    exKo: "방귀를 뀌다"
   },
   {
     id: 10,
-    word: "ポンコツ", /* [cite: 38] */
-    reading: "ぽんこつ", /* [cite: 38] */
-    meaning: "고물; 글러먹은 사람", /* [cite: 39] */
+    word: "ポンコツ",
+    reading: "ぽんこつ",
+    meaning: "고물; 글러먹은 사람",
     tag: "スラング",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 11,
-    word: "女王", /* [cite: 40] */
-    reading: "じょおう", /* [cite: 40] */
-    meaning: "여왕", /* [cite: 41] */
+    word: "女王",
+    reading: "じょおう",
+    meaning: "여왕",
     tag: "社会",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 12,
-    word: "ブッチする", /* [cite: 44] */
-    reading: "ぶっちする", /* [cite: 44] */
-    meaning: "무시하다; 약속을 깨다", /* [cite: 47] */
+    word: "ブッチする",
+    reading: "ぶっちする",
+    meaning: "무시하다; 약속을 깨다",
     tag: "スラング",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 13,
-    word: "うんたらかんたら", /* [cite: 48] */
-    reading: "うんたらかんたら", /* [cite: 48] */
-    meaning: "어쩌구 저쩌구", /* [cite: 49] */
+    word: "うんたらかんたら",
+    reading: "うんたらかんたら",
+    meaning: "어쩌구 저쩌구",
     tag: "スラング",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 14,
-    word: "鼻に付く", /* [cite: 52] */
-    reading: "はなにつく", /* [cite: 52] */
-    meaning: "싫어지다; 진력나다", /* [cite: 53] */
+    word: "鼻に付く",
+    reading: "はなにつく",
+    meaning: "싫어지다; 진력나다",
     tag: "日常",
-    exJa: "出すぎた親切が鼻に付く", /* [cite: 50] */
-    exKo: "지나친 친절이 역겹다" /* [cite: 51] */
+    exJa: "出すぎた親切が鼻に付く",
+    exKo: "지나친 친절이 역겹다"
   },
   {
     id: 15,
-    word: "滲み出る", /* [cite: 54] */
-    reading: "にじみでる", /* [cite: 54] */
-    meaning: "스며 나오다; 자연히 드러나다", /* [cite: 55, 56] */
+    word: "滲み出る",
+    reading: "にじみでる",
+    meaning: "스며 나오다; 자연히 드러나다",
     tag: "日常",
     exJa: "-",
     exKo: "-"
-  }
-{
+  },
+  {
     id: 16,
     word: "欲しがる",
     reading: "ほしがる",
@@ -359,7 +359,7 @@ const db = [
     exJa: "-",
     exKo: "-"
   },
-{
+  {
     id: 41,
     word: "符合",
     reading: "ふごう",
@@ -809,7 +809,7 @@ const db = [
     exJa: "指摘を前向きに受け止める",
     exKo: "지적을 적극적으로 받아들이다"
   },
-{
+  {
     id: 91,
     word: "所詮",
     reading: "しょせん",
@@ -1259,7 +1259,7 @@ const db = [
     exJa: "どうやら風邪を引いたようだ",
     exKo: "아무래도 감기가 든 모양이다"
   },
-{
+  {
     id: 141,
     word: "自ずと",
     reading: "おのずと",
@@ -1799,749 +1799,749 @@ const db = [
     exJa: "惜しいところで失敗した",
     exKo: "아깝게도 다 된 일을 실패했다"
   },
-{
+  {
     id: 201,
-    word: "頑固", /* [cite: 730] */
-    reading: "がんこ", /* [cite: 730] */
-    meaning: "완고(함); 외고집", /* [cite: 731] */
+    word: "頑固",
+    reading: "がんこ",
+    meaning: "완고(함); 외고집",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 202,
-    word: "バズ", /* [cite: 733] */
-    reading: "ばず", /* [cite: 733] */
-    meaning: "버즈; 소문; 입소문", /* [cite: 734, 735] */
+    word: "バズ",
+    reading: "ばず",
+    meaning: "버즈; 소문; 입소문",
     tag: "スラング",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 203,
-    word: "たどり着く", /* [cite: 743] */
-    reading: "たどりつく", /* [cite: 743] */
-    meaning: "겨우 목적지에 다다르다", /* [cite: 744] */
+    word: "たどり着く",
+    reading: "たどりつく",
+    meaning: "겨우 목적지에 다다르다",
     tag: "日常",
-    exJa: "マップを使って目的地にたどり着く", /* [cite: 741] */
-    exKo: "지도를 이용하여 겨우 목적지에 당도하다" /* [cite: 742] */
+    exJa: "マップを使って目的地にたどり着く",
+    exKo: "지도를 이용하여 겨우 목적지에 당도하다"
   },
   {
     id: 204,
-    word: "裂ける", /* [cite: 746] */
-    reading: "さける", /* [cite: 746] */
-    meaning: "찢어지다; 터지다; 갈라지다", /* [cite: 747] */
+    word: "裂ける",
+    reading: "さける",
+    meaning: "찢어지다; 터지다; 갈라지다",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 205,
-    word: "余程", /* [cite: 750] */
-    reading: "よほど", /* [cite: 750] */
-    meaning: "상당히; 대단히; 꽤", /* [cite: 751] */
+    word: "余程",
+    reading: "よほど",
+    meaning: "상당히; 대단히; 꽤",
     tag: "日常",
-    exJa: "現代人はよほどのことでは感動しない無感動状態になったようだ。", /* [cite: 748, 749] */
-    exKo: "현대인은 웬만한 일에는 감동하지 않는 무감동 상태가 된 듯하다." /* [cite: 748, 749] */
+    exJa: "現代人はよほどのことでは感動しない無感動状態になったようだ。",
+    exKo: "현대인은 웬만한 일에는 감동하지 않는 무감동 상태가 된 듯하다."
   },
   {
     id: 206,
-    word: "うっかり", /* [cite: 758] */
-    reading: "うっかり", /* [cite: 758] */
-    meaning: "깜빡; 무심코; 멍청히", /* [cite: 759] */
+    word: "うっかり",
+    reading: "うっかり",
+    meaning: "깜빡; 무심코; 멍청히",
     tag: "日常",
-    exJa: "うっかり秘密[本心]をしゃべってしまう", /* [cite: 754] */
-    exKo: "무심코 비밀[본심]을 말해 버리다" /* [cite: 755] */
+    exJa: "うっかり秘密[本心]をしゃべってしまう",
+    exKo: "무심코 비밀[본심]을 말해 버리다"
   },
   {
     id: 207,
-    word: "相性", /* [cite: 760] */
-    reading: "あいしょう", /* [cite: 760] */
-    meaning: "궁합이 맞음; 성격이 잘 맞음", /* [cite: 761, 762] */
+    word: "相性",
+    reading: "あいしょう",
+    meaning: "궁합이 맞음; 성격이 잘 맞음",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 208,
-    word: "覗かせる", /* [cite: 763] */
-    reading: "のぞかせる", /* [cite: 763] */
-    meaning: "들여다 보이게 하다; 슬쩍 비치다", /* [cite: 764] */
+    word: "覗かせる",
+    reading: "のぞかせる",
+    meaning: "들여다 보이게 하다; 슬쩍 비치다",
     tag: "日常",
-    exJa: "下心を覗かせる", /* [cite: 767] */
-    exKo: "속마음을 슬쩍 비치다" /* [cite: 768] */
+    exJa: "下心を覗かせる",
+    exKo: "속마음을 슬쩍 비치다"
   },
   {
     id: 209,
-    word: "下心", /* [cite: 769] */
-    reading: "したごころ", /* [cite: 769] */
-    meaning: "속마음; 본심", /* [cite: 770] */
+    word: "下心",
+    reading: "したごころ",
+    meaning: "속마음; 본심",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 210,
-    word: "サボり", /* [cite: 773] */
-    reading: "さぼり", /* [cite: 773] */
-    meaning: "땡땡이, 농땡이", /* [cite: 774] */
+    word: "サボり",
+    reading: "さぼり",
+    meaning: "땡땡이, 농땡이",
     tag: "スラング",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 211,
-    word: "潜り", /* [cite: 775] */
-    reading: "もぐり", /* [cite: 775] */
-    meaning: "강의를 몰래 훔쳐 듣는 일 (도강)", /* [cite: 776] */
+    word: "潜り",
+    reading: "もぐり",
+    meaning: "강의를 몰래 훔쳐 듣는 일 (도강)",
     tag: "スラング",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 212,
-    word: "こっそり", /* [cite: 779] */
-    reading: "こっそり", /* [cite: 779] */
-    meaning: "가만히; 살짝; 몰래", /* [cite: 780] */
+    word: "こっそり",
+    reading: "こっそり",
+    meaning: "가만히; 살짝; 몰래",
     tag: "日常",
-    exJa: "誰かとこっそり(と)連絡を取っている", /* [cite: 777] */
-    exKo: "누군가와 몰래 연락하고 있다" /* [cite: 778] */
+    exJa: "誰かとこっそり(と)連絡を取っている",
+    exKo: "누군가와 몰래 연락하고 있다"
   },
   {
     id: 213,
-    word: "今更", /* [cite: 785] */
-    reading: "いまさら", /* [cite: 785] */
-    meaning: "이제 와서; 새삼스럽게", /* [cite: 786, 787] */
+    word: "今更",
+    reading: "いまさら",
+    meaning: "이제 와서; 새삼스럽게",
     tag: "日常",
-    exJa: "今更後には引けない", /* [cite: 783] */
-    exKo: "이제 와서 물러설 [그만둘] 수는 없다" /* [cite: 784] */
+    exJa: "今更後には引けない",
+    exKo: "이제 와서 물러설 [그만둘] 수는 없다"
   },
   {
     id: 214,
-    word: "いっそ", /* [cite: 800] */
-    reading: "いっそ", /* [cite: 800] */
-    meaning: "도리어; 차라리", /* [cite: 801] */
+    word: "いっそ",
+    reading: "いっそ",
+    meaning: "도리어; 차라리",
     tag: "日常",
-    exJa: "いっそ遠くへ行ってみるか", /* [cite: 798] */
-    exKo: "차라리 멀리 가 볼까?" /* [cite: 799] */
+    exJa: "いっそ遠くへ行ってみるか",
+    exKo: "차라리 멀리 가 볼까?"
   },
   {
     id: 215,
-    word: "片付ける", /* [cite: 804] */
-    reading: "かたづける", /* [cite: 804] */
-    meaning: "치우다; 정돈[정리]하다", /* [cite: 805, 806] */
+    word: "片付ける",
+    reading: "かたづける",
+    meaning: "치우다; 정돈[정리]하다",
     tag: "日常",
-    exJa: "机の上を片付ける", /* [cite: 802] */
-    exKo: "책상 위를 정돈하다" /* [cite: 803] */
+    exJa: "机の上を片付ける",
+    exKo: "책상 위를 정돈하다"
   },
   {
     id: 216,
-    word: "ちょろい", /* [cite: 812] */
-    reading: "ちょろい", /* [cite: 812] */
-    meaning: "쉽다; 간단하다; 별것 아니다", /* [cite: 813] */
+    word: "ちょろい",
+    reading: "ちょろい",
+    meaning: "쉽다; 간단하다; 별것 아니다",
     tag: "日常",
-    exJa: "こんな問題はちょろい", /* [cite: 810] */
-    exKo: "이런 문제는 식은 죽 먹기다" /* [cite: 811] */
+    exJa: "こんな問題はちょろい",
+    exKo: "이런 문제는 식은 죽 먹기다"
   },
   {
     id: 217,
-    word: "ちやほや", /* [cite: 820] */
-    reading: "ちやほや", /* [cite: 820] */
-    meaning: "상대를 추어올리는 모양", /* [cite: 821] */
+    word: "ちやほや",
+    reading: "ちやほや",
+    meaning: "상대를 추어올리는 모양",
     tag: "日常",
-    exJa: "周囲からちやほやされていい気になる", /* [cite: 818] */
-    exKo: "주위에서 추어올리는 바람에 우쭐해지다" /* [cite: 819] */
+    exJa: "周囲からちやほやされていい気になる",
+    exKo: "주위에서 추어올리는 바람에 우쭐해지다"
   },
   {
     id: 218,
-    word: "離す", /* [cite: 822] */
-    reading: "はなす", /* [cite: 822] */
-    meaning: "떼다; 풀다; 놓다", /* [cite: 823, 824] */
+    word: "離す",
+    reading: "はなす",
+    meaning: "떼다; 풀다; 놓다",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 219,
-    word: "解禁", /* [cite: 826] */
-    reading: "かいきん", /* [cite: 826] */
-    meaning: "해금", /* [cite: 827] */
+    word: "解禁",
+    reading: "かいきん",
+    meaning: "해금",
     tag: "社会",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 220,
-    word: "持て囃す", /* [cite: 832] */
-    reading: "もてはやす", /* [cite: 832] */
-    meaning: "격찬하다; 몹시 칭찬하다", /* [cite: 833] */
+    word: "持て囃す",
+    reading: "もてはやす",
+    meaning: "격찬하다; 몹시 칭찬하다",
     tag: "日常",
-    exJa: "時の人として持て囃す", /* [cite: 830] */
-    exKo: "당대의 인물이라고 칭찬이 자자하다" /* [cite: 831] */
+    exJa: "時の人として持て囃す",
+    exKo: "당대의 인물이라고 칭찬이 자자하다"
   },
   {
     id: 221,
-    word: "遣らせ", /* [cite: 838] */
-    reading: "やらせ", /* [cite: 838] */
-    meaning: "미리 짜고 하는 일", /* [cite: 839] */
+    word: "遣らせ",
+    reading: "やらせ",
+    meaning: "미리 짜고 하는 일",
     tag: "社会",
-    exJa: "あの番組はやらせだ。", /* [cite: 836] */
-    exKo: "저 프로그램은 미리 짜고 꾸민 것이다" /* [cite: 837] */
+    exJa: "あの番組はやらせだ。",
+    exKo: "저 프로그램은 미리 짜고 꾸민 것이다"
   },
   {
     id: 222,
-    word: "滅多に", /* [cite: 850] */
-    reading: "めったに", /* [cite: 850] */
-    meaning: "좀처럼; 좀체", /* [cite: 851] */
+    word: "滅多に",
+    reading: "めったに",
+    meaning: "좀처럼; 좀체",
     tag: "日常",
-    exJa: "こんな機会はめったにないだろう", /* [cite: 848] */
-    exKo: "이런 기회는 좀처럼 없을 게다" /* [cite: 849] */
+    exJa: "こんな機会はめったにないだろう",
+    exKo: "이런 기회는 좀처럼 없을 게다"
   },
   {
     id: 223,
-    word: "掛け持ち", /* [cite: 854] */
-    reading: "かけもち", /* [cite: 854] */
-    meaning: "겸임; 겸무", /* [cite: 855] */
+    word: "掛け持ち",
+    reading: "かけもち",
+    meaning: "겸임; 겸무",
     tag: "ビジネス",
-    exJa: "2校の講師を掛け持ちする", /* [cite: 852] */
-    exKo: "두 학교의 강사를 겸임하다" /* [cite: 853] */
+    exJa: "2校の講師を掛け持ちする",
+    exKo: "두 학교의 강사를 겸임하다"
   },
   {
     id: 224,
-    word: "助っと", /* [cite: 856] */
-    reading: "すけっと", /* [cite: 856] */
-    meaning: "가세하여 돕는 사람; 조력하는 사람", /* [cite: 857] */
+    word: "助っと",
+    reading: "すけっと",
+    meaning: "가세하여 돕는 사람; 조력하는 사람",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 225,
-    word: "腰抜け", /* [cite: 858] */
-    reading: "こしぬけ", /* [cite: 858] */
-    meaning: "무기력하고 겁이 많음; 겁쟁이", /* [cite: 860] */
+    word: "腰抜け",
+    reading: "こしぬけ",
+    meaning: "무기력하고 겁이 많음; 겁쟁이",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 226,
-    word: "揺らぎ", /* [cite: 861] */
-    reading: "ゆらぎ", /* [cite: 861] */
-    meaning: "흔들림; 동요", /* [cite: 862] */
+    word: "揺らぎ",
+    reading: "ゆらぎ",
+    meaning: "흔들림; 동요",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 227,
-    word: "尖る", /* [cite: 869] */
-    reading: "とがる", /* [cite: 869] */
-    meaning: "뾰족해지다; 예민해지다; 화내다", /* [cite: 870, 871, 872] */
+    word: "尖る",
+    reading: "とがる",
+    meaning: "뾰족해지다; 예민해지다; 화내다",
     tag: "日常",
-    exJa: "神経が尖る", /* [cite: 863] */
-    exKo: "신경이 곤두서다" /* [cite: 864] */
+    exJa: "神経が尖る",
+    exKo: "신경이 곤두서다"
   },
   {
     id: 228,
-    word: "樹霊", /* [cite: 873] */
-    reading: "じゅれい", /* [cite: 873] */
-    meaning: "늙은 나무에 깃든 정령", /* [cite: 874] */
+    word: "樹霊",
+    reading: "じゅれい",
+    meaning: "늙은 나무에 깃든 정령",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 229,
-    word: "テリトリー", /* [cite: 875] */
-    reading: "てりとりー", /* [cite: 875] */
-    meaning: "테리터리; 영토; 전문 분야", /* [cite: 876, 877, 878] */
+    word: "テリトリー",
+    reading: "てりとりー",
+    meaning: "테리터리; 영토; 전문 분야",
     tag: "ビジネス",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 230,
-    word: "細かい", /* [cite: 881] */
-    reading: "こまかい", /* [cite: 881] */
-    meaning: "잘다; 까다롭다", /* [cite: 882, 884] */
+    word: "細かい",
+    reading: "こまかい",
+    meaning: "잘다; 까다롭다",
     tag: "日常",
-    exJa: "細かい話は抜きにしよう", /* [cite: 879] */
-    exKo: "자세한 이야기는 생략하기로 하자" /* [cite: 880] */
+    exJa: "細かい話は抜きにしよう",
+    exKo: "자세한 이야기는 생략하기로 하자"
   },
   {
     id: 231,
-    word: "香ばしい", /* [cite: 887] */
-    reading: "こうばしい", /* [cite: 887] */
-    meaning: "향기롭다; 구수하다", /* [cite: 888] */
+    word: "香ばしい",
+    reading: "こうばしい",
+    meaning: "향기롭다; 구수하다",
     tag: "日常",
-    exJa: "香ばしい香りが漂う", /* [cite: 885] */
-    exKo: "향기로운 냄새가 감돌다" /* [cite: 886] */
+    exJa: "香ばしい香りが漂う",
+    exKo: "향기로운 냄새가 감돌다"
   },
   {
     id: 232,
-    word: "鳴かず飛ばず", /* [cite: 891] */
-    reading: "なかずとばず", /* [cite: 891] */
-    meaning: "울지도 않고 날지도 않고", /* [cite: 892] */
+    word: "鳴かず飛ばず",
+    reading: "なかずとばず",
+    meaning: "울지도 않고 날지도 않고",
     tag: "社会",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 233,
-    word: "志す", /* [cite: 893] */
-    reading: "こころざす", /* [cite: 893] */
-    meaning: "뜻하다; 뜻을 두다", /* [cite: 894] */
+    word: "志す",
+    reading: "こころざす",
+    meaning: "뜻하다; 뜻을 두다",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 234,
-    word: "社割り", /* [cite: 899] */
-    reading: "しゃわり", /* [cite: 899] */
-    meaning: "가게에서 취급하는 상품을 할인가격으로 구입할 수 있는 제도", /* [cite: 900] */
+    word: "社割り",
+    reading: "しゃわり",
+    meaning: "가게에서 취급하는 상품을 할인가격으로 구입할 수 있는 제도",
     tag: "ビジネス",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 235,
-    word: "いい加減", /* [cite: 901] */
-    reading: "いいかげん", /* [cite: 901] */
-    meaning: "적당함; 알맞음; 꽤", /* [cite: 902, 903] */
+    word: "いい加減",
+    reading: "いいかげん",
+    meaning: "적당함; 알맞음; 꽤",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 236,
-    word: "傍線", /* [cite: 905] */
-    reading: "ぼうせん", /* [cite: 905] */
-    meaning: "방선; 밑줄", /* [cite: 906] */
+    word: "傍線",
+    reading: "ぼうせん",
+    meaning: "방선; 밑줄",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 237,
-    word: "余っ程", /* [cite: 907] */
-    reading: "よっぽど", /* [cite: 907] */
-    meaning: "꽤; 어지간히; 대단히", /* [cite: 908] */
+    word: "余っ程",
+    reading: "よっぽど",
+    meaning: "꽤; 어지간히; 대단히",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 238,
-    word: "歯車", /* [cite: 913] */
-    reading: "はぐるま", /* [cite: 913] */
-    meaning: "톱니바퀴; 전체를 구성하는 요소", /* [cite: 914, 915] */
+    word: "歯車",
+    reading: "はぐるま",
+    meaning: "톱니바퀴; 전체를 구성하는 요소",
     tag: "社会",
-    exJa: "組織の歯車に過ぎない", /* [cite: 909] */
-    exKo: "조직의 일원에 불과하다" /* [cite: 910] */
+    exJa: "組織の歯車に過ぎない",
+    exKo: "조직의 일원에 불과하다"
   },
   {
     id: 239,
-    word: "油", /* [cite: 916] */
-    reading: "あぶら", /* [cite: 916] */
-    meaning: "기름; 활력소; 원동력", /* [cite: 917, 919] */
+    word: "油",
+    reading: "あぶら",
+    meaning: "기름; 활력소; 원동력",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 240,
-    word: "塗れ", /* [cite: 920] */
-    reading: "まみれ", /* [cite: 920] */
-    meaning: "...투성이", /* [cite: 921] */
+    word: "塗れ",
+    reading: "まみれ",
+    meaning: "...투성이",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 241,
-    word: "中華街", /* [cite: 922] */
-    reading: "ちゅうかがい", /* [cite: 922] */
-    meaning: "차이나타운", /* [cite: 925] */
+    word: "中華街",
+    reading: "ちゅうかがい",
+    meaning: "차이나타운",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 242,
-    word: "鉄板", /* [cite: 926] */
-    reading: "てっぱん", /* [cite: 926] */
-    meaning: "철판", /* [cite: 927] */
+    word: "鉄板",
+    reading: "てっぱん",
+    meaning: "철판",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 243,
-    word: "落ち葉", /* [cite: 928] */
-    reading: "おちば", /* [cite: 928] */
-    meaning: "낙엽", /* [cite: 929] */
+    word: "落ち葉",
+    reading: "おちば",
+    meaning: "낙엽",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 244,
-    word: "甘ったるい", /* [cite: 931] */
-    reading: "あまったるい", /* [cite: 931] */
-    meaning: "달콤하다; 달디달다", /* [cite: 932, 933] */
+    word: "甘ったるい",
+    reading: "あまったるい",
+    meaning: "달콤하다; 달디달다",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 245,
-    word: "寝起き", /* [cite: 935] */
-    reading: "ねおき", /* [cite: 935] */
-    meaning: "기상과 취침; 잠에서 깨어남", /* [cite: 936, 937] */
+    word: "寝起き",
+    reading: "ねおき",
+    meaning: "기상과 취침; 잠에서 깨어남",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 246,
-    word: "つまみ出す", /* [cite: 938] */
-    reading: "つまみだす", /* [cite: 938] */
-    meaning: "집어내다; 끌어내다; 쫓아내다", /* [cite: 939, 941] */
+    word: "つまみ出す",
+    reading: "つまみだす",
+    meaning: "집어내다; 끌어내다; 쫓아내다",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 247,
-    word: "モブキャラ", /* [cite: 942] */
-    reading: "もぶきゃら", /* [cite: 942] */
-    meaning: "이름이나 대사가 없는 단역 캐릭터", /* [cite: 943] */
+    word: "モブキャラ",
+    reading: "もぶきゃら",
+    meaning: "이름이나 대사가 없는 단역 캐릭터",
     tag: "スラング",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 248,
-    word: "雲泥の差", /* [cite: 944] */
-    reading: "うんでいのさ", /* [cite: 944] */
-    meaning: "운니지차; 천양지차", /* [cite: 945] */
+    word: "雲泥の差",
+    reading: "うんでいのさ",
+    meaning: "운니지차; 천양지차",
     tag: "社会",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 249,
-    word: "眠る", /* [cite: 946] */
-    reading: "ねむる", /* [cite: 946] */
-    meaning: "잠자다; 잠들다; 활용되지 않다", /* [cite: 947, 949] */
+    word: "眠る",
+    reading: "ねむる",
+    meaning: "잠자다; 잠들다; 활용되지 않다",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 250,
-    word: "ふんぞり返る", /* [cite: 952] */
-    reading: "ふんぞりかえる", /* [cite: 952] */
-    meaning: "뽐내어 몸을 뒤로 젖히다; 뽐내다", /* [cite: 953] */
+    word: "ふんぞり返る",
+    reading: "ふんぞりかえる",
+    meaning: "뽐내어 몸을 뒤로 젖히다; 뽐내다",
     tag: "日常",
-    exJa: "椅子にふんぞり返る", /* [cite: 950] */
-    exKo: "의자에 턱 버티고 앉다" /* [cite: 951] */
+    exJa: "椅子にふんぞり返る",
+    exKo: "의자에 턱 버티고 앉다"
   },
   {
     id: 251,
-    word: "媒体", /* [cite: 958] */
-    reading: "ばいたい", /* [cite: 958] */
-    meaning: "매체", /* [cite: 959] */
+    word: "媒体",
+    reading: "ばいたい",
+    meaning: "매체",
     tag: "社会",
-    exJa: "コミュニケーションの媒体", /* [cite: 956] */
-    exKo: "커뮤니케이션의 매체" /* [cite: 957] */
+    exJa: "コミュニケーションの媒体",
+    exKo: "커뮤니케이션의 매체"
   },
   {
     id: 252,
-    word: "火傷", /* [cite: 963] */
-    reading: "やけど", /* [cite: 963] */
-    meaning: "화상; 타격을 입음", /* [cite: 964, 965] */
+    word: "火傷",
+    reading: "やけど",
+    meaning: "화상; 타격을 입음",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 253,
-    word: "助兵衛", /* [cite: 966] */
-    reading: "すけべえ", /* [cite: 966] */
-    meaning: "호색(함); 호색가; 색골", /* [cite: 967] */
+    word: "助兵衛",
+    reading: "すけべえ",
+    meaning: "호색(함); 호색가; 색골",
     tag: "スラング",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 254,
-    word: "やむを得ない", /* [cite: 968] */
-    reading: "やむをえない", /* [cite: 968] */
-    meaning: "할 수 없다; 어쩔 수 없다; 부득이하다", /* [cite: 969] */
+    word: "やむを得ない",
+    reading: "やむをえない",
+    meaning: "할 수 없다; 어쩔 수 없다; 부득이하다",
     tag: "ビジネス",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 255,
-    word: "止む", /* [cite: 970] */
-    reading: "やむ", /* [cite: 970] */
-    meaning: "멈추다; 그치다", /* [cite: 971, 972] */
+    word: "止む",
+    reading: "やむ",
+    meaning: "멈추다; 그치다",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 256,
-    word: "中古", /* [cite: 974] */
-    reading: "ちゅうこ", /* [cite: 974] */
-    meaning: "중고", /* [cite: 975] */
+    word: "中古",
+    reading: "ちゅうこ",
+    meaning: "중고",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 257,
-    word: "鼻詰まり", /* [cite: 978] */
-    reading: "はなづまり", /* [cite: 978] */
-    meaning: "코 막힘", /* [cite: 979] */
+    word: "鼻詰まり",
+    reading: "はなづまり",
+    meaning: "코 막힘",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 258,
-    word: "荒れる", /* [cite: 984] */
-    reading: "あれる", /* [cite: 984] */
-    meaning: "거칠어지다; 사나워지다", /* [cite: 985, 986] */
+    word: "荒れる",
+    reading: "あれる",
+    meaning: "거칠어지다; 사나워지다",
     tag: "日常",
-    exJa: "会議が荒れる", /* [cite: 982] */
-    exKo: "회의가 험악해지다" /* [cite: 983] */
+    exJa: "会議が荒れる",
+    exKo: "회의가 험악해지다"
   },
   {
     id: 259,
-    word: "日焼けサロン", /* [cite: 988] */
-    reading: "ひやけさろん", /* [cite: 988] */
-    meaning: "선탠 살롱", /* [cite: 989] */
+    word: "日焼けサロン",
+    reading: "ひやけさろん",
+    meaning: "선탠 살롱",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 260,
-    word: "日焼け", /* [cite: 990] */
-    reading: "ひやけ", /* [cite: 990] */
-    meaning: "피부가 햇볕에 타서 검게 되는 일", /* [cite: 991] */
+    word: "日焼け",
+    reading: "ひやけ",
+    meaning: "피부가 햇볕에 타서 검게 되는 일",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 261,
-    word: "売れ残り", /* [cite: 994] */
-    reading: "うれのこり", /* [cite: 994] */
-    meaning: "잔품; 팔다 남은 물건", /* [cite: 995] */
+    word: "売れ残り",
+    reading: "うれのこり",
+    meaning: "잔품; 팔다 남은 물건",
     tag: "ビジネス",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 262,
-    word: "目を見張る", /* [cite: 997] */
-    reading: "めをみはる", /* [cite: 997] */
-    meaning: "놀라거나 하여 눈을 크게 뜨다", /* [cite: 998] */
+    word: "目を見張る",
+    reading: "めをみはる",
+    meaning: "놀라거나 하여 눈을 크게 뜨다",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 263,
-    word: "甲斐", /* [cite: 999] */
-    reading: "がい", /* [cite: 999] */
-    meaning: "...할 만한 값어치; 보람", /* [cite: 1000] */
+    word: "甲斐",
+    reading: "がい",
+    meaning: "...할 만한 값어치; 보람",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 264,
-    word: "貝殻", /* [cite: 1001] */
-    reading: "かいがら", /* [cite: 1001] */
-    meaning: "조가비; 조개껍데기", /* [cite: 1002] */
+    word: "貝殻",
+    reading: "かいがら",
+    meaning: "조가비; 조개껍데기",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 265,
-    word: "イケボ", /* [cite: 1004] */
-    reading: "いけぼ", /* [cite: 1004] */
-    meaning: "꽃미남 목소리", /* [cite: 1005] */
+    word: "イケボ",
+    reading: "いけぼ",
+    meaning: "꽃미남 목소리",
     tag: "スラング",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 266,
-    word: "ばんばん", /* [cite: 1006] */
-    reading: "ばんばん", /* [cite: 1006] */
-    meaning: "펑펑; 퍽퍽; 척척", /* [cite: 1007] */
+    word: "ばんばん",
+    reading: "ばんばん",
+    meaning: "펑펑; 퍽퍽; 척척",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 267,
-    word: "どうせなら", /* [cite: 1008] */
-    reading: "どうせなら", /* [cite: 1008] */
-    meaning: "이왕이면", /* [cite: 1009] */
+    word: "どうせなら",
+    reading: "どうせなら",
+    meaning: "이왕이면",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 268,
-    word: "猶", /* [cite: 1014] */
-    reading: "なお", /* [cite: 1014] */
-    meaning: "역시; 여전히", /* [cite: 1015] */
+    word: "猶",
+    reading: "なお",
+    meaning: "역시; 여전히",
     tag: "日常",
-    exJa: "期日はなお二週間ある", /* [cite: 1012] */
-    exKo: "기일은 아직 2주일이 (남아) 있다" /* [cite: 1013] */
+    exJa: "期日はなお二週間ある",
+    exKo: "기일은 아직 2주일이 (남아) 있다"
   },
   {
     id: 269,
-    word: "なだらか", /* [cite: 1018] */
-    reading: "なだらか", /* [cite: 1018] */
-    meaning: "완만함; 순조로움", /* [cite: 1019, 1020] */
+    word: "なだらか",
+    reading: "なだらか",
+    meaning: "완만함; 순조로움",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 270,
-    word: "ぺてん", /* [cite: 1022] */
-    reading: "ぺてん", /* [cite: 1022] */
-    meaning: "속임; 속임수; 사기", /* [cite: 1023] */
+    word: "ぺてん",
+    reading: "ぺてん",
+    meaning: "속임; 속임수; 사기",
     tag: "社会",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 271,
-    word: "放し", /* [cite: 1026] */
-    reading: "ぱなし", /* [cite: 1026] */
-    meaning: "그대로 둔다는 뜻", /* [cite: 1028] */
+    word: "放し",
+    reading: "ぱなし",
+    meaning: "그대로 둔다는 뜻",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 272,
-    word: "予防接種", /* [cite: 1030] */
-    reading: "よぼうせっしゅ", /* [cite: 1030] */
-    meaning: "예방 접종", /* [cite: 1031] */
+    word: "予防接種",
+    reading: "よぼうせっしゅ",
+    meaning: "예방 접종",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 273,
-    word: "緩む", /* [cite: 1032] */
-    reading: "ゆるむ", /* [cite: 1032] */
-    meaning: "느슨해지다; 헐거워지다", /* [cite: 1033] */
+    word: "緩む",
+    reading: "ゆるむ",
+    meaning: "느슨해지다; 헐거워지다",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 274,
-    word: "がくがく", /* [cite: 1036] */
-    reading: "がくがく", /* [cite: 1036] */
-    meaning: "바들바들; 부들부들", /* [cite: 1040] */
+    word: "がくがく",
+    reading: "がくがく",
+    meaning: "바들바들; 부들부들",
     tag: "日常",
-    exJa: "足ががくがく震える", /* [cite: 1041] */
-    exKo: "다리가 바들바들 떨리다" /* [cite: 1042] */
+    exJa: "足ががくがく震える",
+    exKo: "다리가 바들바들 떨리다"
   },
   {
     id: 275,
-    word: "震える", /* [cite: 1043] */
-    reading: "ふるえる", /* [cite: 1043] */
-    meaning: "흔들리다; 진동하다; 떨리다", /* [cite: 1044, 1045] */
+    word: "震える",
+    reading: "ふるえる",
+    meaning: "흔들리다; 진동하다; 떨리다",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 276,
-    word: "掛かり付け", /* [cite: 1048] */
-    reading: "かかりつけ", /* [cite: 1048] */
-    meaning: "언제나 그 의사의 진찰·치료를 받는 일", /* [cite: 1049] */
+    word: "掛かり付け",
+    reading: "かかりつけ",
+    meaning: "언제나 그 의사의 진찰·치료를 받는 일",
     tag: "日常",
-    exJa: "掛かり付けの医者", /* [cite: 1046] */
-    exKo: "단골 의사" /* [cite: 1047] */
+    exJa: "掛かり付けの医者",
+    exKo: "단골 의사"
   },
   {
     id: 277,
-    word: "欠かせない", /* [cite: 1050] */
-    reading: "かかせない", /* [cite: 1050] */
-    meaning: "빠뜨릴 수 없다; 없어서는 안 된다", /* [cite: 1051] */
+    word: "欠かせない",
+    reading: "かかせない",
+    meaning: "빠뜨릴 수 없다; 없어서는 안 된다",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 278,
-    word: "苦情", /* [cite: 1052] */
-    reading: "くじょう", /* [cite: 1052] */
-    meaning: "불평; 불만", /* [cite: 1053] */
+    word: "苦情",
+    reading: "くじょう",
+    meaning: "불평; 불만",
     tag: "ビジネス",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 279,
-    word: "要領", /* [cite: 1055] */
-    reading: "ようりょう", /* [cite: 1055] */
-    meaning: "요령; 요점", /* [cite: 1056, 1058] */
+    word: "要領",
+    reading: "ようりょう",
+    meaning: "요령; 요점",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 280,
-    word: "講じる", /* [cite: 1059] */
-    reading: "こうじる", /* [cite: 1059] */
-    meaning: "강의하다; 강구하다", /* [cite: 1060, 1061] */
+    word: "講じる",
+    reading: "こうじる",
+    meaning: "강의하다; 강구하다",
     tag: "ビジネス",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 281,
-    word: "素晴らしい", /* [cite: 1063] */
-    reading: "すばらしい", /* [cite: 1063] */
-    meaning: "훌륭하다; 굉장하다; 멋지다", /* [cite: 1064] */
+    word: "素晴らしい",
+    reading: "すばらしい",
+    meaning: "훌륭하다; 굉장하다; 멋지다",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 282,
-    word: "暑がる", /* [cite: 1066] */
-    reading: "あつがる", /* [cite: 1066] */
-    meaning: "더워하다", /* [cite: 1067] */
+    word: "暑がる",
+    reading: "あつがる",
+    meaning: "더워하다",
     tag: "日常",
     exJa: "-",
     exKo: "-"
   },
   {
     id: 283,
-    word: "寒がる", /* [cite: 1068] */
-    reading: "さむがる", /* [cite: 1068] */
-    meaning: "추워하다", /* [cite: 1069] */
+    word: "寒がる",
+    reading: "さむがる",
+    meaning: "추워하다",
     tag: "日常",
     exJa: "-",
     exKo: "-"
