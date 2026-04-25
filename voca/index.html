@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>単語帳 - Phase 5 (Dashboard SPA)</title>
+<title>単語帳 - Phase 6 (Dashboard Details)</title>
 <style>
   /* 기본 테마 */
   body { 
@@ -24,10 +24,8 @@
   .dash-title { font-size: 24px; font-weight: 800; color: #1d1d1f; margin: 0 0 8px 0; }
   .dash-progress-text { font-size: 13px; color: #86868b; font-weight: 600; }
 
-  /* 복습 & 랜덤 버튼 (가로 2열 배치) */
-  .top-actions {
-    display: flex; gap: 12px; margin-bottom: 24px;
-  }
+  /* 복습 & 랜덤 버튼 */
+  .top-actions { display: flex; gap: 12px; margin-bottom: 24px; }
   .action-btn {
     flex: 1; padding: 16px 0; border: none; border-radius: 16px;
     font-size: 15px; font-weight: 700; cursor: pointer;
@@ -38,40 +36,52 @@
   
   .btn-review { background: #fff1f0; color: #ff5252; box-shadow: 0 4px 12px rgba(255, 82, 82, 0.1); }
   .btn-random { background: #f0f7ff; color: #0984e3; box-shadow: 0 4px 12px rgba(9, 132, 227, 0.1); }
-  
   .badge { background: #ff5252; color: white; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: 800; }
 
-  /* Day 리스트 (세로 배열) */
+  /* 🌟 신규: Day 리스트 카드 디자인 고도화 */
   .day-list { display: flex; flex-direction: column; gap: 12px; }
   .day-row {
     background: #ffffff; padding: 20px; border-radius: 16px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.03); cursor: pointer;
     display: flex; justify-content: space-between; align-items: center;
-    font-size: 16px; font-weight: 700; color: #2d3436;
     transition: transform 0.1s ease, background 0.1s ease;
   }
   .day-row:active { transform: scale(0.98); background: #fbfbfd; }
-  .day-icon { color: #b2bec3; }
+  
+  .day-info { flex: 1; margin-right: 16px; }
+  .day-title-area { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .day-title { font-size: 17px; font-weight: 800; color: #2d3436; }
+  
+  /* 🌟 신규: 상태 배지 (진행중, 완료, N회독) */
+  .day-status { padding: 3px 8px; border-radius: 8px; font-size: 11px; font-weight: 700; }
+  .status-new { background: #f1f2f6; color: #a4b0be; }
+  .status-ing { background: #eccc68; color: #2f3542; }
+  .status-done { background: #7bed9f; color: #2f3542; }
+  .day-cycle { font-size: 12px; font-weight: 700; color: #0984e3; background: #e3f2fd; padding: 3px 8px; border-radius: 8px; }
+
+  /* 🌟 신규: Day별 진행률 바 */
+  .day-progress-bar-bg { width: 100%; height: 6px; background: #f1f2f6; border-radius: 4px; margin-bottom: 6px; overflow: hidden; }
+  .day-progress-bar-fill { height: 100%; background: #2ed573; transition: width 0.3s ease; }
+  .day-stats { font-size: 12px; color: #86868b; font-weight: 600; }
+
+  .day-icon { color: #b2bec3; font-weight: bold; }
 
   /* --------------------------------------
-     2. 학습 화면 UI (숨김 처리 기본)
+     2. 학습 화면 UI
   --------------------------------------- */
   #study-view {
-    display: none; /* 초기에는 숨김 */
-    flex-direction: column; align-items: center;
+    display: none; flex-direction: column; align-items: center;
     padding: 0 20px calc(20px + env(safe-area-inset-bottom));
     animation: fadeIn 0.3s ease;
   }
 
-  /* 학습 화면 헤더 (뒤로가기 & 타이틀) */
   .study-header {
     width: 100%; max-width: 350px; display: flex; align-items: center;
     padding: 20px 0; margin-bottom: 10px; position: relative;
   }
   .back-btn {
     background: none; border: none; font-size: 16px; font-weight: 600; 
-    color: #86868b; cursor: pointer; display: flex; align-items: center; gap: 4px;
-    padding: 8px 0;
+    color: #86868b; cursor: pointer; display: flex; align-items: center; gap: 4px; padding: 8px 0;
   }
   .study-title {
     position: absolute; left: 50%; transform: translateX(-50%);
@@ -102,15 +112,18 @@
   .ex-ja { font-size: 15px; color: #1d1d1f; margin-bottom: 8px; line-height: 1.5; font-weight: 600;}
   .ex-ko { font-size: 14px; color: #86868b; line-height: 1.4; }
 
-  /* 🌟 수정: O/X 버튼 색상 및 대비 강력하게 강화 */
+  /* 🌟 수정: 피로감은 낮추고 생기있는 고급스러운 컬러로 변경 (Sage Green & Terracotta) */
   .buttons { display: flex; justify-content: center; gap: 12px; margin-top: 24px; width: 100%; max-width: 350px; }
   .btn { 
     flex: 1; padding: 18px 0; border: none; border-radius: 18px; 
     font-size: 16px; font-weight: 700; color: white; cursor: pointer; 
-    box-shadow: 0 6px 16px rgba(0,0,0,0.15); transition: all 0.1s ease;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.08); transition: all 0.1s ease;
   }
-  .btn-no { background-color: #FF5252; } /* 선명한 코랄 레드 */
-  .btn-yes { background-color: #4CAF50; } /* 선명한 비비드 그린 */
+  .btn-no { background-color: #E07A5F; } /* 테라코타 (따뜻하고 부드러운 코랄레드) */
+  .btn-yes { background-color: #81B29A; } /* 세이지 그린 (자연스럽고 세련된 녹색) */
+  
+  .btn-no:hover { background-color: #D36C52; }
+  .btn-yes:hover { background-color: #72A28B; }
   .btn:active { transform: scale(0.95); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
 
   @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
@@ -171,23 +184,21 @@
 <script src="data.js"></script>
 
 <script>
-  const WORDS_PER_DAY = 30; // 하루 할당량
+  const WORDS_PER_DAY = 30; 
   let filteredList = [];
   let currentCard = null;
-  let currentMode = ""; // 현재 학습 모드 (Day 1, 復習, ランダム)
+  let currentMode = ""; 
   let userStats = JSON.parse(localStorage.getItem('noodVocaStats2')) || {};
 
-  // 앱 초기화
   function init() {
     renderDashboard();
   }
 
-  // 홈 화면(대시보드) 그리기
   function renderDashboard() {
     const totalCount = db.length;
     const learnedCount = db.filter(w => userStats[w.id] && userStats[w.id].score > 0).length;
     const percent = totalCount === 0 ? 0 : Math.round((learnedCount / totalCount) * 100);
-    document.getElementById('uiGlobalProgress').innerText = `全体学習進捗 : ${learnedCount} / ${totalCount} (${percent}%)`;
+    document.getElementById('uiGlobalProgress').innerText = `全体進捗 (전체 진도율): ${learnedCount} / ${totalCount} (${percent}%)`;
 
     const reviewCount = db.filter(w => userStats[w.id] && userStats[w.id].score === 0 && userStats[w.id].views > 0).length;
     document.getElementById('uiReviewCount').innerText = reviewCount;
@@ -197,15 +208,54 @@
     
     const totalDays = Math.ceil(totalCount / WORDS_PER_DAY);
     for(let i=1; i<=totalDays; i++) {
+      const startIndex = (i - 1) * WORDS_PER_DAY;
+      const chunk = db.slice(startIndex, startIndex + WORDS_PER_DAY);
+      
+      // 🌟 Day별 데이터 분석 (진도율 및 회독수 계산)
+      let learnedInChunk = 0;
+      let minViews = Infinity; // 해당 Day에서 가장 적게 본 단어의 조회수 (N회독의 기준)
+
+      chunk.forEach(w => {
+        const stat = userStats[w.id] || { views: 0, score: 0 };
+        if (stat.score > 0) learnedInChunk++;
+        if (stat.views < minViews) minViews = stat.views;
+      });
+      
+      if (chunk.length === 0) minViews = 0;
+      if (minViews === Infinity) minViews = 0;
+      
+      const chunkPercent = Math.round((learnedInChunk / chunk.length) * 100);
+      
+      // 상태 배지 결정
+      let statusBadge = '';
+      if (chunkPercent === 0) statusBadge = '<span class="day-status status-new">未学習 (미학습)</span>';
+      else if (chunkPercent < 100) statusBadge = '<span class="day-status status-ing">進行中 (진행중)</span>';
+      else statusBadge = '<span class="day-status status-done">完了 (완료)</span>';
+
+      // N회독 배지 결정 (최소 1회독 이상일 때만 표시)
+      let cycleBadge = minViews > 0 ? `<span class="day-cycle">🔄 ${minViews}回読 (회독)</span>` : '';
+
       const row = document.createElement('div');
       row.className = 'day-row';
-      row.innerHTML = `<span>Day ${i}</span><span class="day-icon">〉</span>`;
+      row.innerHTML = `
+        <div class="day-info">
+          <div class="day-title-area">
+            <span class="day-title">Day ${i}</span>
+            ${statusBadge}
+            ${cycleBadge}
+          </div>
+          <div class="day-progress-bar-bg">
+            <div class="day-progress-bar-fill" style="width: ${chunkPercent}%"></div>
+          </div>
+          <div class="day-stats">${learnedInChunk} / ${chunk.length} 単語 (${chunkPercent}%)</div>
+        </div>
+        <span class="day-icon">〉</span>
+      `;
       row.onclick = () => startStudy(`Day ${i}`);
       dayListContainer.appendChild(row);
     }
   }
 
-  // 화면 전환 (홈 -> 학습)
   function startStudy(mode) {
     if (navigator.vibrate) navigator.vibrate(15);
     currentMode = mode;
@@ -219,30 +269,31 @@
       filteredList = db.filter(w => userStats[w.id] && userStats[w.id].score === 0 && userStats[w.id].views > 0);
       if(filteredList.length === 0) {
         alert("素晴らしい！現在復習する単語がありません。");
-        return; // 복습할게 없으면 진입 차단
+        return; 
       }
     } else if (mode === "ランダム") {
-      // 전체 단어 중 랜덤 30개 추출
       filteredList = [...db].sort(() => 0.5 - Math.random()).slice(0, 30);
     }
 
-    // 화면 스위칭
     document.getElementById('dashboard-view').style.display = 'none';
     document.getElementById('study-view').style.display = 'flex';
     
     loadNextCard();
   }
 
-  // 화면 전환 (학습 -> 홈)
   function goHome() {
     if (navigator.vibrate) navigator.vibrate(15);
     document.getElementById('study-view').style.display = 'none';
     document.getElementById('dashboard-view').style.display = 'block';
-    renderDashboard(); // 돌아올 때 진행률 및 복습 카운트 업데이트
+    renderDashboard(); 
   }
 
   function loadNextCard() {
-    if(filteredList.length === 0) return;
+    if(filteredList.length === 0) {
+      alert("このセクションの学習が完了しました！(이 섹션의 학습이 완료되었습니다!)");
+      goHome();
+      return;
+    }
     
     let nextCard;
     if (filteredList.length > 1) {
@@ -261,7 +312,6 @@
     
     document.getElementById('card').classList.remove('flipped');
     
-    // 모드에 따라 태그 표시 변경
     let displayTag = `#${currentCard.tag}`;
     if (currentMode === '復習') displayTag = '🔥 復習中';
     else if (currentMode === 'ランダム') displayTag = '🎲 ランダム';
@@ -296,6 +346,10 @@
 
     if(isKnown) {
       userStats[currentCard.id].score = 1; 
+      // 만약 Day 학습 중이면, 안다고 체크한 단어는 리스트에서 제거하여 완료할 수 있도록 유도
+      if (currentMode.startsWith("Day ")) {
+        filteredList = filteredList.filter(w => w.id !== currentCard.id);
+      }
     } else {
       userStats[currentCard.id].score = 0;
     }
