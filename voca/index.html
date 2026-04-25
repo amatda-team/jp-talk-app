@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="単語帳">
-<title>単語帳 - Phase 8 (FAB & Markdown Final)</title>
+<title>単語帳 - Phase 9 (Hover & AI UI)</title>
 
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
@@ -17,7 +17,7 @@
     margin: 0; padding: 0; color: #1d1d1f; -webkit-tap-highlight-color: transparent; 
   }
 
-  /* 1. 대시보드 (홈 화면) UI */
+  /* 1. 대시보드 UI */
   #dashboard-view {
     padding: 20px 20px calc(40px + env(safe-area-inset-bottom)) 20px;
     animation: fadeIn 0.3s ease;
@@ -33,6 +33,7 @@
     display: flex; align-items: center; justify-content: center; gap: 8px;
     transition: transform 0.1s ease, box-shadow 0.1s ease;
   }
+  .action-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.08); }
   .action-btn:active { transform: scale(0.96); }
   .btn-review { background: #fff1f0; color: #ff5252; box-shadow: 0 4px 12px rgba(255, 82, 82, 0.1); }
   .btn-random { background: #f0f7ff; color: #0984e3; box-shadow: 0 4px 12px rgba(9, 132, 227, 0.1); }
@@ -45,6 +46,7 @@
     display: flex; justify-content: space-between; align-items: center;
     transition: transform 0.1s ease, background 0.1s ease;
   }
+  .day-row:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.06); }
   .day-row:active { transform: scale(0.98); background: #fbfbfd; }
   
   .day-info { flex: 1; margin-right: 16px; }
@@ -76,7 +78,9 @@
   .back-btn {
     background: none; border: none; font-size: 16px; font-weight: 600; 
     color: #86868b; cursor: pointer; display: flex; align-items: center; gap: 4px; padding: 8px 0;
+    transition: color 0.1s;
   }
+  .back-btn:hover { color: #1d1d1f; }
   .study-title {
     position: absolute; left: 50%; transform: translateX(-50%);
     font-size: 16px; font-weight: 700; color: #1d1d1f;
@@ -86,8 +90,9 @@
     background: #FFFFFF; border-radius: 24px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); 
     width: 100%; max-width: 350px; min-height: 400px; padding: 30px; box-sizing: border-box; 
     display: flex; flex-direction: column; position: relative; cursor: pointer;
-    transition: transform 0.1s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
+  .card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.1); }
   .card:active { transform: scale(0.98); }
   
   .word-tag { position: absolute; top: 20px; left: 24px; font-size: 12px; font-weight: 700; color: #86868b; }
@@ -104,42 +109,45 @@
   .ex-ja { font-size: 15px; color: #1d1d1f; margin-bottom: 8px; line-height: 1.5; font-weight: 600;}
   .ex-ko { font-size: 14px; color: #86868b; line-height: 1.4; }
 
-  /* 🌟 수정: 공간을 효율적으로 쓰는 Ghost Button 스타일 (테두리형) */
+  /* 🌟 수정: Hover 효과가 명확한 고스트 버튼 */
   .buttons { display: flex; justify-content: center; gap: 12px; margin-top: 24px; width: 100%; max-width: 350px; }
   .btn { 
     flex: 1; padding: 16px 0; border-radius: 18px; 
-    font-size: 16px; font-weight: 700; cursor: pointer; background: transparent;
-    transition: all 0.1s ease; display: flex; align-items: center; justify-content: center; gap: 6px;
+    font-size: 16px; font-weight: 700; cursor: pointer; background: #ffffff;
+    transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; gap: 6px;
   }
   .btn-no { color: #E07A5F; border: 2px solid #E07A5F; } 
-  .btn-no:active { background-color: #fdf3f0; transform: scale(0.95); }
+  .btn-no:hover { background-color: #fff0ec; transform: translateY(-2px); } /* 🌟 호버 시 옅은 붉은색 */
+  .btn-no:active { background-color: #fdf3f0; transform: scale(0.95) translateY(0); }
   
   .btn-yes { color: #81B29A; border: 2px solid #81B29A; }
-  .btn-yes:active { background-color: #f2f7f4; transform: scale(0.95); }
+  .btn-yes:hover { background-color: #f0f7f4; transform: translateY(-2px); } /* 🌟 호버 시 옅은 녹색 */
+  .btn-yes:active { background-color: #e5efe9; transform: scale(0.95) translateY(0); }
 
-  /* 🌟 신규: AI 뉘앙스 해설 플로팅 버튼 (FAB) */
+  /* 🌟 수정: AI 뉘앙스 질문 버튼 (스마트한 느낌의 보라색 톤) */
   .fab-ai {
     position: fixed;
     bottom: calc(24px + env(safe-area-inset-bottom));
     right: 24px;
-    background: linear-gradient(135deg, #a8caba, #6c9c84);
+    background: linear-gradient(135deg, #A78BFA, #7C3AED); /* 보라/인디고 그라데이션 */
     color: white;
     border: none;
     border-radius: 50%;
-    width: 56px;
-    height: 56px;
-    font-size: 24px; /* ✨ 이모티콘 크기 */
-    box-shadow: 0 6px 16px rgba(108, 156, 132, 0.4);
+    width: 58px;
+    height: 58px;
+    font-size: 26px; 
+    box-shadow: 0 6px 16px rgba(124, 58, 237, 0.4);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: all 0.2s ease;
     z-index: 50;
   }
-  .fab-ai:active { transform: scale(0.9); box-shadow: 0 2px 8px rgba(108, 156, 132, 0.2); }
+  .fab-ai:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 10px 20px rgba(124, 58, 237, 0.5); }
+  .fab-ai:active { transform: scale(0.9); box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3); }
 
-  /* 🌟 신규: AI 팝업창 UI 및 마크다운 스타일링 */
+  /* AI 팝업창 UI */
   .ai-modal-overlay {
     display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0, 0, 0, 0.4); z-index: 999; 
@@ -152,15 +160,13 @@
     display: flex; flex-direction: column;
   }
   .ai-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-  .ai-modal-title { font-size: 18px; font-weight: 800; color: #2d3436; margin: 0; }
-  .ai-close-btn { background: #f1f2f6; border: none; border-radius: 50%; width: 30px; height: 30px; font-weight: bold; color: #2d3436; cursor: pointer; display: flex; align-items: center; justify-content: center;}
+  .ai-modal-title { font-size: 18px; font-weight: 800; color: #7C3AED; margin: 0; display: flex; align-items: center; gap: 6px;} /* 타이틀도 보라색으로 통일 */
+  .ai-close-btn { background: #f1f2f6; border: none; border-radius: 50%; width: 30px; height: 30px; font-weight: bold; color: #2d3436; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s;}
+  .ai-close-btn:hover { background: #e2e4eb; }
   
-  /* 마크다운 텍스트 예쁘게 출력되도록 설정 */
-  .ai-modal-body { 
-    flex: 1; overflow-y: auto; font-size: 15px; line-height: 1.6; color: #424245; 
-  }
+  .ai-modal-body { flex: 1; overflow-y: auto; font-size: 15px; line-height: 1.6; color: #424245; }
   .ai-modal-body p { margin-top: 0; margin-bottom: 12px; }
-  .ai-modal-body strong { color: #2d3436; background-color: #f6f8fa; padding: 0 4px; border-radius: 4px; }
+  .ai-modal-body strong { color: #7C3AED; background-color: #f3e8ff; padding: 0 4px; border-radius: 4px; } /* 강조 텍스트도 보라색 계열로 */
   .ai-modal-body ul { padding-left: 20px; margin-top: 0; }
   .ai-modal-body li { margin-bottom: 6px; }
 
@@ -401,7 +407,7 @@
     localStorage.setItem('noodVocaStats2', JSON.stringify(userStats));
   }
 
-  // 🌟 최적화된 프롬프트 & 마크다운 렌더링 AI 호출
+  // 🌟 AI API 호출 로직 (에러 핸들링 고도화)
   async function askAI() {
     let apiKey = localStorage.getItem('geminiApiKey');
     if (!apiKey) {
@@ -414,10 +420,8 @@
     const resultBox = document.getElementById('aiResultText');
     modal.style.display = 'flex';
     
-    // 로딩 중에는 일반 텍스트로 표시
-    resultBox.innerHTML = `<p>「${currentCard.word}」에 대해 AI 선생님이 분석 중입니다...<br><span style="color:#86868b; font-size:13px;">(약 2~3초 소요)</span></p>`;
+    resultBox.innerHTML = `<p>「${currentCard.word}」에 대해 AI 선생님が 分析中...<br><span style="color:#86868b; font-size:13px;">(약 2~3초 소요)</span></p>`;
 
-    // 🌟 수정: 속도 최적화를 위해 짧고 간결하게 지시하는 프롬프트
     const promptText = `일본어 교육 전문가로서 일본어 단어 「${currentCard.word}」 (뜻: ${currentCard.meaning})에 대해 다음 3가지만 짧고 명확하게 한국어로 설명해.
 1. 1줄 뜻 요약
 2. 실생활 예문 1개 (일본어 원문과 한국어 해석)
@@ -437,15 +441,20 @@
 
       const data = await response.json();
 
+      // 🌟 수정: 서버 사용량 초과(High demand) 에러에 대한 친절한 예외 처리
       if (data.error) {
-        resultBox.innerHTML = `<p>에러가 발생했습니다: ${data.error.message}</p><p>API 키를 다시 확인해주세요.</p>`;
-        localStorage.removeItem('geminiApiKey');
+        const errMsg = data.error.message.toLowerCase();
+        if (errMsg.includes("high demand") || errMsg.includes("overloaded") || errMsg.includes("quota")) {
+          resultBox.innerHTML = `<p style="color:#E07A5F; font-weight:bold;">현재 구글 AI 서버 접속자가 너무 많아 응답이 지연되고 있습니다.</p><p>창을 닫고 5초 뒤에 버튼을 다시 눌러주세요!</p>`;
+          // 서버 문제이므로 API 키를 지우지 않습니다.
+        } else {
+          resultBox.innerHTML = `<p>에러가 발생했습니다: ${data.error.message}</p><p>API 키가 잘못되었을 수 있습니다.</p>`;
+          localStorage.removeItem('geminiApiKey'); // 진짜 잘못된 키일 때만 삭제
+        }
         return;
       }
 
       const aiResponse = data.candidates[0].content.parts[0].text;
-      
-      // 🌟 수정: marked.js 라이브러리를 사용해 마크다운 렌더링 후 HTML로 주입
       resultBox.innerHTML = marked.parse(aiResponse);
       
     } catch (error) {
