@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="単語帳">
-<title>単語帳 - Phase Final (UX & Cache)</title>
+<title>単語帳 - Core Loop (2-Strike & Miss Note)</title>
 
 <style>
   body { 
@@ -33,6 +33,7 @@
   }
   .action-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.08); }
   .action-btn:active { transform: scale(0.96); }
+  /* 🌟 수정: 오답노트 버튼 스타일 */
   .btn-review { background: #fff1f0; color: #ff5252; box-shadow: 0 4px 12px rgba(255, 82, 82, 0.1); }
   .btn-random { background: #f0f7ff; color: #0984e3; box-shadow: 0 4px 12px rgba(9, 132, 227, 0.1); }
   .badge { background: #ff5252; color: white; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: 800; }
@@ -122,7 +123,7 @@
   .btn-yes:hover { background-color: #f0f7f4; transform: translateY(-2px); }
   .btn-yes:active { background-color: #e5efe9; transform: scale(0.95) translateY(0); }
 
-  /* 🌟 수정: AI 버튼 (그림자 줄임 & ✨ 아이콘 복구) */
+  /* 플로팅 AI 버튼 */
   .fab-ai {
     position: fixed;
     bottom: calc(24px + env(safe-area-inset-bottom));
@@ -133,8 +134,8 @@
     border-radius: 50%;
     width: 58px;
     height: 58px;
-    font-size: 26px; /* 이모티콘 크기에 맞춰 조정 */
-    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2); /* 그림자 은은하게 완화 */
+    font-size: 26px;
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2); 
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -158,7 +159,6 @@
     display: flex; flex-direction: column;
   }
   .ai-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-  
   .ai-modal-title { font-size: 18px; font-weight: 800; color: #7C3AED; margin: 0; display: flex; align-items: center; gap: 6px;}
   .ai-close-btn { background: #f1f2f6; border: none; border-radius: 50%; width: 30px; height: 30px; font-weight: bold; color: #2d3436; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s;}
   .ai-close-btn:hover { background: #e2e4eb; }
@@ -181,8 +181,8 @@
   </div>
 
   <div class="top-actions">
-    <button class="action-btn btn-review" onclick="startStudy('復習')">
-      🔥 復習 <span class="badge" id="uiReviewCount">0</span>
+    <button class="action-btn btn-review" onclick="startStudy('ミスノート')">
+      📝 ミスノート <span class="badge" id="uiReviewCount">0</span>
     </button>
     <button class="action-btn btn-random" onclick="startStudy('ランダム')">
       🎲 ランダム
@@ -249,11 +249,13 @@
 
   function renderDashboard() {
     const totalCount = db.length;
-    const learnedCount = db.filter(w => userStats[w.id] && userStats[w.id].score > 0).length;
+    // score가 1이면 완전히 마스터한 단어
+    const learnedCount = db.filter(w => userStats[w.id] && userStats[w.id].score === 1).length;
     const percent = totalCount === 0 ? 0 : Math.round((learnedCount / totalCount) * 100);
     document.getElementById('uiGlobalProgress').innerText = `全体進捗 (전체 진도율): ${learnedCount} / ${totalCount} (${percent}%)`;
 
-    const reviewCount = db.filter(w => userStats[w.id] && userStats[w.id].score === 0 && userStats[w.id].views > 0).length;
+    // 🌟 오답노트 카운트: score가 0 미만(-1, -2)인 단어들 (즉, 2스트라이크 아웃을 못 한 단어들)
+    const reviewCount = db.filter(w => userStats[w.id] && userStats[w.id].score < 0).length;
     document.getElementById('uiReviewCount').innerText = reviewCount;
 
     const dayListContainer = document.getElementById('uiDayList');
@@ -269,7 +271,7 @@
 
       chunk.forEach(w => {
         const stat = userStats[w.id] || { views: 0, score: 0 };
-        if (stat.score > 0) learnedInChunk++;
+        if (stat.score === 1) learnedInChunk++; // 완전히 마스터한 것만 진도로 인정
         if (stat.views < minViews) minViews = stat.views;
       });
       
@@ -282,6 +284,7 @@
       else if (chunkPercent < 100) statusBadge = '<span class="day-status status-ing">進行中</span>';
       else statusBadge = '<span class="day-status status-done">完了</span>';
 
+      // 🌟 회독수(N回読) 표시 로직: 그 Day의 모든 단어를 최소 몇 번 봤는가?
       let cycleBadge = minViews > 0 ? `<span class="day-cycle">🔄 ${minViews}回読</span>` : '';
 
       const row = document.createElement('div');
@@ -313,12 +316,15 @@
       const dayNum = parseInt(mode.replace("Day ", ""));
       const startIndex = (dayNum - 1) * WORDS_PER_DAY;
       filteredList = db.slice(startIndex, startIndex + WORDS_PER_DAY);
-    } else if (mode === "復習") {
-      filteredList = db.filter(w => userStats[w.id] && userStats[w.id].score === 0 && userStats[w.id].views > 0);
+    } else if (mode === "ミスノート") {
+      // 🌟 오답노트 모드: score가 0 미만인 단어만 추출
+      filteredList = db.filter(w => userStats[w.id] && userStats[w.id].score < 0);
       if(filteredList.length === 0) {
-        alert("素晴らしい！現在復習する単語がありません。");
+        alert("素晴らしい！現在復習する単語がありません。(현재 오답노트가 비어있습니다!)");
         return; 
       }
+      // 🌟 오답노트는 완전 랜덤으로 섞어서 출제!
+      filteredList = filteredList.sort(() => 0.5 - Math.random());
     } else if (mode === "ランダム") {
       filteredList = [...db].sort(() => 0.5 - Math.random()).slice(0, 30);
     }
@@ -341,6 +347,7 @@
       return;
     }
     
+    // 오답노트는 이미 섞여있고, Day 모드도 앞에서부터 차례대로 보여주되 이미 안 단어는 빠짐
     let nextCard;
     if (filteredList.length > 1) {
       do {
@@ -358,8 +365,12 @@
     
     document.getElementById('card').classList.remove('flipped');
     
+    // 🌟 오답노트 모드일 때 원래 소속된 Day 표시해주기
     let displayTag = `#${currentCard.tag}`;
-    if (currentMode === '復習') displayTag = '🔥 復習中';
+    if (currentMode === 'ミスノート') {
+      const originalDay = Math.floor(db.indexOf(currentCard) / WORDS_PER_DAY) + 1;
+      displayTag = `#Day ${originalDay} (ミスノート)`;
+    }
     else if (currentMode === 'ランダム') displayTag = '🎲 ランダム';
     
     document.getElementById('uiTag').innerText = displayTag;
@@ -387,15 +398,30 @@
     }
   }
 
+  // 🌟 핵심: 2-Strike Out 탈출 로직 적용
   function mark(isKnown) {
+    let stat = userStats[currentCard.id] || { views: 0, score: 0 };
+
     if(isKnown) {
-      userStats[currentCard.id].score = 1; 
-      if (currentMode.startsWith("Day ")) {
+      // ✅ '안다'를 눌렀을 때
+      if (stat.score === -2) {
+        stat.score = -1; // 1 Strike! (아직 오답노트에 남음)
+      } else if (stat.score === -1) {
+        stat.score = 1;  // 2 Strike! (오답노트에서 졸업, 마스터)
+      } else {
+        stat.score = 1;  // 처음부터 안다고 한 단어는 바로 마스터
+      }
+      
+      // 마스터했거나, Day 학습 중에는 리스트에서 빼서 다음 단어로 넘어가게 함
+      if (stat.score === 1 || currentMode.startsWith("Day ") || currentMode === "ランダム") {
         filteredList = filteredList.filter(w => w.id !== currentCard.id);
       }
     } else {
-      userStats[currentCard.id].score = 0;
+      // 🤔 '모른다'를 눌렀을 때
+      stat.score = -2; // 오답노트로 직행 (다시 2번 맞춰야 졸업 가능)
     }
+
+    userStats[currentCard.id] = stat;
     saveStats();
     
     setTimeout(() => {
@@ -426,7 +452,6 @@
 
     let apiKey = localStorage.getItem('geminiApiKey');
     if (!apiKey) {
-      // 🌟 수정: 안내 문구 한국어로 변경
       apiKey = prompt("Google AI Studio에서 발급받은 Gemini API 키를 입력해주세요.\n(키는 스마트폰에 안전하게 보관됩니다.)");
       if (!apiKey) {
         closeAI();
@@ -435,7 +460,6 @@
       localStorage.setItem('geminiApiKey', apiKey);
     }
 
-    // 🌟 수정: 분석 중 텍스트 한국어로 변경
     resultBox.innerHTML = `<p>「${currentCard.word}」에 대해 AI 선생님이 분석 중입니다...</p>`;
 
     const promptText = `일본어 교육 전문가로서 일본어 단어 「${currentCard.word}」 (뜻: ${currentCard.meaning})에 대해 다음 3가지만 짧고 명확하게 한국어로 설명해.
@@ -460,10 +484,8 @@
       if (data.error) {
         const errMsg = data.error.message.toLowerCase();
         if (errMsg.includes("high demand") || errMsg.includes("overloaded") || errMsg.includes("quota")) {
-          // 🌟 수정: 서버 초과 에러 메시지 한국어로 변경
           resultBox.innerHTML = `<p style="color:#E07A5F; font-weight:bold;">현재 구글 AI 서버 접속자가 너무 많아 응답이 지연되고 있습니다.</p><p>조금 뒤에 다시 시도해주세요!</p>`;
         } else {
-          // 🌟 수정: 일반 에러 메시지 한국어로 변경
           resultBox.innerHTML = `<p>에러가 발생했습니다: ${data.error.message}</p><p>API 키가 잘못되었을 수 있습니다.</p>`;
           localStorage.removeItem('geminiApiKey'); 
         }
@@ -478,7 +500,6 @@
       resultBox.innerHTML = simpleMarkdownToHTML(aiResponse);
       
     } catch (error) {
-      // 🌟 수정: 통신 에러 메시지 한국어로 변경
       resultBox.innerHTML = "<p>통신에 실패했습니다. 인터넷 연결을 확인해주세요.</p>";
     }
   }
