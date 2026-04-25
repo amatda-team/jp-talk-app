@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>실전 일본어 퀘스트 보드 (초정밀 레이아웃 압축)</title>
+    <title>실전 일본어 퀘스트 보드 (표 레이아웃 방어 패치)</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -26,14 +26,42 @@
         ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #52525b; }
         
-        /* ★ 마크다운 초정밀 다이어트 2차 (상단 여백 0, 간격 최적화) ★ */
+        /* ★ 마크다운 기본 다이어트 ★ */
         .markdown-body > :first-child { margin-top: 0 !important; } 
         .markdown-body h3 { font-size: 1.05rem; color: #60a5fa; font-weight: 700; margin-top: 1em; margin-bottom: 0.4em; display: flex; align-items: center;}
         .markdown-body p { margin-bottom: 0.5em; line-height: 1.5; color: #a1a1aa; font-size: 0.95rem; }
         .markdown-body ul, .markdown-body ol { margin-left: 1.2em; margin-bottom: 0.8em; line-height: 1.5; color: #a1a1aa; font-size: 0.95rem;}
         .markdown-body li { margin-bottom: 0.2em; }
-        
         .markdown-body strong { color: #ffffff; font-weight: 600; font-size: 1.05rem; letter-spacing: 0; }
+        
+        /* ★ 신규: 마크다운 표(Table) 스타일링 및 스크롤 방어 ★ */
+        .markdown-body table {
+            display: block; /* 블록 요소로 변경하여 스크롤 가능하게 만듦 */
+            width: 100%;
+            overflow-x: auto; /* 내용이 넘치면 가로 스크롤 생성 */
+            border-collapse: collapse;
+            margin-top: 1em;
+            margin-bottom: 1.5em;
+            white-space: nowrap; /* 글자가 좁은 칸에서 뭉개지지 않도록 줄바꿈 방지 */
+        }
+        .markdown-body th, .markdown-body td {
+            border: 1px solid #3f3f46;
+            padding: 0.75rem 1rem;
+            text-align: left;
+            color: #d4d4d8;
+            font-size: 0.9rem;
+        }
+        .markdown-body th {
+            background-color: #27272a;
+            color: #34d399; /* 표 제목 칸은 에메랄드색 포인트 */
+            font-weight: 700;
+        }
+        .markdown-body tr {
+            background-color: #18181b;
+        }
+        .markdown-body tr:nth-child(even) {
+            background-color: #202024; /* 짝수 줄만 은은하게 밝게 처리 (스트라이프 효과) */
+        }
         
         .history-box { background: #27272a; border: 1px solid #3f3f46; padding: 0.8rem 1rem; border-radius: 12px; margin-top: 1.5rem; }
         .history-box h4 { font-size: 0.9rem; color: #a1a1aa; font-weight: 700; margin-bottom: 0.6rem; border-bottom: 1px dashed #3f3f46; padding-bottom: 0.4rem;}
@@ -126,13 +154,11 @@
             <div id="active-state" class="hidden flex-col h-full overflow-hidden min-h-0 relative">
                 
                 <div class="p-4 md:p-5 border-b border-zinc-800 bg-zinc-900/30 shrink-0 flex flex-col">
-                    
                     <div class="flex justify-between items-start">
                         <div class="flex-1">
                             <span class="text-emerald-400 text-[10px] font-bold tracking-wider">SITUATION</span>
                             <h2 id="active-quest-title" class="text-sm md:text-base font-bold mt-0.5 text-zinc-200 pr-2"></h2>
                         </div>
-                        
                         <div class="relative shrink-0">
                             <button id="score-badge" onclick="toggleScoreComment(event)" class="hidden items-center justify-center bg-zinc-800 hover:bg-zinc-700 border border-zinc-600 text-white font-bold text-[11px] px-2.5 py-1 rounded-full transition-all shadow-sm">
                                 <span id="score-badge-text"></span>
@@ -190,8 +216,8 @@
     <script>
         const state = {
             apiKey: localStorage.getItem('gemini_api_key') || '',
-            quests: JSON.parse(localStorage.getItem('pending_quests_v15')) || [], 
-            completed: JSON.parse(localStorage.getItem('completed_quests_v15')) || [], 
+            quests: JSON.parse(localStorage.getItem('pending_quests_v16')) || [], 
+            completed: JSON.parse(localStorage.getItem('completed_quests_v16')) || [], 
             studyDates: JSON.parse(localStorage.getItem('study_dates')) || [],
             activeQuestIndex: null,
             activeCompletedIndex: null
@@ -525,7 +551,7 @@
                 const res = await callGemini(prompt);
                 const customQuest = JSON.parse(res.replace(/```json|```/g, '').trim());
                 state.quests.unshift(customQuest);
-                localStorage.setItem('pending_quests_v15', JSON.stringify(state.quests));
+                localStorage.setItem('pending_quests_v16', JSON.stringify(state.quests));
                 DOM.customInput.value = ''; 
                 switchLeftTab('pending');
                 renderQuests();
@@ -543,7 +569,6 @@
             btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> 생성 중...`;
             btn.disabled = true;
 
-            // ★ AI의 한국어 번역 환각 현상을 억제하는 강력한 프롬프트 ★
             const prompt = `일본에서 가볍게 나누는 스몰토크 상황 10개 생성. 순수 JSON 배열 [{"situation":"상황(한국어)","npc_dialogue":"첫대사"}]로만 답해. 
             (⚠️경고: npc_dialogue는 반드시 일본어 원문으로만 작성할 것. 한국어 해석 절대 금지)`;
 
@@ -551,7 +576,7 @@
                 const res = await callGemini(prompt);
                 const newQuests = JSON.parse(res.replace(/```json|```/g, '').trim());
                 state.quests = [...state.quests, ...newQuests];
-                localStorage.setItem('pending_quests_v15', JSON.stringify(state.quests));
+                localStorage.setItem('pending_quests_v16', JSON.stringify(state.quests));
                 switchLeftTab('pending');
                 renderQuests();
             } catch (e) {
@@ -625,8 +650,8 @@
                     updateStreak();
                 }
                 
-                localStorage.setItem('pending_quests_v15', JSON.stringify(state.quests));
-                localStorage.setItem('completed_quests_v15', JSON.stringify(state.completed));
+                localStorage.setItem('pending_quests_v16', JSON.stringify(state.quests));
+                localStorage.setItem('completed_quests_v16', JSON.stringify(state.completed));
                 
                 renderQuests();
                 renderCompleted();
