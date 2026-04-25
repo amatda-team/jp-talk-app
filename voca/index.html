@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="単語帳">
-<title>単語帳 - Phase Final (Swipe List & Green UI)</title>
+<title>単語帳 - Phase Final (Neo-Brutalism & Keys)</title>
 
 <style>
   body { 
@@ -35,8 +35,7 @@
   .action-btn:active { transform: scale(0.96); }
   
   .btn-review { background: #fff1f0; color: #ff5252; box-shadow: 0 4px 12px rgba(255, 82, 82, 0.1); }
-  /* 🌟 수정: 랜덤 버튼을 단어장(一覧) 버튼으로 변경 */
-  .btn-list { background: #f0f7f4; color: #2d8a56; box-shadow: 0 4px 12px rgba(45, 138, 86, 0.1); }
+  .btn-list { background: #eaf4f0; color: #2d8a56; box-shadow: 0 4px 12px rgba(45, 138, 86, 0.1); }
   .badge { background: #ff5252; color: white; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: 800; }
 
   .day-list { display: flex; flex-direction: column; gap: 12px; }
@@ -55,7 +54,6 @@
   
   .day-status { padding: 3px 8px; border-radius: 8px; font-size: 11px; font-weight: 700; }
   .status-new { background: #f1f2f6; color: #a4b0be; }
-  /* 🌟 수정: 進行中(진행중) 색상을 노란색에서 연두/초록 계열로 변경 */
   .status-ing { background: #e8f5e9; color: #2e7d32; } 
   .status-done { background: #7bed9f; color: #1b5e20; }
   .day-cycle { font-size: 12px; font-weight: 700; color: #0984e3; background: #e3f2fd; padding: 3px 8px; border-radius: 8px; }
@@ -65,7 +63,7 @@
   .day-stats { font-size: 12px; color: #86868b; font-weight: 600; }
   .day-icon { color: #b2bec3; font-weight: bold; }
 
-  /* 학습 화면 UI (Day & 오답노트) */
+  /* 학습 화면 UI (Day, 오답노트) */
   #study-view {
     display: none; flex-direction: column; align-items: center;
     padding: 0 20px calc(20px + env(safe-area-inset-bottom));
@@ -113,37 +111,76 @@
   .btn-yes { color: #81B29A; border: 2px solid #81B29A; }
   .btn-yes:active { background-color: #e5efe9; transform: scale(0.95); }
 
-  /* 🌟 신규: 전체 단어장(一覧) 모드 UI */
+
+  /* ==========================================
+     🌟 신규: 네오 브루탈리즘 단어장(一覧) UI
+     ========================================== */
   #list-view {
     display: none; flex-direction: column; align-items: center;
     padding: 0 20px calc(20px + env(safe-area-inset-bottom));
-    animation: fadeIn 0.3s ease;
-    width: 100%; box-sizing: border-box;
+    animation: fadeIn 0.3s ease; width: 100%; box-sizing: border-box;
+    background-color: #F8F9FA; /* 조금 더 밝고 세련된 연회색 배경 */
   }
   #list-container {
-    width: 100%; max-width: 350px; display: flex; flex-direction: column; gap: 12px;
+    width: 100%; max-width: 350px; display: flex; flex-direction: column; gap: 16px;
   }
+  
+  /* 네오 브루탈리즘 카드 디자인 */
   .list-item {
-    background: #ffffff; border-radius: 16px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-    cursor: pointer; transition: background 0.1s;
+    background: #ffffff;
+    border: 3px solid #1d1d1f; /* 굵고 강렬한 테두리 */
+    border-radius: 12px;
+    padding: 24px 20px;
+    box-shadow: 4px 4px 0px #1d1d1f; /* 하드 섀도우 */
+    transition: transform 0.1s, box-shadow 0.1s;
   }
-  .list-item:active { background: #fbfbfd; }
-  .list-header-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;}
-  .list-word { font-size: 22px; font-weight: 800; color: #1d1d1f; }
-  .list-reading { font-size: 14px; color: #86868b; font-weight: 500;}
-  .list-meaning { font-size: 16px; color: #2c3e50; font-weight: 600; line-height: 1.4;}
+  .list-item:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px #1d1d1f; }
+  
+  .list-header-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px;}
+  .list-word { font-size: 24px; font-weight: 900; color: #1d1d1f; letter-spacing: -0.5px; }
+  .list-reading { font-size: 15px; color: #86868b; font-weight: 600; }
+  
+  /* 먹칠(블라인드) 효과 */
+  .list-meaning-wrapper { margin-bottom: 12px; }
+  .meaning-blind {
+    display: inline-block;
+    background-color: #1d1d1f; /* 새까만 먹칠 */
+    color: #1d1d1f; /* 글자도 까맣게 숨김 */
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.2s ease;
+  }
+  .meaning-blind.revealed {
+    background-color: #E2F0A5; /* 터치 시 쨍한 라임 옐로우로 변신 */
+    color: #1d1d1f; /* 글자가 나타남 */
+  }
+
+  /* 예문 토글 버튼 */
+  .ex-toggle-btn {
+    width: 100%; margin-top: 8px; padding: 10px 0;
+    background: #f1f2f6; border: 2px solid #1d1d1f; border-radius: 8px;
+    font-size: 13px; font-weight: 800; color: #1d1d1f; text-align: center;
+    cursor: pointer; box-shadow: 2px 2px 0px #1d1d1f;
+    transition: transform 0.1s;
+  }
+  .ex-toggle-btn:active { transform: translate(1px, 1px); box-shadow: 1px 1px 0px #1d1d1f; }
   
   .list-example-box {
-    margin-top: 12px; padding-top: 12px; border-top: 1px dashed #e5e5ea; display: none;
+    margin-top: 16px; padding: 16px; background: #ffffff;
+    border: 2px dashed #1d1d1f; border-radius: 8px; display: none;
     animation: fadeIn 0.2s ease;
   }
   .list-example-box.expanded { display: block; }
 
   .list-pagination-info {
-    margin-top: 24px; font-size: 13px; color: #86868b; font-weight: 600; text-align: center;
+    margin-top: 24px; font-size: 14px; color: #1d1d1f; font-weight: 800; text-align: center;
   }
   .list-hint {
-    font-size: 12px; color: #b2bec3; text-align: center; margin-top: 8px;
+    font-size: 13px; color: #86868b; text-align: center; margin-top: 8px; font-weight: 600;
   }
 
   /* 플로팅 AI 버튼 */
@@ -165,7 +202,7 @@
   }
   .ai-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
   .ai-modal-title { font-size: 18px; font-weight: 800; color: #7C3AED; margin: 0; display: flex; align-items: center; gap: 6px;}
-  .ai-close-btn { background: #f1f2f6; border: none; border-radius: 50%; width: 30px; height: 30px; font-weight: bold; color: #2d3436; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s;}
+  .ai-close-btn { background: #f1f2f6; border: none; border-radius: 50%; width: 30px; height: 30px; font-weight: bold; color: #2d3436; cursor: pointer; display: flex; align-items: center; justify-content: center;}
   .ai-modal-body { flex: 1; overflow-y: auto; font-size: 15px; line-height: 1.6; color: #424245; }
   .ai-modal-body p { margin-top: 0; margin-bottom: 12px; }
   .ai-modal-body strong { color: #7C3AED; background-color: #f3e8ff; padding: 0 4px; border-radius: 4px; }
@@ -236,7 +273,7 @@
   <div id="list-container"></div>
   
   <div class="list-pagination-info" id="uiListPaging">1 / 57 페이지</div>
-  <div class="list-hint">👈 좌우로 스와이프하여 넘기기 👉</div>
+  <div class="list-hint">👈 좌우로 스와이프하거나 방향키(←,→)를 누르세요 👉</div>
 </div>
 
 <div class="ai-modal-overlay" id="aiModal">
@@ -253,15 +290,13 @@
 
 <script>
   const WORDS_PER_DAY = 30; 
-  const WORDS_PER_PAGE = 5; // 단어장 모드에서 한 화면에 보여줄 개수
+  const WORDS_PER_PAGE = 5; 
   
   let filteredList = [];
   let currentCard = null;
   let currentMode = ""; 
   let userStats = JSON.parse(localStorage.getItem('noodVocaStats2')) || {};
   let aiCache = JSON.parse(localStorage.getItem('noodVocaAICache')) || {};
-  
-  // 🌟 단어장 모드 전용 상태 캐싱
   let listState = JSON.parse(localStorage.getItem('noodVocaListState')) || null;
 
   function init() {
@@ -327,7 +362,6 @@
     }
   }
 
-  // --- 기존 모드 (Day, 오답노트) 시작 함수 ---
   function startStudy(mode) {
     currentMode = mode;
     document.getElementById('uiStudyTitle').innerText = mode;
@@ -430,26 +464,18 @@
     localStorage.setItem('noodVocaStats2', JSON.stringify(userStats));
   }
 
-
   // ==========================================
-  // 🌟 단어장(一覧) 모드 로직 (스와이프 기반)
+  // 🌟 네오 브루탈리즘 단어장(一覧) 로직
   // ==========================================
 
   function startListMode() {
-    // 최초 실행 시 state 생성
     if (!listState || !listState.order || listState.order.length !== db.length) {
-      listState = {
-        cycle: 1,
-        order: db.map(w => w.id), // 초기엔 정순서
-        currentIndex: 0
-      };
+      listState = { cycle: 1, order: db.map(w => w.id), currentIndex: 0 };
       saveListState();
     }
-
     document.getElementById('dashboard-view').style.display = 'none';
     document.getElementById('study-view').style.display = 'none';
     document.getElementById('list-view').style.display = 'flex';
-    
     renderListPage();
   }
 
@@ -467,7 +493,6 @@
     const currentPage = Math.floor(listState.currentIndex / WORDS_PER_PAGE) + 1;
     document.getElementById('uiListPaging').innerText = `${currentPage} / ${totalPages} 페이지`;
 
-    // 현재 인덱스부터 5개 가져오기
     const pageIds = listState.order.slice(listState.currentIndex, listState.currentIndex + WORDS_PER_PAGE);
     
     pageIds.forEach(id => {
@@ -476,15 +501,11 @@
 
       const itemDiv = document.createElement('div');
       itemDiv.className = 'list-item';
-      // 터치 시 아코디언 열림 (스와이프와 간섭 없음)
-      itemDiv.onclick = function() {
-        const exBox = this.querySelector('.list-example-box');
-        if(exBox) exBox.classList.toggle('expanded');
-      };
 
       let exHtml = '';
       if(w.exJa && w.exJa !== "-") {
         exHtml = `
+          <div class="ex-toggle-btn" onclick="toggleEx(this)">💬 例文を見る (예문 보기)</div>
           <div class="list-example-box">
             <div class="ex-ja">${w.exJa}</div>
             <div class="ex-ko">${w.exKo}</div>
@@ -492,16 +513,25 @@
         `;
       }
 
+      // 🌟 터치 시 먹칠이 날아가는 로직 (onclick)
       itemDiv.innerHTML = `
         <div class="list-header-row">
           <span class="list-word">${w.word}</span>
           <span class="list-reading">${w.reading}</span>
         </div>
-        <div class="list-meaning">${w.meaning}</div>
+        <div class="list-meaning-wrapper">
+          <span class="meaning-blind" onclick="this.classList.add('revealed')">${w.meaning}</span>
+        </div>
         ${exHtml}
       `;
       container.appendChild(itemDiv);
     });
+  }
+
+  // 예문 버튼 토글 함수
+  function toggleEx(btn) {
+    const exBox = btn.nextElementSibling;
+    exBox.classList.toggle('expanded');
   }
 
   function nextListPage() {
@@ -509,7 +539,6 @@
       alert(`🎉 ${listState.cycle}회독 완료!\n단어 순서를 무작위로 섞어 다음 회독을 시작합니다.`);
       listState.cycle += 1;
       listState.currentIndex = 0;
-      // 순서 무작위 셔플
       listState.order = listState.order.sort(() => 0.5 - Math.random());
     } else {
       listState.currentIndex += WORDS_PER_PAGE;
@@ -527,37 +556,52 @@
     }
   }
 
-  // 좌우 스와이프 감지 로직
+  // ==========================================
+  // 🌟 강력한 스와이프 감지 (Window 기준)
+  // ==========================================
   function initSwipeGesture() {
-    const listContainer = document.getElementById('list-view');
     let touchstartX = 0;
     let touchendX = 0;
 
-    listContainer.addEventListener('touchstart', e => {
+    window.addEventListener('touchstart', e => {
+      if(document.getElementById('list-view').style.display !== 'flex') return;
       touchstartX = e.changedTouches[0].screenX;
     }, {passive: true});
 
-    listContainer.addEventListener('touchend', e => {
+    window.addEventListener('touchend', e => {
+      if(document.getElementById('list-view').style.display !== 'flex') return;
       touchendX = e.changedTouches[0].screenX;
-      handleSwipe();
-    }, {passive: true});
-
-    function handleSwipe() {
+      
       const diff = touchstartX - touchendX;
-      // 50px 이상 밀었을 때만 반응
       if (diff > 50) {
-        nextListPage(); // 왼쪽으로 밀면 (다음)
+        nextListPage(); // 👈 스와이프 레프트 (다음 페이지)
       } else if (diff < -50) {
-        prevListPage(); // 오른쪽으로 밀면 (이전)
+        prevListPage(); // 👉 스와이프 라이트 (이전 페이지)
       }
-    }
+    }, {passive: true});
   }
 
+  // ==========================================
+  // 🌟 PC 방향키 조작 로직
+  // ==========================================
+  document.addEventListener('keydown', function(event) {
+    // AI 팝업창이 떠있으면 키보드 이벤트 무시
+    if (document.getElementById('aiModal').style.display === 'flex') return;
+
+    if (document.getElementById('list-view').style.display === 'flex') {
+      if (event.key === 'ArrowRight') nextListPage();
+      else if (event.key === 'ArrowLeft') prevListPage();
+    } 
+    else if (document.getElementById('study-view').style.display === 'flex') {
+      if (event.key === 'ArrowRight') mark(true);  // ✅ 안다
+      else if (event.key === 'ArrowLeft') mark(false); // 🤔 모른다
+    }
+  });
+
 
   // ==========================================
-  // AI 로직 (유지)
+  // AI 로직
   // ==========================================
-
   function simpleMarkdownToHTML(text) {
     let html = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
     html = html.replace(/\*(.*?)\*/g, '<strong>$1</strong>');
@@ -578,10 +622,7 @@
     let apiKey = localStorage.getItem('geminiApiKey');
     if (!apiKey) {
       apiKey = prompt("Google AI Studio에서 발급받은 Gemini API 키를 입력해주세요.\n(키는 스마트폰에 안전하게 보관됩니다.)");
-      if (!apiKey) {
-        closeAI();
-        return; 
-      }
+      if (!apiKey) { closeAI(); return; }
       localStorage.setItem('geminiApiKey', apiKey);
     }
 
@@ -599,13 +640,10 @@
       const response = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: promptText }] }]
-        })
+        body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
       });
 
       const data = await response.json();
-
       if (data.error) {
         const errMsg = data.error.message.toLowerCase();
         if (errMsg.includes("high demand") || errMsg.includes("overloaded") || errMsg.includes("quota")) {
@@ -618,10 +656,8 @@
       }
 
       const aiResponse = data.candidates[0].content.parts[0].text;
-      
       aiCache[currentCard.word] = aiResponse;
       localStorage.setItem('noodVocaAICache', JSON.stringify(aiCache));
-
       resultBox.innerHTML = simpleMarkdownToHTML(aiResponse);
       
     } catch (error) {
