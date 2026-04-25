@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>실전 일본어 퀘스트 보드 (초정밀 레이아웃 압축)</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: { extend: { colors: { zinc: { 850: '#202024', 900: '#18181b' } } } }
+        }
+    </script>
+
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap');
+        
+        body { font-family: 'Pretendard', 'Noto Sans JP', sans-serif; letter-spacing: -0.02em; }
+        
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #52525b; }
+        
+        /* ★ 마크다운 초정밀 다이어트 2차 (상단 여백 0, 간격 최적화) ★ */
+        .markdown-body > :first-child { margin-top: 0 !important; } 
+        .markdown-body h3 { font-size: 1.05rem; color: #60a5fa; font-weight: 700; margin-top: 1em; margin-bottom: 0.4em; display: flex; align-items: center;}
+        .markdown-body p { margin-bottom: 0.5em; line-height: 1.5; color: #a1a1aa; font-size: 0.95rem; }
+        .markdown-body ul, .markdown-body ol { margin-left: 1.2em; margin-bottom: 0.8em; line-height: 1.5; color: #a1a1aa; font-size: 0.95rem;}
+        .markdown-body li { margin-bottom: 0.2em; }
+        
+        .markdown-body strong { color: #ffffff; font-weight: 600; font-size: 1.05rem; letter-spacing: 0; }
+        
+        .history-box { background: #27272a; border: 1px solid #3f3f46; padding: 0.8rem 1rem; border-radius: 12px; margin-top: 1.5rem; }
+        .history-box h4 { font-size: 0.9rem; color: #a1a1aa; font-weight: 700; margin-bottom: 0.6rem; border-bottom: 1px dashed #3f3f46; padding-bottom: 0.4rem;}
+        .history-item { background: #18181b; padding: 0.6rem 0.8rem; border-radius: 8px; margin-bottom: 0.5rem; font-size: 0.9rem;}
+        
+        .loader { border: 3px solid #3f3f46; border-top: 3px solid #34d399; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; display: inline-block; vertical-align: middle; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body class="bg-zinc-900 text-zinc-300 h-screen flex flex-col overflow-hidden selection:bg-emerald-500/30">
+
+    <header class="bg-zinc-850 border-b border-zinc-800 shrink-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <h1 class="text-xl font-bold flex items-center gap-2 text-zinc-100">
+                <i class="fa-solid fa-comments text-emerald-500"></i> 일본어 실전 티키타카
+            </h1>
+            <div class="flex items-center gap-4">
+                <div id="streak-counter" class="bg-zinc-800 px-3 py-1 rounded-full text-xs font-medium shadow-inner border border-zinc-700">
+                    🔥 <span id="streak-days" class="text-emerald-400 font-bold">0</span>일 연속!
+                </div>
+                <button onclick="toggleSettings()" class="text-zinc-400 hover:text-zinc-100 transition-colors">
+                    <i class="fa-solid fa-gear"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div id="alert-container" class="max-w-6xl mx-auto w-full px-4 mt-3 hidden shrink-0 z-50 absolute top-14 left-0 right-0">
+        <div class="bg-red-900/80 backdrop-blur-md border border-red-500 text-red-200 px-4 py-3 rounded-lg flex items-center justify-between shadow-2xl">
+            <span id="alert-message">에러 메시지</span>
+            <button onclick="closeAlert()" class="text-red-400 hover:text-red-200"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+    </div>
+
+    <main class="max-w-6xl mx-auto w-full px-4 py-4 grid grid-cols-1 lg:grid-cols-12 gap-5 flex-1 min-h-0">
+        
+        <aside class="lg:col-span-4 flex flex-col bg-zinc-850 rounded-2xl shadow-lg border border-zinc-800 overflow-hidden h-full">
+            <div class="flex border-b border-zinc-800 bg-zinc-900/50 shrink-0">
+                <button onclick="switchLeftTab('pending')" id="left-tab-pending" class="flex-1 py-3 text-sm font-bold text-emerald-400 border-b-2 border-emerald-400 bg-zinc-800/30 transition-all focus:outline-none">
+                    <i class="fa-solid fa-list-ul mr-1"></i> 대기 중 (<span id="quest-count">0</span>)
+                </button>
+                <button onclick="switchLeftTab('completed')" id="left-tab-completed" class="flex-1 py-3 text-sm font-bold text-zinc-500 border-b-2 border-transparent hover:text-zinc-300 transition-all focus:outline-none">
+                    <i class="fa-solid fa-check-double mr-1"></i> 복습함 (<span id="completed-count-badge">0</span>)
+                </button>
+            </div>
+
+            <div id="left-content-pending" class="flex flex-col h-full overflow-hidden min-h-0">
+                <ul id="quest-list" class="flex-1 overflow-y-auto p-4 flex flex-col gap-2.5"></ul>
+                <div class="p-4 border-t border-zinc-800 bg-zinc-850 shrink-0 flex flex-col gap-3 shadow-[0_-10px_15px_-3px_rgba(0,0,0,0.2)] z-10">
+                    <div class="flex gap-2 relative">
+                        <input type="text" id="custom-quest-input" placeholder="상황 직접 입력 (예: 식당 예약)" class="w-full bg-zinc-900 border border-zinc-700 rounded-xl px-3 py-2.5 text-sm text-zinc-100 focus:border-emerald-500 outline-none transition-colors">
+                        <button id="custom-quest-btn" onclick="addCustomQuest()" class="bg-zinc-700 hover:bg-zinc-600 px-4 rounded-xl text-zinc-300 transition-colors">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </div>
+                    <button id="generate-quest-btn" onclick="generateNewQuests()" class="w-full py-3 bg-emerald-600/90 hover:bg-emerald-500 text-white text-sm font-bold rounded-xl transition-all flex justify-center items-center gap-2 shadow-lg active:scale-[0.98]">
+                        <i class="fa-solid fa-bolt"></i> AI 상황 10개 뽑기
+                    </button>
+                </div>
+            </div>
+
+            <div id="left-content-completed" class="hidden flex-col h-full overflow-hidden min-h-0">
+                <div class="p-3 border-b border-zinc-800 bg-zinc-900/50 shrink-0">
+                    <button id="report-btn" onclick="generateReport()" class="w-full py-2.5 bg-blue-600/20 hover:bg-blue-600/40 text-blue-400 border border-blue-500/30 text-sm font-bold rounded-xl transition-all flex justify-center items-center gap-2">
+                        <i class="fa-solid fa-chart-pie"></i> 종합 분석 레포트 보기
+                    </button>
+                </div>
+                <ul id="completed-list" class="flex-1 overflow-y-auto p-4 flex flex-col gap-2.5"></ul>
+            </div>
+        </aside>
+
+        <section class="lg:col-span-8 flex flex-col bg-zinc-850 rounded-2xl shadow-lg border border-zinc-800 overflow-hidden h-full relative">
+            
+            <div id="empty-state" class="absolute inset-0 flex flex-col items-center justify-center text-zinc-500 bg-zinc-850 z-20">
+                <i class="fa-regular fa-comment-dots text-6xl mb-4 opacity-30"></i>
+                <p class="text-base font-medium">좌측에서 이야기 나눌 상황을 선택해주세요.</p>
+            </div>
+
+            <div id="report-state" class="hidden flex-col h-full overflow-hidden bg-zinc-850 z-15 absolute inset-0">
+                <div class="p-5 border-b border-zinc-800 bg-zinc-900/50 shrink-0 flex justify-between items-center">
+                    <div>
+                        <span class="text-blue-400 text-xs font-bold tracking-wider">DATA ANALYTICS</span>
+                        <h2 class="text-xl font-bold mt-1 text-zinc-100">나의 일본어 학습 리포트</h2>
+                    </div>
+                    <button onclick="closeReport()" class="text-zinc-400 hover:text-white bg-zinc-800 px-3 py-1.5 rounded-lg text-sm transition-colors">닫기 ✕</button>
+                </div>
+                <div id="report-content" class="flex-1 overflow-y-auto p-6 md:p-8 markdown-body text-lg"></div>
+            </div>
+
+            <div id="active-state" class="hidden flex-col h-full overflow-hidden min-h-0 relative">
+                
+                <div class="p-4 md:p-5 border-b border-zinc-800 bg-zinc-900/30 shrink-0 flex flex-col">
+                    
+                    <div class="flex justify-between items-start">
+                        <div class="flex-1">
+                            <span class="text-emerald-400 text-[10px] font-bold tracking-wider">SITUATION</span>
+                            <h2 id="active-quest-title" class="text-sm md:text-base font-bold mt-0.5 text-zinc-200 pr-2"></h2>
+                        </div>
+                        
+                        <div class="relative shrink-0">
+                            <button id="score-badge" onclick="toggleScoreComment(event)" class="hidden items-center justify-center bg-zinc-800 hover:bg-zinc-700 border border-zinc-600 text-white font-bold text-[11px] px-2.5 py-1 rounded-full transition-all shadow-sm">
+                                <span id="score-badge-text"></span>
+                                <i class="fa-solid fa-chevron-down text-[9px] ml-1.5 text-zinc-400"></i>
+                            </button>
+                            <div id="score-tooltip" class="hidden absolute top-8 right-0 w-60 bg-zinc-800 border border-zinc-600 p-3 rounded-lg shadow-2xl text-sm text-zinc-200 z-[100] cursor-default" onclick="event.stopPropagation()">
+                                <div id="score-comment-text" class="leading-relaxed"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-zinc-800 px-4 py-3 rounded-lg relative border border-zinc-700 shadow-sm mt-3.5">
+                        <div class="absolute -top-2.5 left-3 bg-emerald-600 text-[9px] px-2 py-0.5 rounded-full text-white font-bold">상대방의 한마디</div>
+                        <p id="npc-dialogue" class="text-base text-zinc-100 font-medium mt-0.5 leading-relaxed tracking-wide"></p>
+                    </div>
+                </div>
+
+                <div id="feedback-placeholder" class="flex-1 bg-zinc-900/10"></div>
+
+                <div id="feedback-section" class="hidden flex-1 overflow-hidden bg-zinc-900/20 flex-col min-h-0">
+                    <div class="flex border-b border-zinc-800 bg-zinc-850/80 shrink-0">
+                        <button onclick="switchRightTab('core')" id="right-tab-core" class="flex-1 py-3 text-sm font-bold text-emerald-400 border-b-2 border-emerald-400 bg-zinc-800/30 focus:outline-none">🎯 모범 답안</button>
+                        <button onclick="switchRightTab('detail')" id="right-tab-detail" class="flex-1 py-3 text-sm font-bold text-zinc-500 border-b-2 border-transparent hover:text-zinc-300 focus:outline-none">📚 상세 분석 및 히스토리</button>
+                    </div>
+                    <div class="flex-1 overflow-y-auto p-4 md:px-5 md:pt-3 md:pb-10 h-full relative">
+                        <div id="right-content-core" class="flex flex-col markdown-body"></div>
+                        <div id="right-content-detail" class="hidden flex-col markdown-body pb-10"></div>
+                    </div>
+                </div>
+
+                <div id="input-section" class="p-4 border-t border-zinc-800 bg-zinc-850 shrink-0 mt-auto flex flex-col gap-2 shadow-[0_-10px_15px_-3px_rgba(0,0,0,0.2)] z-10">
+                    <label id="input-label" class="text-zinc-400 font-medium text-xs flex items-center"><i class="fa-solid fa-reply mr-1.5 text-blue-400"></i>당신의 대답은?</label>
+                    <div class="flex gap-3">
+                        <textarea id="user-answer" class="w-full h-14 bg-zinc-900 border border-zinc-700 rounded-xl px-4 py-3 text-zinc-100 text-base focus:border-emerald-500 resize-none transition-all placeholder-zinc-600 outline-none" placeholder="대답을 적고 전송 버튼을 누르세요"></textarea>
+                        <button id="submit-answer-btn" onclick="submitAnswer()" class="w-28 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl transition-all flex flex-col justify-center items-center text-sm shadow-md active:scale-[0.98] shrink-0">
+                            <i class="fa-solid fa-paper-plane mb-1"></i>첨삭
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="settings-modal" class="fixed inset-0 bg-black/80 hidden flex items-center justify-center z-[100] backdrop-blur-sm">
+        <div class="bg-zinc-850 p-6 rounded-2xl w-full max-w-sm border border-zinc-700 shadow-2xl">
+            <h2 class="text-lg font-bold mb-3 text-zinc-100">설정</h2>
+            <input type="password" id="api-key-input" class="w-full bg-zinc-900 border border-zinc-700 rounded-xl p-3 text-zinc-100 mb-5 focus:border-emerald-500 outline-none text-sm" placeholder="API 키 입력">
+            <div class="flex justify-end gap-2">
+                <button onclick="toggleSettings()" class="px-4 py-2 bg-zinc-800 text-zinc-300 rounded-xl text-sm">취소</button>
+                <button onclick="saveApiKey()" class="px-4 py-2 bg-emerald-600 text-white rounded-xl font-bold text-sm">저장</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const state = {
+            apiKey: localStorage.getItem('gemini_api_key') || '',
+            quests: JSON.parse(localStorage.getItem('pending_quests_v15')) || [], 
+            completed: JSON.parse(localStorage.getItem('completed_quests_v15')) || [], 
+            studyDates: JSON.parse(localStorage.getItem('study_dates')) || [],
+            activeQuestIndex: null,
+            activeCompletedIndex: null
+        };
+
+        const DOM = {
+            streakDays: document.getElementById('streak-days'),
+            questList: document.getElementById('quest-list'),
+            questCount: document.getElementById('quest-count'),
+            generateBtn: document.getElementById('generate-quest-btn'),
+            customInput: document.getElementById('custom-quest-input'),
+            customBtn: document.getElementById('custom-quest-btn'),
+            
+            leftTabPending: document.getElementById('left-tab-pending'),
+            leftTabCompleted: document.getElementById('left-tab-completed'),
+            leftContentPending: document.getElementById('left-content-pending'),
+            leftContentCompleted: document.getElementById('left-content-completed'),
+            completedBadge: document.getElementById('completed-count-badge'),
+            completedList: document.getElementById('completed-list'),
+            reportBtn: document.getElementById('report-btn'),
+
+            emptyState: document.getElementById('empty-state'),
+            activeState: document.getElementById('active-state'),
+            reportState: document.getElementById('report-state'),
+            reportContent: document.getElementById('report-content'),
+
+            activeQuestTitle: document.getElementById('active-quest-title'),
+            npcDialogue: document.getElementById('npc-dialogue'),
+            inputSection: document.getElementById('input-section'),
+            inputLabel: document.getElementById('input-label'),
+            userAnswer: document.getElementById('user-answer'),
+            submitBtn: document.getElementById('submit-answer-btn'),
+            
+            feedbackSection: document.getElementById('feedback-section'),
+            feedbackPlaceholder: document.getElementById('feedback-placeholder'),
+            
+            scoreBadge: document.getElementById('score-badge'),
+            scoreBadgeText: document.getElementById('score-badge-text'),
+            scoreTooltip: document.getElementById('score-tooltip'),
+            scoreCommentText: document.getElementById('score-comment-text'),
+            
+            rightTabCore: document.getElementById('right-tab-core'),
+            rightTabDetail: document.getElementById('right-tab-detail'),
+            rightContentCore: document.getElementById('right-content-core'),
+            rightContentDetail: document.getElementById('right-content-detail'),
+        };
+
+        function getTodayStr() {
+            const d = new Date();
+            return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+        }
+
+        function init() {
+            if (!state.apiKey) toggleSettings();
+            updateStreak();
+            renderQuests();
+            renderCompleted();
+            if (state.quests.length === 0 && state.apiKey) generateNewQuests();
+            
+            document.addEventListener('click', (e) => {
+                if (!DOM.scoreBadge.contains(e.target) && !DOM.scoreTooltip.contains(e.target)) {
+                    DOM.scoreTooltip.classList.add('hidden');
+                }
+            });
+        }
+
+        function showAlert(msg) {
+            document.getElementById('alert-message').innerHTML = msg;
+            document.getElementById('alert-container').classList.remove('hidden');
+        }
+        function closeAlert() { document.getElementById('alert-container').classList.add('hidden'); }
+        function toggleSettings() { document.getElementById('settings-modal').classList.toggle('hidden'); }
+
+        function saveApiKey() {
+            const val = document.getElementById('api-key-input').value.trim();
+            if (val) {
+                state.apiKey = val; localStorage.setItem('gemini_api_key', val);
+                toggleSettings(); closeAlert();
+                if(state.quests.length === 0) generateNewQuests();
+            }
+        }
+
+        function updateStreak() { DOM.streakDays.innerText = new Set(state.studyDates).size; }
+
+        function toggleScoreComment(e) {
+            e.stopPropagation();
+            DOM.scoreTooltip.classList.toggle('hidden');
+        }
+
+        function switchLeftTab(tabName) {
+            if (tabName === 'pending') {
+                DOM.leftTabPending.className = "flex-1 py-3 text-sm font-bold text-emerald-400 border-b-2 border-emerald-400 bg-zinc-800/30 transition-all focus:outline-none";
+                DOM.leftTabCompleted.className = "flex-1 py-3 text-sm font-bold text-zinc-500 border-b-2 border-transparent hover:text-zinc-300 transition-all focus:outline-none";
+                DOM.leftContentPending.classList.remove('hidden'); DOM.leftContentPending.classList.add('flex');
+                DOM.leftContentCompleted.classList.add('hidden'); DOM.leftContentCompleted.classList.remove('flex');
+            } else {
+                DOM.leftTabPending.className = "flex-1 py-3 text-sm font-bold text-zinc-500 border-b-2 border-transparent hover:text-zinc-300 transition-all focus:outline-none";
+                DOM.leftTabCompleted.className = "flex-1 py-3 text-sm font-bold text-emerald-400 border-b-2 border-emerald-400 bg-zinc-800/30 transition-all focus:outline-none";
+                DOM.leftContentPending.classList.add('hidden'); DOM.leftContentPending.classList.remove('flex');
+                DOM.leftContentCompleted.classList.remove('hidden'); DOM.leftContentCompleted.classList.add('flex');
+            }
+        }
+
+        function switchRightTab(tabName) {
+            if (tabName === 'core') {
+                DOM.rightTabCore.className = "flex-1 py-3 text-sm font-bold text-emerald-400 border-b-2 border-emerald-400 bg-zinc-800/30 transition-all focus:outline-none";
+                DOM.rightTabDetail.className = "flex-1 py-3 text-sm font-bold text-zinc-500 border-b-2 border-transparent hover:text-zinc-300 transition-all focus:outline-none";
+                DOM.rightContentCore.classList.remove('hidden'); DOM.rightContentCore.classList.add('flex');
+                DOM.rightContentDetail.classList.add('hidden'); DOM.rightContentDetail.classList.remove('flex');
+            } else {
+                DOM.rightTabCore.className = "flex-1 py-3 text-sm font-bold text-zinc-500 border-b-2 border-transparent hover:text-zinc-300 transition-all focus:outline-none";
+                DOM.rightTabDetail.className = "flex-1 py-3 text-sm font-bold text-blue-400 border-b-2 border-blue-400 bg-zinc-800/30 transition-all focus:outline-none";
+                DOM.rightContentCore.classList.add('hidden'); DOM.rightContentCore.classList.remove('flex');
+                DOM.rightContentDetail.classList.remove('hidden'); DOM.rightContentDetail.classList.add('flex');
+            }
+        }
+
+        function renderQuests() {
+            DOM.questCount.innerText = `${state.quests.length}개`;
+            DOM.questList.innerHTML = '';
+            
+            if (state.quests.length === 0) {
+                DOM.questList.innerHTML = `<li class="text-zinc-500 text-sm text-center py-6 bg-zinc-900/50 rounded-xl border border-dashed border-zinc-800">목록이 없습니다.</li>`;
+                return;
+            }
+
+            state.quests.forEach((quest, index) => {
+                const isActive = state.activeQuestIndex === index;
+                const li = document.createElement('li');
+                li.className = `p-3.5 rounded-xl cursor-pointer transition-all border shrink-0 ${isActive ? 'bg-zinc-700/80 border-emerald-500 text-zinc-100 shadow-md' : 'bg-zinc-800 border-zinc-700/50 text-zinc-400 hover:bg-zinc-700 hover:border-zinc-500'}`;
+                li.innerHTML = `<div class="line-clamp-2 text-sm leading-relaxed"><span class="text-emerald-400 font-bold mr-1.5">Q.</span>${quest.situation}</div>`;
+                li.onclick = () => selectQuest(index);
+                DOM.questList.appendChild(li);
+            });
+        }
+
+        function renderCompleted() {
+            DOM.completedBadge.innerText = `${state.completed.length}개`;
+            
+            if(state.completed.length >= 3) {
+                DOM.reportBtn.disabled = false;
+                DOM.reportBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                DOM.reportBtn.innerHTML = `<i class="fa-solid fa-chart-pie"></i> 종합 분석 레포트 보기`;
+            } else {
+                DOM.reportBtn.disabled = true;
+                DOM.reportBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                DOM.reportBtn.innerHTML = `<i class="fa-solid fa-lock"></i> 분석 레포트 (3개 이상 필요)`;
+            }
+
+            if (state.completed.length === 0) {
+                DOM.completedList.innerHTML = `<li class="text-zinc-500 text-sm p-6 bg-zinc-900/30 rounded-xl border border-dashed border-zinc-800 text-center shrink-0">아직 완료한 대화가 없습니다.</li>`;
+                return;
+            }
+            
+            DOM.completedList.innerHTML = [...state.completed].reverse().map((item, reversedIndex) => {
+                const originalIndex = state.completed.length - 1 - reversedIndex;
+                const isActive = state.activeCompletedIndex === originalIndex;
+                const latestAttempt = item.attempts[item.attempts.length - 1];
+                
+                return `
+                <li onclick="viewCompleted(${originalIndex})" class="cursor-pointer p-3 rounded-xl border shrink-0 transition-all ${isActive ? 'bg-zinc-700/80 border-emerald-500 text-zinc-100' : 'bg-zinc-900/50 hover:bg-zinc-800/80 border-zinc-800 hover:border-zinc-600'}">
+                    <div class="flex justify-between items-center mb-1">
+                        <div class="text-[10px] text-emerald-500/70 font-mono">[${latestAttempt.date}] ${item.attempts.length > 1 ? `(${item.attempts.length}회차)` : ''}</div>
+                        <div class="text-[10px] font-bold ${latestAttempt.score >= 80 ? 'text-emerald-400' : 'text-yellow-400'}">${latestAttempt.score}점</div>
+                    </div>
+                    <div class="text-sm leading-relaxed ${isActive ? 'text-zinc-100' : 'text-zinc-400'}">${item.situation}</div>
+                </li>
+                `;
+            }).join('');
+        }
+
+        function closeReport() {
+            DOM.reportState.classList.add('hidden');
+            DOM.reportState.classList.remove('flex');
+            if (state.activeQuestIndex !== null || state.activeCompletedIndex !== null) {
+                DOM.activeState.classList.remove('hidden');
+                DOM.activeState.classList.add('flex');
+            } else {
+                DOM.emptyState.classList.remove('hidden');
+                DOM.emptyState.classList.add('flex');
+            }
+        }
+
+        async function generateReport() {
+            if (state.completed.length < 3) return showAlert("데이터가 부족합니다.");
+            
+            DOM.emptyState.classList.add('hidden');
+            DOM.activeState.classList.add('hidden');
+            DOM.activeState.classList.remove('flex');
+            DOM.reportState.classList.remove('hidden');
+            DOM.reportState.classList.add('flex');
+
+            DOM.reportContent.innerHTML = `<div class="flex flex-col items-center justify-center py-20 text-zinc-500"><span class="loader mb-4"></span><p>그동안의 대화 데이터를 분석 중입니다...</p></div>`;
+
+            const history = state.completed.map(q => {
+                const latest = q.attempts[q.attempts.length - 1];
+                return `- 상황: ${q.situation}\n  나의 답변: ${latest.user_answer}`;
+            }).join('\n');
+            
+            const prompt = `사용자의 일본어 대화 기록이야:\n${history}\n\n이 기록들을 바탕으로 사용자의 일본어 말하기 경향성, 자주 틀리는 문법이나 부족한 어휘, 그리고 앞으로 실력을 어떻게 키우면 좋을지 종합 분석 레포트를 마크다운으로 예쁘고 상세하게 작성해줘.`;
+
+            try {
+                const res = await callGemini(prompt);
+                DOM.reportContent.innerHTML = marked.parse(res);
+            } catch (e) {
+                DOM.reportContent.innerHTML = `<p class="text-red-400">레포트 생성 실패: ${e.message}</p>`;
+            }
+        }
+
+        function selectQuest(index) {
+            state.activeQuestIndex = index;
+            state.activeCompletedIndex = null;
+            renderQuests(); renderCompleted();
+            closeReport();
+            
+            const currentQuest = state.quests[index];
+            
+            DOM.emptyState.classList.add('hidden');
+            DOM.activeState.classList.remove('hidden');
+            DOM.activeState.classList.add('flex');
+            
+            DOM.activeQuestTitle.innerText = currentQuest.situation;
+            DOM.npcDialogue.innerText = currentQuest.npc_dialogue;
+            
+            DOM.scoreBadge.classList.add('hidden');
+            DOM.scoreBadge.classList.remove('flex');
+            DOM.scoreTooltip.classList.add('hidden');
+            
+            DOM.inputLabel.innerHTML = `<i class="fa-solid fa-reply mr-1.5 text-blue-400"></i>당신의 대답은?`;
+            DOM.userAnswer.value = '';
+            DOM.userAnswer.disabled = false;
+            
+            DOM.submitBtn.innerHTML = `<i class="fa-solid fa-paper-plane mb-1"></i>첨삭`;
+            DOM.submitBtn.classList.remove('bg-zinc-600', 'cursor-not-allowed', 'text-zinc-300');
+            DOM.submitBtn.classList.add('bg-blue-600', 'hover:bg-blue-500', 'text-white');
+            DOM.submitBtn.disabled = false;
+            
+            DOM.feedbackPlaceholder.classList.remove('hidden');
+            DOM.feedbackSection.classList.add('hidden');
+            DOM.feedbackSection.classList.remove('flex');
+            switchRightTab('core'); 
+        }
+
+        function viewCompleted(index) {
+            state.activeCompletedIndex = index;
+            state.activeQuestIndex = null; 
+            renderQuests(); renderCompleted();
+            closeReport();
+            
+            const item = state.completed[index];
+            const latestAttempt = item.attempts[item.attempts.length - 1]; 
+            
+            DOM.emptyState.classList.add('hidden');
+            DOM.activeState.classList.remove('hidden');
+            DOM.activeState.classList.add('flex');
+            
+            DOM.activeQuestTitle.innerText = item.situation;
+            DOM.npcDialogue.innerText = item.npc_dialogue;
+            
+            DOM.scoreBadgeText.innerText = `${latestAttempt.score}점`;
+            DOM.scoreCommentText.innerText = latestAttempt.score_comment;
+            
+            if(latestAttempt.score >= 80) {
+                DOM.scoreBadge.className = "flex items-center justify-center bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/50 text-emerald-400 font-bold text-[11px] px-2.5 py-1 rounded-full transition-all cursor-pointer shadow-sm";
+            } else {
+                DOM.scoreBadge.className = "flex items-center justify-center bg-yellow-500/20 hover:bg-yellow-500/30 border border-yellow-500/50 text-yellow-400 font-bold text-[11px] px-2.5 py-1 rounded-full transition-all cursor-pointer shadow-sm";
+            }
+            DOM.scoreBadge.classList.remove('hidden');
+            
+            DOM.inputLabel.innerHTML = `<i class="fa-solid fa-rotate-right text-emerald-400 mr-1.5"></i>다른 대답으로 다시 첨삭받기`;
+            DOM.userAnswer.value = latestAttempt.user_answer;
+            DOM.userAnswer.disabled = false; 
+            
+            DOM.submitBtn.innerHTML = `<i class="fa-solid fa-rotate-right mb-1"></i>재첨삭`;
+            DOM.submitBtn.classList.remove('hidden', 'bg-zinc-600', 'cursor-not-allowed');
+            DOM.submitBtn.classList.add('bg-blue-600', 'hover:bg-blue-500', 'text-white');
+            DOM.submitBtn.disabled = false;
+            
+            DOM.rightContentCore.innerHTML = marked.parse(latestAttempt.core);
+            
+            let detailHTML = marked.parse(latestAttempt.detail);
+            if (item.attempts.length > 1) {
+                let historyHTML = `<div class="history-box"><h4><i class="fa-solid fa-clock-rotate-left mr-2"></i>나의 답변 히스토리</h4>`;
+                item.attempts.slice(0, -1).reverse().forEach((att, revIdx) => {
+                    const realIdx = item.attempts.length - 1 - revIdx;
+                    historyHTML += `
+                    <div class="history-item">
+                        <div class="flex justify-between mb-1">
+                            <span class="text-zinc-500 text-xs font-mono">${realIdx}회차 도전</span>
+                            <span class="text-zinc-500 text-xs font-bold">${att.score}점</span>
+                        </div>
+                        <div class="text-zinc-300">"${att.user_answer}"</div>
+                    </div>`;
+                });
+                historyHTML += `</div>`;
+                detailHTML += historyHTML;
+            }
+            
+            DOM.rightContentDetail.innerHTML = detailHTML;
+            
+            DOM.feedbackPlaceholder.classList.add('hidden');
+            DOM.feedbackSection.classList.remove('hidden');
+            DOM.feedbackSection.classList.add('flex');
+            switchRightTab('core');
+        }
+
+        async function callGemini(prompt) {
+            if (!state.apiKey) throw new Error("API 키가 없습니다.");
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent?key=${state.apiKey}`;
+            const res = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+            });
+            if (!res.ok) { const err = await res.json(); throw new Error(err.error?.message || "API 오류"); }
+            const data = await res.json();
+            return data.candidates[0].content.parts[0].text;
+        }
+
+        async function addCustomQuest() {
+            const inputVal = DOM.customInput.value.trim();
+            if (!inputVal) return showAlert("상황을 입력하세요.");
+            const btn = DOM.customBtn;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i>`;
+            btn.disabled = true;
+
+            const prompt = `사용자가 원하는 대화 상황: "${inputVal}"
+            이 상황에 맞게 상대방 일본인이 건넬 첫 마디 대사(일본어)를 만들어줘. 순수 JSON 객체 형태 {"situation": "${inputVal}", "npc_dialogue": "..."}로 답해. (⚠️경고: npc_dialogue는 반드시 일본어 원문으로만 작성할 것. 한국어 해석 절대 금지)`;
+
+            try {
+                const res = await callGemini(prompt);
+                const customQuest = JSON.parse(res.replace(/```json|```/g, '').trim());
+                state.quests.unshift(customQuest);
+                localStorage.setItem('pending_quests_v15', JSON.stringify(state.quests));
+                DOM.customInput.value = ''; 
+                switchLeftTab('pending');
+                renderQuests();
+                selectQuest(0);
+            } catch (e) {
+                showAlert("생성 실패.");
+            } finally {
+                btn.innerHTML = `<i class="fa-solid fa-plus"></i>`;
+                btn.disabled = false;
+            }
+        }
+
+        async function generateNewQuests() {
+            const btn = DOM.generateBtn;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> 생성 중...`;
+            btn.disabled = true;
+
+            // ★ AI의 한국어 번역 환각 현상을 억제하는 강력한 프롬프트 ★
+            const prompt = `일본에서 가볍게 나누는 스몰토크 상황 10개 생성. 순수 JSON 배열 [{"situation":"상황(한국어)","npc_dialogue":"첫대사"}]로만 답해. 
+            (⚠️경고: npc_dialogue는 반드시 일본어 원문으로만 작성할 것. 한국어 해석 절대 금지)`;
+
+            try {
+                const res = await callGemini(prompt);
+                const newQuests = JSON.parse(res.replace(/```json|```/g, '').trim());
+                state.quests = [...state.quests, ...newQuests];
+                localStorage.setItem('pending_quests_v15', JSON.stringify(state.quests));
+                switchLeftTab('pending');
+                renderQuests();
+            } catch (e) {
+                showAlert("생성 실패: " + e.message);
+            } finally {
+                btn.innerHTML = `<i class="fa-solid fa-bolt"></i> AI 상황 10개 뽑기`;
+                btn.disabled = false;
+            }
+        }
+
+        async function submitAnswer() {
+            if (state.activeQuestIndex === null && state.activeCompletedIndex === null) return;
+            const answer = DOM.userAnswer.value.trim();
+            if (!answer) return showAlert("답변을 입력해주세요!");
+
+            const isRetry = state.activeCompletedIndex !== null;
+            const quest = isRetry ? state.completed[state.activeCompletedIndex] : state.quests[state.activeQuestIndex];
+            const btn = DOM.submitBtn;
+            
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mb-1"></i>채점 중`;
+            btn.classList.remove('bg-blue-600', 'hover:bg-blue-500', 'text-white');
+            btn.classList.add('bg-zinc-600', 'cursor-not-allowed', 'text-zinc-300');
+            btn.disabled = true;
+            DOM.userAnswer.disabled = true;
+
+            const prompt = `
+            상황: ${quest.situation}
+            상대방의 말: ${quest.npc_dialogue}
+            사용자 대답: ${answer}
+            
+            반드시 순수 JSON 객체 형태로만 응답해. 마크다운 코드블록(\`\`\`json)은 빼고 보내.
+            {
+              "score": 점수(숫자만),
+              "score_comment": "점수에 대한 핵심 피드백 1줄",
+              "core": "다채로운 답변 흐름 2~3가지를 반드시 다음 양식에 맞춰 작성해:\\n\\n### 💡 [상황1] ~할 때\\n- **[일본어 문장]**\\n- 뜻: [한국어 뜻]\\n\\n### 💡 [상황2] ~할 때\\n- **[일본어 문장]**\\n- 뜻: [한국어 뜻]",
+              "detail": "반드시 다음 양식에 맞춰 작성해:\\n\\n### 🔍 내 대답 분석\\n- [분석 및 교정 내용 1]\\n- [분석 및 교정 내용 2]\\n\\n### 🗣️ 추가 표현 추천\\n- 캐주얼: **[일본어]** (뜻)\\n- 포멀: **[일본어]** (뜻)"
+            }
+            `;
+
+            try {
+                const res = await callGemini(prompt);
+                const feedbackData = JSON.parse(res.replace(/```json|```/g, '').trim());
+                const today = getTodayStr();
+                
+                const newAttempt = {
+                    user_answer: answer,
+                    score: feedbackData.score,
+                    score_comment: feedbackData.score_comment,
+                    core: feedbackData.core,
+                    detail: feedbackData.detail,
+                    date: today
+                };
+
+                if (isRetry) {
+                    state.completed[state.activeCompletedIndex].attempts.push(newAttempt);
+                } else {
+                    const completedItem = { 
+                        situation: quest.situation, 
+                        npc_dialogue: quest.npc_dialogue,
+                        attempts: [newAttempt]
+                    };
+                    state.completed.push(completedItem);
+                    state.quests.splice(state.activeQuestIndex, 1);
+                    state.activeQuestIndex = null;
+                    state.activeCompletedIndex = state.completed.length - 1;
+                }
+                
+                if (!state.studyDates.includes(today)) {
+                    state.studyDates.push(today);
+                    localStorage.setItem('study_dates', JSON.stringify(state.studyDates));
+                    updateStreak();
+                }
+                
+                localStorage.setItem('pending_quests_v15', JSON.stringify(state.quests));
+                localStorage.setItem('completed_quests_v15', JSON.stringify(state.completed));
+                
+                renderQuests();
+                renderCompleted();
+
+                viewCompleted(state.activeCompletedIndex);
+                
+                DOM.userAnswer.disabled = false;
+                DOM.submitBtn.innerHTML = `<i class="fa-solid fa-rotate-right mb-1"></i>재첨삭`;
+                DOM.submitBtn.classList.remove('bg-zinc-600', 'cursor-not-allowed', 'text-zinc-300');
+                DOM.submitBtn.classList.add('bg-blue-600', 'hover:bg-blue-500', 'text-white');
+                DOM.submitBtn.disabled = false;
+                DOM.inputLabel.innerHTML = `<i class="fa-solid fa-check text-emerald-400 mr-1.5"></i>내가 방금 보낸 답변`;
+
+            } catch (e) {
+                showAlert(`분석 실패: ${e.message}`);
+                btn.innerHTML = `<i class="fa-solid fa-paper-plane mb-1"></i>다시 시도`;
+                btn.classList.remove('bg-zinc-600', 'cursor-not-allowed', 'text-zinc-300');
+                btn.classList.add('bg-blue-600', 'hover:bg-blue-500', 'text-white');
+                btn.disabled = false;
+                DOM.userAnswer.disabled = false;
+            }
+        }
+
+        DOM.customInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') addCustomQuest();
+        });
+
+        window.onload = init;
+    </script>
+</body>
+</html>
