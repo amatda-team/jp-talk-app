@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="単語帳">
-<title>単語帳 - Phase Final (Air Arrows & Refined Header)</title>
+<title>単語帳 - Phase Final (Sleek Tracker & Rescue)</title>
 
 <style>
   body { 
@@ -37,6 +37,9 @@
   .btn-review { background: #fff1f0; color: #ff5252; box-shadow: 0 4px 12px rgba(255, 82, 82, 0.1); }
   .btn-list { background: #eaf4f0; color: #2d8a56; box-shadow: 0 4px 12px rgba(45, 138, 86, 0.1); }
   .badge { background: #ff5252; color: white; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: 800; }
+  
+  /* 🌟 신규: 대시보드 회독 수 뱃지 */
+  .badge-cycle { background: rgba(45, 138, 86, 0.15); color: #2d8a56; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: 800; margin-left: 4px; }
 
   .day-list { display: flex; flex-direction: column; gap: 12px; }
   .day-row {
@@ -114,52 +117,55 @@
     background-color: #F8F9FA; position: relative;
   }
 
-  /* 헤더에서 텍스트 다 빼버리고 아주 심플한 점수판만 중앙에 배치 */
-  .list-header-clean {
-    display: flex; align-items: center; justify-content: center;
-    gap: 6px; font-size: 16px; font-weight: 700; color: #1d1d1f;
+  /* 🌟 신규: 러닝 트래커 (툴팁 프로그레스 바) */
+  .tracker-container {
+    position: relative; width: 100%; max-width: 320px;
+    height: 24px; margin-bottom: 16px; margin-top: -10px;
   }
-  
-  .page-num-wrapper {
-    display: flex; align-items: center; justify-content: center; gap: 6px;
-    font-size: 16px; font-weight: 800;
+  .tracker-fill-wrap {
+    position: absolute; left: 0; top: 0; width: 0%; 
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  
-  /* 확실한 존재감을 주는 테두리 (A안) */
-  .page-num-slot {
-    height: 24px; width: 34px; 
-    display: inline-flex; align-items: center; justify-content: center;
-    overflow: hidden; position: relative; color: #1d1d1f;
-    background: #E2F0A5; border: 2px solid #1d1d1f; border-radius: 8px; /* 네오 브루탈리즘 테두리 */
-    box-shadow: 2px 2px 0px #1d1d1f;
+  .tracker-thumb {
+    text-align: right; font-size: 13px; font-weight: 800; color: #1d1d1f; 
+    padding-right: 4px; padding-bottom: 2px;
   }
-  .page-total { color: #86868b; font-size: 15px; font-weight: 700; }
-  
-  /* 🌟 수정: 화살표 거리를 조금 더 안으로 당김 (max-width 축소: 480px -> 440px) */
+  .tracker-total {
+    position: absolute; right: 0; top: 0; 
+    font-size: 13px; font-weight: 700; color: #b2bec3;
+  }
+  .tracker-line-bg {
+    position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; 
+    background: #e5e5ea; border-radius: 2px;
+  }
+  .tracker-fill {
+    height: 100%; background: #95D03A; /* 영롱한 라임/연두색 */
+    border-radius: 2px; width: 0%; transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* 🌟 수정: 화살표 거리를 좁히고 안쪽으로 댕김 (400px) */
   .floating-nav-wrapper {
     position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    width: 100%; max-width: 440px; 
-    display: flex; justify-content: space-between;
-    pointer-events: none; 
-    z-index: 100;
+    width: 100%; max-width: 400px; 
+    display: flex; justify-content: space-between; pointer-events: none; z-index: 100;
   }
   
-  /* 🌟 수정: 극한의 가벼움을 주는 '라이트 라인 화살표' 디자인 & 불투명도 50% */
+  /* 🌟 수정: 배경 없는 날렵한 겹화살표, 반투명 진회색 */
   .side-nav-btn {
-    pointer-events: auto; 
-    width: 44px; height: 44px; 
-    background: transparent;
-    border: none; 
+    pointer-events: auto; width: 44px; height: 44px; 
+    background: transparent; border: none; 
     display: flex; align-items: center; justify-content: center;
     cursor: pointer; 
-    /* 색상은 진한 검정이되 불투명도를 낮춰 배경에 녹아들게 함 */
-    color: rgba(29, 29, 31, 0.5); 
-    /* 그림자도 연하게 조절 */
-    filter: drop-shadow(2px 2px 0px rgba(29, 29, 31, 0.1));
+    color: rgba(29, 29, 31, 0.35); /* 반투명 먹회색 (튀지 않음) */
     transition: transform 0.1s, color 0.2s;
   }
-  .side-nav-btn:hover { transform: scale(1.1); color: rgba(29, 29, 31, 1); }
-  .side-nav-btn:active { transform: scale(0.9); }
+  /* CSS 트릭: SVG 아이콘을 세로로 길쭉하고 날렵하게 늘림 */
+  .side-nav-btn svg {
+    transform: scale(0.7, 1.4); 
+    transition: transform 0.1s;
+  }
+  .side-nav-btn:hover { color: rgba(29, 29, 31, 0.8); }
+  .side-nav-btn:active svg { transform: scale(0.6, 1.2); }
 
   #list-container {
     width: 100%; max-width: 320px; display: flex; flex-direction: column; 
@@ -196,25 +202,12 @@
   .list-ex-box .ex-ja { font-size: 14px; font-weight: 600; color: #1d1d1f; margin-bottom: 6px; line-height: 1.4; }
   .list-ex-box .ex-ko { font-size: 13px; color: #86868b; }
 
-  /* 글로벌 AI 버튼 */
+  /* 글로벌 AI 버튼 (보라색 포인트 컬러) */
   #global-ai-btn {
     display: none; position: fixed; bottom: calc(24px + env(safe-area-inset-bottom)); right: 24px;
     background: linear-gradient(135deg, #A78BFA, #7C3AED); color: white; border: none; border-radius: 50%;
-    width: 58px; height: 58px; font-size: 26px; box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2); 
+    width: 58px; height: 58px; font-size: 26px; box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3); 
     cursor: pointer; align-items: center; justify-content: center; z-index: 900;
-  }
-
-  /* 숫자 슬롯 애니메이션 */
-  .slide-up-anim { animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-  .slide-down-anim { animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-  
-  @keyframes slideUp {
-    0% { transform: translateY(100%); opacity: 0; }
-    100% { transform: translateY(0); opacity: 1; }
-  }
-  @keyframes slideDown {
-    0% { transform: translateY(-100%); opacity: 0; }
-    100% { transform: translateY(0); opacity: 1; }
   }
 
   /* 커스텀 알림(팝업) 창 */
@@ -230,7 +223,7 @@
     box-shadow: 4px 4px 0px #1d1d1f; animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
   .custom-alert-icon { font-size: 40px; margin-bottom: 12px; }
-  .custom-alert-msg { font-size: 16px; font-weight: 700; color: #1d1d1f; line-height: 1.5; margin-bottom: 24px; word-break: keep-all; white-space: pre-wrap; }
+  .custom-alert-msg { font-size: 15px; font-weight: 700; color: #1d1d1f; line-height: 1.6; margin-bottom: 24px; word-break: keep-all; white-space: pre-wrap; }
   .custom-alert-btn {
     width: 100%; background: #E2F0A5; border: 2px solid #1d1d1f; border-radius: 12px;
     padding: 12px 0; font-size: 16px; font-weight: 800; color: #1d1d1f; cursor: pointer;
@@ -263,11 +256,11 @@
   </div>
 
   <div class="top-actions">
-    <button class="action-btn btn-review" onclick="startStudy('ミスノート')">
-      📝 미스노트 <span class="badge" id="uiReviewCount">0</span>
+    <button class="action-btn btn-review" onclick="startStudy('レスキュー')">
+      🚑 レスキュー <span class="badge" id="uiReviewCount">0</span>
     </button>
     <button class="action-btn btn-list" onclick="startListMode()">
-      📖 단어장
+      📖 単語一覧 <span class="badge-cycle" id="uiDashCycle">1回読</span>
     </button>
   </div>
 
@@ -278,14 +271,14 @@
   <div class="study-header">
     <button class="back-btn" onclick="goHome()">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-      돌아가기
+      戻る
     </button>
     <div class="study-title" id="uiStudyTitle">Day 1</div>
   </div>
 
   <div class="card" id="card" onclick="flipCard()">
-    <div class="word-tag" id="uiTag">#태그</div>
-    <div class="front" id="uiWord">단어</div>
+    <div class="word-tag" id="uiTag">#タグ</div>
+    <div class="front" id="uiWord">単語</div>
     <div class="back">
       <div class="reading" id="uiReading">よみがな</div>
       <div class="meaning" id="uiMeaning">뜻</div>
@@ -297,8 +290,8 @@
   </div>
 
   <div class="buttons">
-    <button class="btn btn-no" onclick="mark(false)">🤔 모름</button>
-    <button class="btn btn-yes" onclick="mark(true)">✅ 앎</button>
+    <button class="btn btn-no" onclick="mark(false)">🤔 分からない</button>
+    <button class="btn btn-yes" onclick="mark(true)">✅ 分かる</button>
   </div>
 </div>
 
@@ -306,28 +299,29 @@
   <div class="study-header">
     <button class="back-btn" onclick="goHome()">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-      돌아가기
+      戻る
     </button>
-    
-    <div class="list-header-clean">
-      <div class="page-num-wrapper">
-        <div class="page-num-slot">
-          <span id="uiListPageNumber">1</span>
-        </div>
-        <span class="page-total" id="uiListTotalPage">/ 57</span>
-      </div>
+    </div>
+
+  <div class="tracker-container">
+    <div class="tracker-fill-wrap" id="uiTrackerFillWrap">
+      <div class="tracker-thumb" id="uiTrackerThumb">1</div>
+    </div>
+    <div class="tracker-total" id="uiTrackerTotal">57</div>
+    <div class="tracker-line-bg">
+      <div class="tracker-fill" id="uiTrackerFill"></div>
     </div>
   </div>
 
   <div class="floating-nav-wrapper">
     <button class="side-nav-btn" onclick="prevListPage()">
-      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M13 17l-5-5 5-5M18 17l-5-5 5-5"/>
       </svg>
     </button>
     <button class="side-nav-btn" onclick="nextListPage()">
-      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M5 12h14M12 5l7 7-7 7"/>
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M11 17l5-5-5-5M6 17l5-5-5-5"/>
       </svg>
     </button>
   </div>
@@ -340,15 +334,15 @@
 <div class="custom-alert-overlay" id="customAlertOverlay">
   <div class="custom-alert-box">
     <div class="custom-alert-icon" id="customAlertIcon">🎉</div>
-    <div class="custom-alert-msg" id="customAlertMsg">메시지 내용</div>
-    <button class="custom-alert-btn" id="customAlertBtn">확인</button>
+    <div class="custom-alert-msg" id="customAlertMsg">メッセージ</div>
+    <button class="custom-alert-btn" id="customAlertBtn">確認</button>
   </div>
 </div>
 
 <div class="ai-modal-overlay" id="aiModal">
   <div class="ai-modal-content">
     <div class="ai-modal-header">
-      <h3 class="ai-modal-title">✨ AI 선생님</h3>
+      <h3 class="ai-modal-title">✨ AI 先生</h3>
       <button class="ai-close-btn" onclick="closeAI()">✕</button>
     </div>
     <div class="ai-modal-body" id="aiResultText"></div>
@@ -389,10 +383,15 @@
     const totalCount = db.length;
     const learnedCount = db.filter(w => userStats[w.id] && userStats[w.id].score === 1).length;
     const percent = totalCount === 0 ? 0 : Math.round((learnedCount / totalCount) * 100);
-    document.getElementById('uiGlobalProgress').innerText = `全体進捗 (전체 진도율): ${learnedCount} / ${totalCount} (${percent}%)`;
+    document.getElementById('uiGlobalProgress').innerText = `全体進捗: ${learnedCount} / ${totalCount} (${percent}%)`;
 
     const reviewCount = db.filter(w => userStats[w.id] && userStats[w.id].score < 0).length;
     document.getElementById('uiReviewCount').innerText = reviewCount;
+    
+    // 🌟 대시보드 뱃지 최신화
+    if(listState && listState.cycle) {
+      document.getElementById('uiDashCycle').innerText = `現在 ${listState.cycle}回読`;
+    }
 
     const dayListContainer = document.getElementById('uiDayList');
     dayListContainer.innerHTML = '';
@@ -443,10 +442,11 @@
       const dayNum = parseInt(mode.replace("Day ", ""));
       const startIndex = (dayNum - 1) * WORDS_PER_DAY;
       filteredList = db.slice(startIndex, startIndex + WORDS_PER_DAY);
-    } else if (mode === "ミスノート") {
+    } else if (mode === "レスキュー") {
       filteredList = db.filter(w => userStats[w.id] && userStats[w.id].score < 0);
       if(filteredList.length === 0) {
-        showCustomAlert("🤨", "틀린 단어가 없습니다!\nDay 학습을 먼저 진행해주세요.", "확인", null);
+        // 🌟 수정: 위트있고 단호한 일본어 팝업 멘트
+        showCustomAlert("😎", "箱が空っぽです！\n復習する単語がありません。サボらずに、まずはDay学習を進めましょう！", "ホームに戻る", null);
         return; 
       }
       filteredList = filteredList.sort(() => 0.5 - Math.random());
@@ -470,8 +470,8 @@
 
   function loadNextCard() {
     if(filteredList.length === 0) {
-      if (currentMode === "ミスノート") {
-        showCustomAlert("🔥", "미스노트를 완벽하게 비웠습니다!", "홈으로 돌아가기", goHome);
+      if (currentMode === "レスキュー") {
+        showCustomAlert("🔥", "レスキューを完全に空にしました！\nよく頑張りました！", "ホームに戻る", goHome);
       } else if (currentMode.startsWith("Day ")) {
         const dayNum = parseInt(currentMode.replace("Day ", ""));
         const startIndex = (dayNum - 1) * WORDS_PER_DAY;
@@ -479,9 +479,9 @@
         let minViews = Math.min(...chunk.map(w => userStats[w.id] ? userStats[w.id].views : 0));
         if(!isFinite(minViews)) minViews = 0;
         
-        showCustomAlert("🎉", `${currentMode} 학습 완료!\n(현재 ${minViews}회독 달성했습니다)`, "홈으로 돌아가기", goHome);
+        showCustomAlert("🎉", `${currentMode} 学習完了！\n(現在 ${minViews}回読 達成)`, "ホームに戻る", goHome);
       } else {
-        showCustomAlert("🎉", "학습이 완료되었습니다!", "홈으로 돌아가기", goHome);
+        showCustomAlert("🎉", "学習が完了しました！", "ホームに戻る", goHome);
       }
       return;
     }
@@ -500,9 +500,9 @@
     document.getElementById('card').classList.remove('flipped');
     
     let displayTag = `#${currentCard.tag}`;
-    if (currentMode === 'ミスノート') {
+    if (currentMode === 'レスキュー') {
       const originalDay = Math.floor(db.indexOf(currentCard) / WORDS_PER_DAY) + 1;
-      displayTag = `#Day ${originalDay} (ミスノート)`;
+      displayTag = `#Day ${originalDay} (レスキュー)`;
     }
     
     document.getElementById('uiTag').innerText = displayTag;
@@ -561,32 +561,27 @@
     document.getElementById('list-view').style.display = 'flex';
     document.getElementById('global-ai-btn').style.display = 'none';
     
-    document.getElementById('uiListTotalPage').innerText = `/ ${Math.ceil(listState.order.length / WORDS_PER_PAGE)}`;
-    renderListPage(null);
+    renderListPage();
   }
 
   function saveListState() {
     localStorage.setItem('noodVocaListState', JSON.stringify(listState));
   }
 
-  function renderListPage(direction) {
+  // 🌟 러닝 트래커가 동작하도록 로직 수정
+  function renderListPage() {
     const container = document.getElementById('list-container');
     container.innerHTML = '';
     
+    const totalPages = Math.ceil(listState.order.length / WORDS_PER_PAGE);
     const currentPage = Math.floor(listState.currentIndex / WORDS_PER_PAGE) + 1;
     
-    const numEl = document.getElementById('uiListPageNumber');
-    numEl.style.animation = 'none'; 
-    numEl.offsetHeight; 
-    numEl.innerText = currentPage;
-    
-    if (direction === 'up') {
-      numEl.classList.remove('slide-down-anim');
-      numEl.classList.add('slide-up-anim');
-    } else if (direction === 'down') {
-      numEl.classList.remove('slide-up-anim');
-      numEl.classList.add('slide-down-anim');
-    }
+    // 트래커 바 업데이트 로직 (퍼센트 계산)
+    const percent = (currentPage / totalPages) * 100;
+    document.getElementById('uiTrackerFill').style.width = `${percent}%`;
+    document.getElementById('uiTrackerFillWrap').style.width = `${percent}%`;
+    document.getElementById('uiTrackerThumb').innerText = currentPage;
+    document.getElementById('uiTrackerTotal').innerText = totalPages;
 
     const pageIds = listState.order.slice(listState.currentIndex, listState.currentIndex + WORDS_PER_PAGE);
     
@@ -600,7 +595,7 @@
       let exHtml = '';
       if(w.exJa && w.exJa !== "-") {
         exHtml = `
-          <div class="ex-toggle-btn" onclick="toggleEx('ex-${w.id}')">💬 문장 보기</div>
+          <div class="ex-toggle-btn" onclick="toggleEx('ex-${w.id}')">💬 例文を見る</div>
           <div class="list-ex-box" id="ex-${w.id}">
             <div class="ex-ja">${w.exJa}</div>
             <div class="ex-ko">${w.exKo}</div>
@@ -631,17 +626,17 @@
 
   function nextListPage() {
     if (listState.currentIndex + WORDS_PER_PAGE >= listState.order.length) {
-      showCustomAlert("🎉", `${listState.cycle}회독 완료!\n단어 순서를 섞어 다음 회독을 시작합니다.`, "확인", () => {
+      showCustomAlert("🎉", `${listState.cycle}回読 完了！\n(単語の順序をシャッフルして次の回読を始めます)`, "確認", () => {
         listState.cycle += 1;
         listState.currentIndex = 0;
         listState.order = listState.order.sort(() => 0.5 - Math.random());
         saveListState();
-        renderListPage('up');
+        renderListPage();
       });
     } else {
       listState.currentIndex += WORDS_PER_PAGE;
       saveListState();
-      renderListPage('up'); 
+      renderListPage(); 
     }
   }
 
@@ -650,7 +645,7 @@
       listState.currentIndex -= WORDS_PER_PAGE;
       if (listState.currentIndex < 0) listState.currentIndex = 0;
       saveListState();
-      renderListPage('down'); 
+      renderListPage(); 
     }
   }
 
@@ -690,12 +685,12 @@
 
     let apiKey = localStorage.getItem('geminiApiKey');
     if (!apiKey) {
-      apiKey = prompt("Google AI Studio에서 받은 Gemini API 키를 입력해주세요.\n(키는 단말기에 안전하게 저장됩니다.)");
+      apiKey = prompt("Google AI Studioから取得した Gemini APIキーを入力してください。\n(キーは端末内に安全に保存されます)");
       if (!apiKey) { closeAI(); return; }
       localStorage.setItem('geminiApiKey', apiKey);
     }
 
-    resultBox.innerHTML = `<p>「${currentCard.word}」에 대해 AI 선생님이 분석 중입니다...</p>`;
+    resultBox.innerHTML = `<p>「${currentCard.word}」についてAI先生が分析中です...</p>`;
     const promptText = `일본어 교육 전문가로서 일본어 단어 「${currentCard.word}」 (뜻: ${currentCard.meaning})에 대해 다음 3가지만 짧고 명확하게 한국어로 설명해.
 1. 1줄 뜻 요약
 2. 실생활 예문 1개 (일본어 원문과 한국어 해석)
@@ -714,9 +709,9 @@
       if (data.error) {
         const errMsg = data.error.message.toLowerCase();
         if (errMsg.includes("high demand") || errMsg.includes("overloaded") || errMsg.includes("quota")) {
-          resultBox.innerHTML = `<p style="color:#E07A5F; font-weight:bold;">현재 Google AI 서버가 혼잡합니다.</p><p>잠시 후 다시 시도해주세요.</p>`;
+          resultBox.innerHTML = `<p style="color:#E07A5F; font-weight:bold;">現在Google AIサーバーが混み合っています。</p><p>少し待ってからもう一度お試しください。</p>`;
         } else {
-          resultBox.innerHTML = `<p>에러가 발생했습니다: ${data.error.message}</p><p>API 키가 틀렸을 가능성이 있습니다.</p>`;
+          resultBox.innerHTML = `<p>エラーが発生しました: ${data.error.message}</p><p>APIキーが間違っている可能性があります。</p>`;
           localStorage.removeItem('geminiApiKey'); 
         }
         return;
@@ -726,7 +721,7 @@
       localStorage.setItem('noodVocaAICache', JSON.stringify(aiCache));
       resultBox.innerHTML = simpleMarkdownToHTML(aiResponse);
     } catch (error) {
-      resultBox.innerHTML = "<p>통신에 실패했습니다. 인터넷 연결을 확인해주세요.</p>";
+      resultBox.innerHTML = "<p>通信に失敗しました。インターネット接続を確認してください。</p>";
     }
   }
 
