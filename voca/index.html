@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="単語帳">
-<title>単語帳 - Phase Final (Side Navigation & Perfect Fit)</title>
+<title>単語帳 - Phase Final (Scoreboard & Custom Alert)</title>
 
 <style>
   body { 
@@ -55,14 +55,14 @@
   .status-new { background: #f1f2f6; color: #a4b0be; }
   .status-ing { background: #e8f5e9; color: #2e7d32; } 
   .status-done { background: #7bed9f; color: #1b5e20; }
-  .day-cycle { font-size: 12px; font-weight: 700; color: #0984e3; background: #e3f2fd; padding: 3px 8px; border-radius: 8px; }
+  /* 🌟 수정: N회독 뱃지 삭제 (깔끔하게) */
 
   .day-progress-bar-bg { width: 100%; height: 6px; background: #f1f2f6; border-radius: 4px; margin-bottom: 6px; overflow: hidden; }
   .day-progress-bar-fill { height: 100%; background: #2ed573; transition: width 0.3s ease; }
   .day-stats { font-size: 12px; color: #86868b; font-weight: 600; }
   .day-icon { color: #b2bec3; font-weight: bold; }
 
-  /* 학습 화면 UI (Day, 오답노트) */
+  /* 학습 화면 UI */
   #study-view {
     display: none; flex-direction: column; align-items: center;
     padding: 0 20px calc(20px + env(safe-area-inset-bottom));
@@ -85,7 +85,7 @@
     display: flex; flex-direction: column; position: relative; cursor: pointer;
   }
   .word-tag { position: absolute; top: 20px; left: 24px; font-size: 12px; font-weight: 700; color: #86868b; }
-  .view-count { position: absolute; top: 20px; right: 24px; font-size: 12px; color: #86868b; font-weight: 600; background: #f5f5f7; padding: 4px 10px; border-radius: 12px;}
+  /* 🌟 수정: 카드에 있던 조회수(n회) 표시 완전 삭제 */
 
   .front { flex: 1; display: flex; align-items: center; justify-content: center; font-size: 42px; font-weight: 700; color: #1d1d1f; text-align: center; word-break: keep-all; margin-top: 30px; margin-bottom: 10px;}
   .back { display: none; text-align: center; width: 100%; animation: fadeIn 0.3s ease; }
@@ -110,28 +110,17 @@
   /* 단어장(一覧) 화면 레이아웃 */
   #list-view {
     display: none; flex-direction: column; align-items: center;
-    /* 높이를 화면에 딱 맞춤 */
     height: 100vh; overflow-y: auto;
     padding: 0 20px calc(20px + env(safe-area-inset-bottom));
     animation: fadeIn 0.3s ease; width: 100%; box-sizing: border-box;
-    background-color: #F8F9FA; 
-    position: relative;
+    background-color: #F8F9FA; position: relative;
   }
   
-  /* 🌟 좌우 양옆에 공중부양하는 네비게이션 버튼 */
   .side-nav-btn {
-    position: fixed;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 44px; height: 44px;
-    background: rgba(255, 255, 255, 0.9); /* 반투명 배경 */
-    border: 2px solid #1d1d1f;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 2px 2px 0px #1d1d1f;
-    z-index: 100;
-    cursor: pointer;
-    color: #1d1d1f;
+    position: fixed; top: 50%; transform: translateY(-50%);
+    width: 44px; height: 44px; background: rgba(255, 255, 255, 0.9); 
+    border: 2px solid #1d1d1f; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    box-shadow: 2px 2px 0px #1d1d1f; z-index: 100; cursor: pointer; color: #1d1d1f;
     transition: transform 0.1s, background 0.2s;
   }
   .side-nav-btn:active { background: #e2e4eb; transform: translateY(-50%) scale(0.95); }
@@ -139,56 +128,35 @@
   .side-nav-btn.right { right: 8px; }
 
   #list-container {
-    width: 100%; max-width: 320px; /* 화살표랑 겹치지 않게 살짝 슬림하게 */
-    display: flex; flex-direction: column; 
-    gap: 12px; 
-    margin-bottom: 20px;
+    width: 100%; max-width: 320px; display: flex; flex-direction: column; 
+    gap: 12px; margin-bottom: 20px;
   }
   
   .list-item {
-    background: #ffffff;
-    border: 2px solid #1d1d1f; 
-    border-radius: 12px;
-    padding: 12px 16px; 
-    box-shadow: 2px 2px 0px #1d1d1f;
+    background: #ffffff; border: 2px solid #1d1d1f; border-radius: 12px;
+    padding: 12px 16px; box-shadow: 2px 2px 0px #1d1d1f;
   }
   
   .list-header-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;}
   .list-word { font-size: 20px; font-weight: 700; color: #1d1d1f; letter-spacing: 0; }
   .list-reading { font-size: 13px; color: #86868b; font-weight: 600; }
-  
   .list-meaning-wrapper { margin-bottom: 4px; }
   
   .meaning-blind {
-    display: inline-block;
-    background-color: #1d1d1f; 
-    color: #1d1d1f; 
-    border-radius: 4px;
-    padding: 2px 6px; 
-    font-size: 15px;
-    font-weight: 700;
-    transition: all 0.2s ease;
-    cursor: pointer;
+    display: inline-block; background-color: #1d1d1f; color: #1d1d1f; border-radius: 4px;
+    padding: 2px 6px; font-size: 15px; font-weight: 700; transition: all 0.2s ease; cursor: pointer;
   }
-  .meaning-blind.revealed {
-    background-color: #E2F0A5; 
-    color: #1d1d1f; 
-  }
+  .meaning-blind.revealed { background-color: #E2F0A5; color: #1d1d1f; }
 
   .ex-toggle-btn {
-    display: inline-block;
-    font-size: 12px; font-weight: 700; color: #86868b;
-    background: #f1f2f6; padding: 4px 10px; border-radius: 8px;
-    cursor: pointer; transition: background 0.1s;
-    margin-top: 4px;
+    display: inline-block; font-size: 12px; font-weight: 700; color: #86868b;
+    background: #f1f2f6; padding: 4px 10px; border-radius: 8px; cursor: pointer; transition: background 0.1s; margin-top: 4px;
   }
   .ex-toggle-btn:active { background: #e2e4eb; }
 
   .list-ex-box {
-    margin-top: 10px; padding-top: 10px; 
-    border-top: 1px dashed #e5e5ea;
-    display: none; 
-    animation: fadeIn 0.2s ease;
+    margin-top: 10px; padding-top: 10px; border-top: 1px dashed #e5e5ea;
+    display: none; animation: fadeIn 0.2s ease;
   }
   .list-ex-box.expanded { display: block; }
   .list-ex-box .ex-ja { font-size: 14px; font-weight: 600; color: #1d1d1f; margin-bottom: 6px; line-height: 1.4; }
@@ -196,30 +164,76 @@
 
   /* 글로벌 AI 버튼 */
   #global-ai-btn {
-    display: none; 
-    position: fixed; bottom: calc(24px + env(safe-area-inset-bottom)); right: 24px;
+    display: none; position: fixed; bottom: calc(24px + env(safe-area-inset-bottom)); right: 24px;
     background: linear-gradient(135deg, #A78BFA, #7C3AED); color: white; border: none; border-radius: 50%;
     width: 58px; height: 58px; font-size: 26px; box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2); 
     cursor: pointer; align-items: center; justify-content: center; z-index: 900;
   }
 
-  /* AI 팝업창 UI */
-  .ai-modal-overlay {
+  /* 🌟 신규: 스코어보드(점수판) 애니메이션 및 디자인 */
+  .scoreboard-ui {
+    display: flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 800; color: #1d1d1f;
+  }
+  .score-cycle { color: #86868b; font-size: 14px; }
+  .score-box {
+    background: #E2F0A5; /* 쨍한 형광 연두색 */
+    border: 2px solid #1d1d1f; border-radius: 8px;
+    padding: 2px 10px; display: flex; align-items: center;
+    box-shadow: 2px 2px 0px #1d1d1f;
+    overflow: hidden; /* 영역 밖으로 나가는 숫자 숨김 */
+    height: 22px; position: relative;
+  }
+  .score-number {
+    display: inline-block;
+  }
+  /* 슬롯머신 돌아가는 애니메이션 */
+  .slide-up-anim { animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+  .slide-down-anim { animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+  
+  @keyframes slideUp {
+    0% { transform: translateY(100%); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+  @keyframes slideDown {
+    0% { transform: translateY(-100%); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+
+  /* 🌟 신규: 커스텀 알림(모달) 팝업창 UI (기본 alert 대체) */
+  .custom-alert-overlay {
     display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.4); z-index: 999; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; backdrop-filter: blur(4px);
+    background: rgba(0, 0, 0, 0.5); z-index: 9999; 
+    align-items: center; justify-content: center; padding: 20px; box-sizing: border-box;
+    backdrop-filter: blur(2px);
+  }
+  .custom-alert-box {
+    background: #ffffff; border: 3px solid #1d1d1f; border-radius: 16px;
+    padding: 30px 24px; text-align: center; max-width: 300px; width: 100%;
+    box-shadow: 4px 4px 0px #1d1d1f; animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  .custom-alert-icon { font-size: 40px; margin-bottom: 12px; }
+  .custom-alert-msg { font-size: 16px; font-weight: 700; color: #1d1d1f; line-height: 1.5; margin-bottom: 24px; word-break: keep-all; }
+  .custom-alert-btn {
+    width: 100%; background: #E2F0A5; border: 2px solid #1d1d1f; border-radius: 12px;
+    padding: 12px 0; font-size: 16px; font-weight: 800; color: #1d1d1f; cursor: pointer;
+    box-shadow: 2px 2px 0px #1d1d1f; transition: transform 0.1s;
+  }
+  .custom-alert-btn:active { transform: translate(1px, 1px); box-shadow: 1px 1px 0px #1d1d1f; }
+  
+  @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* AI 팝업창 */
+  .ai-modal-overlay {
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); z-index: 999; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; backdrop-filter: blur(4px);
   }
   .ai-modal-content {
-    background: white; width: 100%; max-width: 350px; max-height: 80vh;
-    border-radius: 24px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); display: flex; flex-direction: column;
+    background: white; width: 100%; max-width: 350px; max-height: 80vh; border-radius: 24px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); display: flex; flex-direction: column;
   }
   .ai-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
   .ai-modal-title { font-size: 18px; font-weight: 800; color: #7C3AED; margin: 0; display: flex; align-items: center; gap: 6px;}
   .ai-close-btn { background: #f1f2f6; border: none; border-radius: 50%; width: 30px; height: 30px; font-weight: bold; color: #2d3436; cursor: pointer; display: flex; align-items: center; justify-content: center;}
   .ai-modal-body { flex: 1; overflow-y: auto; font-size: 15px; line-height: 1.6; color: #424245; }
-  .ai-modal-body p { margin-top: 0; margin-bottom: 12px; }
-  .ai-modal-body strong { color: #7C3AED; background-color: #f3e8ff; padding: 0 4px; border-radius: 4px; }
-
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 </head>
 <body>
@@ -253,7 +267,6 @@
 
   <div class="card" id="card" onclick="flipCard()">
     <div class="word-tag" id="uiTag">#タグ</div>
-    <div class="view-count" id="uiViews">0 回</div>
     <div class="front" id="uiWord">単語</div>
     <div class="back">
       <div class="reading" id="uiReading">よみがな</div>
@@ -277,7 +290,13 @@
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
       戻る
     </button>
-    <div class="study-title" id="uiListTitle">単語一覧 (1回読)</div>
+    <div class="scoreboard-ui">
+      <span class="score-cycle" id="uiListCycle">1回読 🚩</span>
+      <div class="score-box">
+        <span class="score-number" id="uiListPageNumber">1</span>
+      </div>
+      <span id="uiListTotalPage">/ 57</span>
+    </div>
   </div>
 
   <button class="side-nav-btn left" onclick="prevListPage()">
@@ -291,6 +310,14 @@
 </div>
 
 <button id="global-ai-btn" onclick="askAI()">✨</button>
+
+<div class="custom-alert-overlay" id="customAlertOverlay">
+  <div class="custom-alert-box">
+    <div class="custom-alert-icon" id="customAlertIcon">🎉</div>
+    <div class="custom-alert-msg" id="customAlertMsg">메시지 내용</div>
+    <button class="custom-alert-btn" id="customAlertBtn">확인</button>
+  </div>
+</div>
 
 <div class="ai-modal-overlay" id="aiModal">
   <div class="ai-modal-content">
@@ -315,6 +342,19 @@
   let aiCache = JSON.parse(localStorage.getItem('noodVocaAICache')) || {};
   let listState = JSON.parse(localStorage.getItem('noodVocaListState')) || null;
 
+  // 🌟 신규: 예쁜 커스텀 알림창 띄우기 함수
+  function showCustomAlert(icon, message, btnText, callback) {
+    document.getElementById('customAlertIcon').innerText = icon;
+    document.getElementById('customAlertMsg').innerText = message;
+    document.getElementById('customAlertBtn').innerText = btnText;
+    document.getElementById('customAlertOverlay').style.display = 'flex';
+    
+    document.getElementById('customAlertBtn').onclick = function() {
+      document.getElementById('customAlertOverlay').style.display = 'none';
+      if(callback) callback();
+    };
+  }
+
   function init() {
     renderDashboard();
     initKeyboardNavigation();
@@ -338,23 +378,17 @@
       const chunk = db.slice(startIndex, startIndex + WORDS_PER_DAY);
       
       let learnedInChunk = 0;
-      let minViews = Infinity; 
-
       chunk.forEach(w => {
-        const stat = userStats[w.id] || { views: 0, score: 0 };
+        const stat = userStats[w.id] || { score: 0 };
         if (stat.score === 1) learnedInChunk++; 
-        if (stat.views < minViews) minViews = stat.views;
       });
       
-      if (chunk.length === 0 || minViews === Infinity) minViews = 0;
       const chunkPercent = Math.round((learnedInChunk / chunk.length) * 100);
       
       let statusBadge = '';
       if (chunkPercent === 0) statusBadge = '<span class="day-status status-new">未学習</span>';
       else if (chunkPercent < 100) statusBadge = '<span class="day-status status-ing">進行中</span>';
       else statusBadge = '<span class="day-status status-done">完了</span>';
-
-      let cycleBadge = minViews > 0 ? `<span class="day-cycle">🔄 ${minViews}回読</span>` : '';
 
       const row = document.createElement('div');
       row.className = 'day-row';
@@ -363,7 +397,6 @@
           <div class="day-title-area">
             <span class="day-title">Day ${i}</span>
             ${statusBadge}
-            ${cycleBadge}
           </div>
           <div class="day-progress-bar-bg">
             <div class="day-progress-bar-fill" style="width: ${chunkPercent}%"></div>
@@ -388,7 +421,7 @@
     } else if (mode === "ミスノート") {
       filteredList = db.filter(w => userStats[w.id] && userStats[w.id].score < 0);
       if(filteredList.length === 0) {
-        alert("素晴らしい！現在復習する単語がありません。(현재 오답노트가 비어있습니다!)");
+        showCustomAlert("👏", "素晴らしい！現在復習する単語がありません。\n(현재 오답노트가 비어있습니다)", "ホームに戻る", null);
         return; 
       }
       filteredList = filteredList.sort(() => 0.5 - Math.random());
@@ -397,8 +430,6 @@
     document.getElementById('dashboard-view').style.display = 'none';
     document.getElementById('list-view').style.display = 'none';
     document.getElementById('study-view').style.display = 'flex';
-    
-    // Day 학습 모드일 때만 AI 버튼 보이기
     document.getElementById('global-ai-btn').style.display = 'flex';
     
     loadNextCard();
@@ -408,16 +439,13 @@
     document.getElementById('study-view').style.display = 'none';
     document.getElementById('list-view').style.display = 'none';
     document.getElementById('dashboard-view').style.display = 'block';
-    
     document.getElementById('global-ai-btn').style.display = 'none';
-    
     renderDashboard(); 
   }
 
   function loadNextCard() {
     if(filteredList.length === 0) {
-      alert("このセクションの学習が完了しました！(완료되었습니다!)");
-      goHome();
+      showCustomAlert("🎯", "このセクションの学習が完了しました！\n(이 섹션의 학습을 완료했습니다)", "ホームに戻る", goHome);
       return;
     }
     let nextCard;
@@ -429,7 +457,7 @@
     }
     
     currentCard = nextCard;
-    if(!userStats[currentCard.id]) userStats[currentCard.id] = { views: 0, score: 0 };
+    if(!userStats[currentCard.id]) userStats[currentCard.id] = { score: 0 };
     
     document.getElementById('card').classList.remove('flipped');
     
@@ -440,7 +468,6 @@
     }
     
     document.getElementById('uiTag').innerText = displayTag;
-    document.getElementById('uiViews').innerText = `${userStats[currentCard.id].views} 回`;
     document.getElementById('uiWord').innerText = currentCard.word;
     document.getElementById('uiReading').innerText = currentCard.reading;
     document.getElementById('uiMeaning').innerText = currentCard.meaning;
@@ -458,14 +485,11 @@
     const card = document.getElementById('card');
     if (!card.classList.contains('flipped')) {
       card.classList.add('flipped');
-      userStats[currentCard.id].views += 1;
-      document.getElementById('uiViews').innerText = `${userStats[currentCard.id].views} 回`;
-      saveStats();
     }
   }
 
   function mark(isKnown) {
-    let stat = userStats[currentCard.id] || { views: 0, score: 0 };
+    let stat = userStats[currentCard.id] || { score: 0 };
     if(isKnown) {
       if (stat.score === -2) stat.score = -1; 
       else if (stat.score === -1) stat.score = 1;  
@@ -489,7 +513,6 @@
   // ==========================================
   // 단어장(一覧) 로직
   // ==========================================
-
   function startListMode() {
     if (!listState || !listState.order || listState.order.length !== db.length) {
       listState = { cycle: 1, order: db.map(w => w.id), currentIndex: 0 };
@@ -498,26 +521,39 @@
     document.getElementById('dashboard-view').style.display = 'none';
     document.getElementById('study-view').style.display = 'none';
     document.getElementById('list-view').style.display = 'flex';
-    
-    // 단어장에서는 AI 버튼 숨김 요청 반영
     document.getElementById('global-ai-btn').style.display = 'none';
     
-    renderListPage();
+    // 초기 렌더링 시에는 애니메이션 없이 텍스트 설정
+    document.getElementById('uiListCycle').innerText = `${listState.cycle}回読 🚩`;
+    document.getElementById('uiListTotalPage').innerText = `/ ${Math.ceil(listState.order.length / WORDS_PER_PAGE)}`;
+    
+    renderListPage(null);
   }
 
   function saveListState() {
     localStorage.setItem('noodVocaListState', JSON.stringify(listState));
   }
 
-  function renderListPage() {
+  // direction: 'up' (next) or 'down' (prev)
+  function renderListPage(direction) {
     const container = document.getElementById('list-container');
     container.innerHTML = '';
     
-    const totalPages = Math.ceil(listState.order.length / WORDS_PER_PAGE);
     const currentPage = Math.floor(listState.currentIndex / WORDS_PER_PAGE) + 1;
     
-    // 🌟 상단 제목줄에 페이지 번호 통합
-    document.getElementById('uiListTitle').innerText = `単語一覧 (${listState.cycle}回読) - ${currentPage}/${totalPages}`;
+    // 🌟 스코어보드 숫자 애니메이션 적용
+    const numEl = document.getElementById('uiListPageNumber');
+    numEl.style.animation = 'none'; 
+    numEl.offsetHeight; // 리플로우 강제 발생 (애니메이션 재시작을 위해)
+    numEl.innerText = currentPage;
+    
+    if (direction === 'up') {
+      numEl.classList.remove('slide-down-anim');
+      numEl.classList.add('slide-up-anim');
+    } else if (direction === 'down') {
+      numEl.classList.remove('slide-up-anim');
+      numEl.classList.add('slide-down-anim');
+    }
 
     const pageIds = listState.order.slice(listState.currentIndex, listState.currentIndex + WORDS_PER_PAGE);
     
@@ -552,28 +588,29 @@
       container.appendChild(itemDiv);
     });
     
-    // 최상단으로 스크롤 리셋
     document.getElementById('list-view').scrollTop = 0;
   }
 
   window.toggleEx = function(exId) {
     const exBox = document.getElementById(exId);
-    if(exBox) {
-      exBox.classList.toggle('expanded');
-    }
+    if(exBox) exBox.classList.toggle('expanded');
   }
 
   function nextListPage() {
     if (listState.currentIndex + WORDS_PER_PAGE >= listState.order.length) {
-      alert(`🎉 ${listState.cycle}회독 완료!\n단어 순서를 무작위로 섞어 다음 회독을 시작합니다.`);
-      listState.cycle += 1;
-      listState.currentIndex = 0;
-      listState.order = listState.order.sort(() => 0.5 - Math.random());
+      showCustomAlert("🎉", `${listState.cycle}回読 完了！\n(단어 순서를 섞어 다음 회독을 시작합니다)`, "確認", () => {
+        listState.cycle += 1;
+        listState.currentIndex = 0;
+        listState.order = listState.order.sort(() => 0.5 - Math.random());
+        document.getElementById('uiListCycle').innerText = `${listState.cycle}回読 🚩`;
+        saveListState();
+        renderListPage('up');
+      });
     } else {
       listState.currentIndex += WORDS_PER_PAGE;
+      saveListState();
+      renderListPage('up'); // 숫자가 위로 롤링
     }
-    saveListState();
-    renderListPage();
   }
 
   function prevListPage() {
@@ -581,16 +618,14 @@
       listState.currentIndex -= WORDS_PER_PAGE;
       if (listState.currentIndex < 0) listState.currentIndex = 0;
       saveListState();
-      renderListPage();
+      renderListPage('down'); // 숫자가 아래로 롤링
     }
   }
 
-  // ==========================================
-  // PC 방향키 조작 로직 (안내 문구는 삭제됨)
-  // ==========================================
   function initKeyboardNavigation() {
     document.addEventListener('keydown', function(event) {
       if (document.getElementById('aiModal').style.display === 'flex') return;
+      if (document.getElementById('customAlertOverlay').style.display === 'flex') return;
 
       if (document.getElementById('list-view').style.display === 'flex') {
         if (event.key === 'ArrowRight') nextListPage();
