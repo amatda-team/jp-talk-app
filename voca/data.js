@@ -1,500 +1,2549 @@
 const db = [
-  { id: 1, word: "聞(き)取る", reading: "ききとる", meaning: "알아듣다, 청취하다", tag: "日常", exJa: "英語を聞き取る力", exKo: "영어를 알아듣는 능력" },
-  { id: 2, word: "見つける", reading: "みつける", meaning: "찾(아내)다, 낯익다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 3, word: "情緒的", reading: "じょうちょてき", meaning: "정서적", tag: "その他", exJa: "-", exKo: "-" },
-  { id: 4, word: "情緒", reading: "じょうちょ", meaning: "정서, (어떤 감정을 일으키는) 분위기", tag: "その他", exJa: "-", exKo: "-" },
-  { id: 5, word: "誠意", reading: "せいい", meaning: "성의", tag: "ビジネス", exJa: "-", exKo: "-" },
-  { id: 6, word: "代り代り", reading: "かわりがわり", meaning: "차례로, 번갈아", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 7, word: "交互", reading: "こうご", meaning: "서로 번갈아 함, 교호", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 8, word: "腹黒", reading: "はらぐろ", meaning: "속이 검음, 음험함", tag: "スラング", exJa: "-", exKo: "-" },
-  { id: 9, word: "相応しい", reading: "ふさわしい", meaning: "어울리다, 걸맞다", tag: "日常", exJa: "年齢に相応しい", exKo: "나이에 어울리다" },
-  { id: 10, word: "打ち上げる", reading: "ぶちあげる", meaning: "큰소리 치다, 호언장담하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 11, word: "決め台詞", reading: "きめぜりふ", meaning: "결정적인 대사", tag: "スラング", exJa: "-", exKo: "-" },
-  { id: 12, word: "響く", reading: "ひびく", meaning: "울리다, 울려 퍼지다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 13, word: "癇癪を起す", reading: "かんしゃくをおこす", meaning: "짜증을 내다, 발작을 일으키다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 14, word: "いらいらする", reading: "いらいらする", meaning: "짜증나다, 초조해하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 15, word: "重力", reading: "じゅうりょく", meaning: "중력", tag: "社会", exJa: "-", exKo: "-" },
-  { id: 16, word: "ちらつく", reading: "ちらつく", meaning: "어른거리다, 가물거리다", tag: "日常", exJa: "彼女の面影が目先にちらつく", exKo: "그녀의 모습이 눈앞에 어른거린다" },
-  { id: 17, word: "どら息子", reading: "どらむすこ", meaning: "방탕한 자식, 건달 자식", tag: "スラング", exJa: "-", exKo: "-" },
-  { id: 18, word: "眩しい", reading: "まぶしい", meaning: "눈부시다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 19, word: "ドン引き", reading: "どんびき", meaning: "분위기가 갑자기 깨짐, 썰렁해짐", tag: "スラング", exJa: "-", exKo: "-" },
-  { id: 20, word: "グロい", reading: "ぐろい", meaning: "그로테스크하다, 기괴하다", tag: "スラング", exJa: "-", exKo: "-" },
-  { id: 21, word: "数をこなす", reading: "かずをこなす", meaning: "많은 것을 처리하다, 많은 경험을 쌓다", tag: "ビジネス", exJa: "-", exKo: "-" },
-  { id: 22, word: "彷徨", reading: "ほうこう", meaning: "방황, 헤맴", tag: "その他", exJa: "-", exKo: "-" },
-  { id: 23, word: "ゆで卵", reading: "ゆでたまご", meaning: "삶은 달걀", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 24, word: "送信", reading: "そうしん", meaning: "송신", tag: "ビジネス", exJa: "-", exKo: "-" },
-  { id: 25, word: "率いる", reading: "ひきいる", meaning: "거느리다, 인솔하다", tag: "ビジネス", exJa: "-", exKo: "-" },
-  { id: 26, word: "はい上がる", reading: "はいあがる", meaning: "기어오르다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 27, word: "開き直る", reading: "ひらきなおる", meaning: "정색하고 나서다, 갑자기 강하게 나오다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 28, word: "開く", reading: "ひらく", meaning: "(닫혔던 것이) 열리다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 29, word: "早々に", reading: "そうそうに", meaning: "일찌감치", tag: "日常", exJa: "早々に売り切れる", exKo: "일찌감치 매진되다" },
-  { id: 30, word: "度胸", reading: "どきょう", meaning: "담력, 배짱", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 31, word: "融通が利く", reading: "ゆうずうがきく", meaning: "융통성이 있다", tag: "ビジネス", exJa: "-", exKo: "-" },
-  { id: 32, word: "定番", reading: "ていばん", meaning: "유행을 타지 않는 기본형 상품", tag: "ビジネス", exJa: "飽きのこない定番の服", exKo: "질리지 않는 기본형의 옷" },
-  { id: 33, word: "裾上げ", reading: "すそあげ", meaning: "밑단을 줄이는 것", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 34, word: "鴨", reading: "かも", meaning: "봉 (이용하기 좋은 사람)", tag: "スラング", exJa: "-", exKo: "-" },
-  { id: 35, word: "大人しい", reading: "おとなしい", meaning: "얌전하다, 온순하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 36, word: "すれ違う", reading: "すれちがう", meaning: "엇갈리다, 스치듯 지나가다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 37, word: "落ちぶれる", reading: "おちぶれる", meaning: "영락하다, 보잘것없이 되다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 38, word: "成し遂げる", reading: "なしとげる", meaning: "끝까지 해내다, 완수하다", tag: "ビジネス", exJa: "-", exKo: "-" },
-  { id: 39, word: "見受ける", reading: "みうける", meaning: "보고 판단하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 40, word: "乾く", reading: "かわく", meaning: "마르다, 건조하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 41, word: "指さす", reading: "ゆびさす", meaning: "손가락질하다, 가리키다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 42, word: "指示", reading: "しじ", meaning: "지시", tag: "ビジネス", exJa: "-", exKo: "-" },
-  { id: 43, word: "名札", reading: "なふだ", meaning: "명찰", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 44, word: "復唱", reading: "ふくしょう", meaning: "복창", tag: "ビジネス", exJa: "-", exKo: "-" },
-  { id: 45, word: "思いやり", reading: "おもいやり", meaning: "배려, 동정심", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 46, word: "整理整頓", reading: "せいりせいとん", meaning: "정리정돈", tag: "ビジネス", exJa: "-", exKo: "-" },
-  { id: 47, word: "飛び交う", reading: "とびかう", meaning: "어지럽게 날다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 48, word: "心がける", reading: "こころがける", meaning: "명심하다, 유의하다", tag: "ビジネス", exJa: "震災関連死を減らすよう心がける", exKo: "지진 재해 관련사를 줄이기 위해 노력하다" },
-  { id: 49, word: "働かす", reading: "はたらかす", meaning: "일을 시키다, 활동시키다", tag: "ビジネス", exJa: "-", exKo: "-" },
-  { id: 50, word: "巡らす", reading: "めぐらす", meaning: "돌리다, 궁리하다", tag: "ビジネス", exJa: "計略をめぐらす", exKo: "계교를 꾸미다" },
-  { id: 51, word: "弄する", reading: "ろうする", meaning: "그릇된 방법을 쓰다, 농하다", tag: "その他", exJa: "-", exKo: "-" },
-  { id: 52, word: "小細工", reading: "こざいく", meaning: "잔재주, 잔꾀", tag: "ビジネス", exJa: "小細工に訴える", exKo: "잔재주에 의지하다" },
-  { id: 53, word: "狡", reading: "ずる", meaning: "교활함, 꾀부림", tag: "スラング", exJa: "-", exKo: "-" },
-  { id: 54, word: "頭痛", reading: "ずつう", meaning: "두통, 걱정", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 55, word: "肺", reading: "はい", meaning: "폐", tag: "社会", exJa: "-", exKo: "-" },
-  { id: 56, word: "下見", reading: "したみ", meaning: "예비 조사, 사전 점검", tag: "ビジネス", exJa: "会場を下見する", exKo: "회장을 사전 점검하다" },
-  { id: 57, word: "掃く", reading: "はく", meaning: "쓸다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 58, word: "到底", reading: "とうてい", meaning: "도저히, 아무리 하여도", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 59, word: "歪み形", reading: "ゆがみなり", meaning: "비뚤어진 모양", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 60, word: "歪み", reading: "ひずみ", meaning: "비뚤어짐, 일그러짐", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 61, word: "生臭い", reading: "なまぐさい", meaning: "비린내가 나다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 62, word: "目をつぶる", reading: "めをつぶる", meaning: "눈감다, 묵인하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 63, word: "おせっかいをやく", reading: "おせっかいをやく", meaning: "쓸데없이 참견하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 64, word: "うざい", reading: "うざい", meaning: "귀찮다, 짜증스럽다", tag: "スラング", exJa: "-", exKo: "-" },
-  { id: 65, word: "垣間見る", reading: "かいまみる", meaning: "틈으로 살짝 엿보다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 66, word: "血迷う", reading: "ちまよう", meaning: "너무 흥분해서 이성을 잃다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 67, word: "職質", reading: "しょくしつ", meaning: "불심검문", tag: "社会", exJa: "-", exKo: "-" },
-  { id: 68, word: "空振り", reading: "からぶり", meaning: "헛스윙, 헛일이 됨", tag: "日常", exJa: "空振りの三振", exKo: "헛스윙 삼진" },
-  { id: 69, word: "借りを返す", reading: "かりをかえす", meaning: "빚을 갚다, 설욕하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 70, word: "煽り", reading: "あおり", 단어: "선동, 강한 충격", tag: "社会", exJa: "煽りに乗る", exKo: "선동에 넘어가다" },
-  { id: 71, word: "差し向き", reading: "さしむき", meaning: "우선, 당장", tag: "ビジネス", exJa: "差し向き必要はない", exKo: "당장 필요는 없다" },
-  { id: 72, word: "居た堪れない", reading: "いたたまれない", meaning: "더 이상 배겨 낼 수 없다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 73, word: "蟬", reading: "せみ", meaning: "매미", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 74, word: "パンチラ", reading: "ぱんちら", meaning: "속옷이 흘끗 보이는 것", tag: "スラング", exJa: "-", exKo: "-" },
-  { id: 75, word: "甘酸っぱい", reading: "あまずっぱい", meaning: "달콤새콤하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 76, word: "片思い", reading: "かたおもい", meaning: "짝사랑", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 77, word: "御粧し", reading: "おめかし", meaning: "모양을 냄, 멋을 부림", tag: "日常", exJa: "おめかししてどこへ行くの？", exKo: "예쁘게 꾸미고 어디 가니?" },
-  { id: 78, word: "均衡", reading: "きんこう", meaning: "균형", tag: "ビジネス", exJa: "-", exKo: "-" },
-  { id: 79, word: "乳酸菌", reading: "にゅうさんきん", meaning: "유산균", tag: "社会", exJa: "-", exKo: "-" },
-  { id: 80, word: "一途", reading: "いっと", meaning: "한 가지 길, 같은 방침", tag: "その他", exJa: "-", exKo: "-" },
-  { id: 81, word: "次長", reading: "じちょう", meaning: "차장", tag: "ビジネス", exJa: "-", exKo: "-" },
-  { id: 82, word: "装う", reading: "よそおう", meaning: "치장하다, 가장하다", tag: "日常", exJa: "何気ない風を装って尋ねた", exKo: "아무렇지도 않은 척하며 물었다" },
-  { id: 83, word: "何気ない", reading: "なにげない", meaning: "아무렇지도 않다, 태연하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 84, word: "振り向く", reading: "ふりむく", meaning: "뒤돌아보다", tag: "日常", exJa: "何気なくふりむく", exKo: "무심코 뒤를 돌아보다" },
-  { id: 85, word: "書抜く", reading: "かきぬく", meaning: "일부를 뽑아 쓰다", tag: "ビジネス", exJa: "-", exKo: "-" },
-  { id: 86, word: "塩っぱい", reading: "しょっぱい", meaning: "짜다, 인색하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 87, word: "終焉", reading: "しゅうえん", meaning: "종언, 임종", tag: "その他", exJa: "-", exKo: "-" },
-  { id: 88, word: "有り難み", reading: "ありがたみ", meaning: "고마움", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 89, word: "決める", reading: "きめる", meaning: "정하다, 결정하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 90, word: "決まる", reading: "きまる", meaning: "정해지다, 결정되다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 91, word: "潜在能力", reading: "せんざいのうりょく", meaning: "잠재 능력", tag: "ビジネス", exJa: "潜在能力を最大限に発揮する", exKo: "잠재 능력을 최대한 발휘하다" },
-  { id: 92, word: "十中八九", reading: "じゅうちゅうはっく", meaning: "십중팔구", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 93, word: "春雨", reading: "はるさめ", meaning: "봄비, 당면", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 94, word: "銃", reading: "じゅう", meaning: "총", tag: "社会", exJa: "-", exKo: "-" },
-  { id: 95, word: "辛口", reading: "からくち", meaning: "매운맛, 신랄함", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 96, word: "怠い", reading: "だるい", meaning: "나른하다, 노곤하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 97, word: "控える", reading: "ひかえる", meaning: "대기시키다, 바로 눈앞에 두다", tag: "ビジネス", exJa: "総選挙を間近に控える", exKo: "총선거를 바로 눈앞에 두다" },
-  { id: 98, word: "間近", reading: "まぢか", meaning: "시간이나 거리가 아주 가까움", tag: "日常", exJa: "目的地も間近だ", exKo: "목적지도 눈앞에 있다" },
-  { id: 99, word: "湖", reading: "みずうみ", meaning: "호수", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 100, word: "野原", reading: "のはら", meaning: "들판", tag: "日常", exJa: "-", exKo: "-" }
-  { id: 101, word: "のろのろ運転", reading: "의로노로운텐", meaning: "느림보(거북이) 운전", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 102, word: "浣腸", reading: "かんちょう", meaning: "관장", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 103, word: "薩摩芋", reading: "さつまいも", meaning: "고구마", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 104, word: "本舗", reading: "ほんぽ", meaning: "본포 (특정 상품 제조/판매원)", tag: "비즈니스", exJa: "-", exKo: "-" },
-  { id: 105, word: "口座振替", reading: "こうざふりかえ", meaning: "자동 계좌 이체", tag: "일상", exJa: "水道料金を口座から引き落とす", exKo: "수도 요금을 계좌에서 자동 이체하다" },
-  { id: 106, word: "引き落とす", reading: "ひきおとす", meaning: "자동 이체하다, 감산하다", tag: "비즈니스", exJa: "-", exKo: "-" },
-  { id: 107, word: "前もって", reading: "まえもって", meaning: "미리, 사전에", tag: "일상", exJa: "前もって準備ができている", exKo: "미리 준비가 되어 있다" },
-  { id: 108, word: "鶏", reading: "にわとり", meaning: "닭", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 109, word: "坊主", reading: "ぼうず", meaning: "중, 사내아이 애칭", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 110, word: "流暢", reading: "りゅうちょう", meaning: "유창함", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 111, word: "札", reading: "ふだ", meaning: "표, 팻말, 부적", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 112, word: "飲まれる", reading: "の마れる", meaning: "휩쓸리다, 압도되다", tag: "일상", exJa: "波に飲まれる", exKo: "파도에 휩쓸리다" },
-  { id: 113, word: "襲う", reading: "おそう", meaning: "습격하다, 덮치다", tag: "일상", exJa: "根城を襲う", exKo: "근거지를 습격하다" },
-  { id: 114, word: "見覚える", reading: "みおぼえる", meaning: "보고 기억하다, 이전에 봐서 알고 있다", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 115, word: "地雷", reading: "じらい", meaning: "지뢰", tag: "사회", exJa: "-", exKo: "-" },
-  { id: 116, word: "劣る", reading: "おとる", meaning: "못하다, 뒤떨어지다", tag: "일상", exJa: "他に比して劣る", exKo: "다른 것에 비하여 떨어지다" },
-  { id: 117, word: "今朝", reading: "けさ", meaning: "오늘 아침", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 118, word: "痴がましい", reading: "おこ가ましい", meaning: "주제넘다, 건방지다", tag: "일상", exJa: "おこがましい話ですが私にやらせてください", exKo: "주제넘은 말입니다만 저에게 시켜 주십시오" },
-  { id: 119, word: "力む", reading: "りきむ", meaning: "힘주다, 허세 부리다", tag: "일상", exJa: "力んで車を曳く", exKo: "온 힘을 모아 수레를 끌다" },
-  { id: 120, word: "閉じる", reading: "とじる", meaning: "닫다, 끝나다", tag: "일상", exJa: "目を閉じる", exKo: "눈을 감다" },
-  { id: 121, word: "苦悩", reading: "くのう", meaning: "고뇌", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 122, word: "乱れ打ち", reading: "みだれうち", meaning: "마구잡이로 쏘아대는 것, 난사", tag: "슬랑", exJa: "-", exKo: "-" },
-  { id: 123, word: "恐縮ですが", reading: "きょうしゅくですが", meaning: "죄송합니다만 (부탁할 때)", tag: "비즈니스", exJa: "不躾なお願いで恐縮ですが", exKo: "염치없는 부탁을 드려 죄송합니다만" },
-  { id: 124, word: "脂肪", reading: "しぼう", meaning: "지방", tag: "사회", exJa: "内臓脂肪がたまる原因", exKo: "내장 지방이 쌓이는 원인" },
-  { id: 125, word: "怠る", reading: "おこたる", meaning: "게으름을 피우다, 방심하다", tag: "비즈니스", exJa: "-", exKo: "-" },
-  { id: 126, word: "惨めを見る", reading: "みじめをみる", meaning: "비참한 꼴을 당하다", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 127, word: "見物", reading: "けんぶつ", meaning: "구경, 구경할 가치가 있는 것", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 128, word: "心得", reading: "こころえ", meaning: "마음가짐, 수칙, 소양", tag: "비즈니스", exJa: "旅行中の心得", exKo: "여행 중에 미리 알아 둘 사항" },
-  { id: 129, word: "影響", reading: "えいきょう", meaning: "영향", tag: "사회", exJa: "-", exKo: "-" },
-  { id: 130, word: "沼る", reading: "ぬまる", meaning: "열중하다, 깊이 빠지다", tag: "슬랑", exJa: "沼の深みに落ち込む", exKo: "늪의 깊은 곳에 빠지다" },
-  { id: 131, word: "げろ", reading: "げろ", meaning: "토한 것, 자백", tag: "슬랑", exJa: "-", exKo: "-" },
-  { id: 132, word: "身代り", reading: "みがわり", meaning: "대신, 대역", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 133, word: "日雇い労働者", reading: "ひやといろうどうしゃ", meaning: "일용직 근로자", tag: "사회", exJa: "-", exKo: "-" },
-  { id: 134, word: "突っ立つ", reading: "つったつ", meaning: "우뚝 서다, 우두커니 서다", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 135, word: "あか抜け", reading: "あかぬけ", meaning: "세련됨, 때가 빠짐", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 136, word: "夢物語", reading: "ゆめものがたり", meaning: "꿈같은 이야기, 덧없는 이야기", tag: "일상", exJa: "夢物語に過ぎない", exKo: "꿈같은 이야기에 불과하다" },
-  { id: 137, word: "向上", reading: "こうじょう", meaning: "향상", tag: "비즈니스", exJa: "-", exKo: "-" },
-  { id: 138, word: "都度", reading: "つど", meaning: "그때마다, 할 때마다", tag: "비즈니스", exJa: "-", exKo: "-" },
-  { id: 139, word: "ふと", reading: "ふと", meaning: "문득, 우연히", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 140, word: "刺殺", reading: "しさつ", meaning: "찔러 죽임, 터치아웃", tag: "사회", exJa: "-", exKo: "-" },
-  { id: 141, word: "無念", reading: "むねん", meaning: "원통함, 유감", tag: "일상", exJa: "無念さが言葉の端端に感じられる", exKo: "원통함이 말 한 마디 한 마디에서 느낄 수 있다" },
-  { id: 142, word: "付きまとう", reading: "つきまとう", meaning: "항상 따라다니다, 영향을 주다", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 143, word: "一匹", reading: "いっぴき", meaning: "한 마리, 한 필", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 144, word: "普段", reading: "ふだん", meaning: "항상, 평소", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 145, word: "足かせ", reading: "あしかせ", meaning: "자유를 속박하는 것, 족쇄", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 146, word: "対談", reading: "たいだん", meaning: "대담", tag: "사회", exJa: "-", exKo: "-" },
-  { id: 147, word: "いかつく", reading: "いかつく", meaning: "화내다, 화가 치밀다", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 148, word: "何らか", reading: "なんらか", meaning: "무엇인가, 어떠한", tag: "비즈니스", exJa: "-", exKo: "-" },
-  { id: 149, word: "すっと", reading: "すっと", meaning: "쑥, 시원한 모양, 개운함", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 150, word: "退く", reading: "どく", meaning: "물러나다, 비키다", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 151, word: "陰口", reading: "かげぐち", meaning: "뒤에서 하는 험담", tag: "일상", exJa: "人の陰口をたたく", exKo: "남의 험담을 하다" },
-  { id: 152, word: "比敵", reading: "ひてき", meaning: "필적함, 어울림", tag: "비즈니스", exJa: "-", exKo: "-" },
-  { id: 153, word: "見届ける", reading: "みとどける", meaning: "끝까지 보고 확인하다", tag: "비즈니스", exJa: "-", exKo: "-" },
-  { id: 154, word: "肩で風を切る", reading: "かたでかぜをきる", meaning: "기세가 등등하다, 어깻바람을 내다", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 155, word: "勝る", reading: "まさる", meaning: "낫다, 뛰어나다", tag: "비즈니스", exJa: "すべての点において勝る", exKo: "모든 점에 있어서 뛰어나다" },
-  { id: 156, word: "悪し", reading: "あーし", meaning: "나쁘다, 못되다", tag: "기타", exJa: "-", exKo: "-" },
-  { id: 157, word: "如何様", reading: "いかさま", meaning: "사기, 협잡, 가짜", tag: "사회", exJa: "いかさまに掛ける", exKo: "사기에 걸려들게 하다" },
-  { id: 158, word: "立ち去る", reading: "たちさる", meaning: "떠나가다, 물러가다", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 159, word: "流れる", reading: "ながれる", meaning: "흐르다, 흘러가다", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 160, word: "流行る", reading: "はやる", meaning: "유행하다, 인기가 있다", tag: "사회", exJa: "-", exKo: "-" },
-  { id: 161, word: "髪色", reading: "かみいろ", meaning: "머리카락 색", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 162, word: "始める", reading: "はじめる", meaning: "시작하다", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 163, word: "日付", reading: "ひづけ", meaning: "날짜", tag: "일상", exJa: "日付を書き込む", exKo: "날짜를 기입하다" },
-  { id: 164, word: "一日", reading: "ついたち", meaning: "초하루, 초순", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 165, word: "賄い", reading: "まかない", meaning: "식사 준비, 식사 포함 조건", tag: "일상", exJa: "賄い付き", exKo: "식사가 나옴" },
-  { id: 166, word: "夜明け", reading: "よあけ", meaning: "새벽, 새로운 시대", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 167, word: "突き止める", reading: "つきとめる", meaning: "밝혀내다, 알아내다", tag: "비즈니스", exJa: "あいつの穴を突き止める", exKo: "놈의 은신처를 찾아내고야 말겠다" },
-  { id: 168, word: "ま抜けめ", reading: "まぬけめ", meaning: "얼간이 자식아", tag: "슬랑", exJa: "-", exKo: "-" },
-  { id: 169, word: "間抜け", reading: "まぬけ", meaning: "멍청이, 얼간이", tag: "슬랑", exJa: "-", exKo: "-" },
-  { id: 170, word: "罠", reading: "わな", meaning: "함정, 덫, 계략", tag: "일상", exJa: "敵を罠に掛ける", exKo: "적을 함정에 빠뜨리다" },
-  { id: 171, word: "中抜き", reading: "なかぬき", meaning: "중간을 생략함", tag: "비즈니스", exJa: "-", exKo: "-" },
-  { id: 172, word: "妨害", reading: "ぼうがい", meaning: "방해", tag: "사회", exJa: "-", exKo: "-" },
-  { id: 173, word: "制する", reading: "せいする", meaning: "제압하다, 억제하다", tag: "비즈니스", exJa: "-", exKo: "-" },
-  { id: 174, word: "疑念", reading: "다우트", meaning: "의문, 의심", tag: "슬랑", exJa: "-", exKo: "-" },
-  { id: 175, word: "間引く", reading: "まびく", meaning: "솎아 내다, 운행 횟수를 줄이다", tag: "사회", exJa: "電車の運転を間引く", exKo: "전차의 운행 횟수를 줄이다" },
-  { id: 176, word: "紛らわしい", reading: "まぎらわしい", meaning: "헷갈리기 쉽다, 혼동하기 쉽다", tag: "일상", exJa: "本物と紛らわしい偽物", exKo: "진짜와 구별하기 힘든 가짜" },
-  { id: 177, word: "暴論", reading: "ぼうろん", meaning: "도리에 벗어난 난폭한 논리", tag: "사회", exJa: "-", exKo: "-" },
-  { id: 178, word: "詰めが甘い", reading: "つめがあまい", meaning: "마무리가 허술하다", tag: "비즈니스", exJa: "-", exKo: "-" },
-  { id: 179, word: "身になる", reading: "みになる", meaning: "유익하다, 몸 마음에 좋다", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 180, word: "座組み", reading: "ざぐみ", meaning: "출연자들의 조직", tag: "기타", exJa: "-", exKo: "-" },
-  { id: 181, word: "舌", reading: "タング", meaning: "말, 언어, 혀", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 182, word: "放牧", reading: "ほうぼく", meaning: "방목", tag: "기타", exJa: "羊を放牧する", exKo: "양을 방목하다" },
-  { id: 183, word: "追い込む", reading: "おいこむ", meaning: "몰아넣다", tag: "비즈니스", exJa: "羊を柵の中に追い込む", exKo: "양을 우리 안으로 몰아넣다" },
-  { id: 184, word: "羊", reading: "ひつじ", meaning: "양", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 185, word: "マット", reading: "マット", meaning: "매트, 깔개", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 186, word: "溶ける", reading: "とける", meaning: "녹다, 풀어지다", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 187, word: "こじんまり", reading: "こじんまり", meaning: "조졸하고 아담한 모양", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 188, word: "丸投げ", reading: "まる나게", meaning: "통째로 맡김", tag: "비즈니스", exJa: "-", exKo: "-" },
-  { id: 189, word: "手当たり次第", reading: "てあたりしだい", meaning: "닥치는 대로", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 190, word: "引込む", reading: "ひっこむ", meaning: "틀어박히다, 칩거하다", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 191, word: "瞑る", reading: "つぶる", meaning: "눈을 감다, 죽다, 눈감아주다", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 192, word: "土ぼこり", reading: "つちぼこり", meaning: "흙먼지", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 193, word: "大ぶり", reading: "おおぶり", meaning: "모양이나 부피가 보다 큼", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 194, word: "火의 車", reading: "ひのくるま", meaning: "경제 상태가 몹시 궁함", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 195, word: "男前", reading: "おとこまえ", meaning: "남자다운 용모, 미남", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 196, word: "久久", reading: "ひさび사", meaning: "오래간만", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 197, word: "フェチ", reading: "フェチ", meaning: "특정한 것에 대한 집착", tag: "기타", exJa: "-", exKo: "-" },
-  { id: 198, word: "조절", reading: "アジャ스팅", meaning: "조절", tag: "기타", exJa: "-", exKo: "-" },
-  { id: 199, word: "恥をかく", reading: "はじをかく", meaning: "창피를 당하다", tag: "일상", exJa: "-", exKo: "-" },
-  { id: 200, word: "ぬるぬる", reading: "ぬるぬる", meaning: "미끈미끈함", tag: "일상", exJa: "-", exKo: "-" }
-  { id: 201, word: "下衆", reading: "げす", meaning: "근성이 비열함, 상놈", tag: "スラング", exJa: "-", exKo: "-" },
-  { id: 202, word: "手取り", reading: "てどり", meaning: "실수령액", tag: "ビジネス", exJa: "手取りで20万円もらう", exKo: "실수령액으로 20만 엔을 받다" },
-  { id: 203, word: "爆誕", reading: "ばくたん", meaning: "폭발적인 탄생 (신조어)", tag: "スラング", exJa: "-", exKo: "-" },
-  { id: 204, word: "マイ・ブーム", reading: "まい・ぶーむ", meaning: "나만의 유행", tag: "スラング", exJa: "-", exKo: "-" },
-  { id: 205, word: "ちょこっと", reading: "ちょこっと", meaning: "약간, 조금", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 206, word: "刺さる", reading: "ささる", meaning: "박히다, 깊은 감명을 주다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 207, word: "行く行く", reading: "ゆくゆく", meaning: "장래에, 언젠가는", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 208, word: "地に落ちる", reading: "ちにおちる", meaning: "땅에 떨어지다, 스러지다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 209, word: "一切", reading: "いっさい", meaning: "일체, 일절, 전혀", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 210, word: "脇", reading: "わき", meaning: "겨드랑이, 옆, 곁", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 211, word: "ひりひり", reading: "ひりひ리", meaning: "얼얼함, 따끔따끔함", tag: "日常", exJa: "キムチ가 매워서 혀가 아리다", exKo: "김치가 너무 매워서 혀가 아리다" },
-  { id: 212, word: "逆張り", reading: "ぎゃくばり", meaning: "역추세 매매, 대세를 거스름", tag: "ビジネス", exJa: "-", exKo: "-" },
-  { id: 213, word: "飢える", reading: "うえる", meaning: "굶주리다, 간절히 원하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 214, word: "窓際族", reading: "まどぎわぞく", meaning: "창가족 (한직으로 밀려난 사원)", tag: "社会", exJa: "-", exKo: "-" },
-  { id: 215, word: "括弧", reading: "かっこ", meaning: "괄호", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 216, word: "先駆け", reading: "さきがけ", meaning: "선구, 앞장섬", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 217, word: "アラート", reading: "あらーと", meaning: "경계 태세, 알람", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 218, word: "しょっちゅう", reading: "しょっちゅう", meaning: "늘, 언제나, 노상", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 219, word: "目出度い", reading: "めでたい", meaning: "경사스럽다, 어수룩하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 220, word: "離脱", reading: "りだつ", meaning: "이탈", tag: "ビジネス", exJa: "-", exKo: "-" },
-  { id: 221, word: "界隈", reading: "かいわい", meaning: "근처, 부근, 일대", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 222, word: "転身", reading: "てんしん", meaning: "전신, 직업/방침을 바꿈", tag: "ビジネス", exJa: "-", exKo: "-" },
-  { id: 223, word: "揺り戻し", reading: "ゆりもどし", meaning: "되흔들림, 반동", tag: "社会", exJa: "-", exKo: "-" },
-  { id: 224, word: "潮目が変わる", reading: "しおめがかわる", meaning: "정세의 흐름이 변하다", tag: "社会", exJa: "-", exKo: "-" },
-  { id: 225, word: "密輸", reading: "みつゆ", meaning: "밀수", tag: "社会", exJa: "-", exKo: "-" },
-  { id: 226, word: "境遇", reading: "きょうぐう", meaning: "처지, 형편, 환경", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 227, word: "受(け)身", reading: "うけみ", meaning: "수동적인 자세, 낙법", tag: "日常", exJa: "受け身になる", exKo: "수동적인 자세가 되다" },
-  { id: 228, word: "人たらし", reading: "ひとたらし", meaning: "사람을 홀림(속임), 사람을 잘 꼬심", tag: "スラング", exJa: "-", exKo: "-" },
-  { id: 229, word: "遺憾", reading: "いかん", meaning: "유감", tag: "ビジネス", exJa: "-", exKo: "-" },
-  { id: 230, word: "アンパイ", reading: "あんぱい", meaning: "안전한 선택, 위험 없는 선택", tag: "スラング", exJa: "-", exKo: "-" },
-  { id: 231, word: "モブ", reading: "もぶ", meaning: "엑스트라, 군중", tag: "スラング", exJa: "-", exKo: "-" },
-  { id: 232, word: "控え目", reading: "ひかえめ", meaning: "조심스러움, 삼감, 적은 듯함", tag: "日常", exJa: "控え目な態度を取る", exKo: "조심스러운 태도를 취하다" },
-  { id: 233, word: "リアコ", reading: "りあこ", meaning: "리얼한 사랑 (아이돌 등에게)", tag: "スラング", exJa: "-", exKo: "-" },
-  { id: 234, word: "シャバい", reading: "しゃばい", meaning: "촌스럽다, 구리다, 근성 없다", tag: "スラング", exJa: "-", exKo: "-" },
-  { id: 235, word: "ぶれる", reading: "ぶれる", meaning: "흔들리다, 위치에서 벗어나다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 236, word: "レスバ", reading: "れすば", meaning: "키보드 배틀, 댓글 싸움", tag: "スラング", exJa: "-", exKo: "-" },
-  { id: 237, word: "ぷるぷる", reading: "ぷるぷる", meaning: "바들바들, 탄력 있는 모양", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 238, word: "どんぴしゃ", reading: "どんぴしゃ", meaning: "딱 들어맞음", tag: "スラング", exJa: "このデザイン、好みにどんぴしゃだよ", exKo: "이 디자인, 내 취향에 딱이야" },
-  { id: 239, word: "핀키리", reading: "ぴんきり", meaning: "천차만별 (최상부터 최하까지)", tag: "スラング", exJa: "プロといってもピンキリだ", exKo: "프로라고 해도 천차만별이다" },
-  { id: 240, word: "桁", reading: "けた", meaning: "자릿수, 규모, 수준", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 241, word: "聞(き)取れる", reading: "ききとれる", meaning: "알아들을 수 있다", tag: "日常", exJa: "騒然として聞き取れない", exKo: "시끄러워서 알아들을 수 없다" },
-  { id: 242, word: "吐く", reading: "はく", meaning: "토하다, (내)뱉다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 243, word: "気まずい", reading: "きまずい", meaning: "서먹서먹하다, 거북하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 244, word: "開けっ広げ", reading: "あけっぴろげ", meaning: "숨김없음, 다 털어놓음", tag: "日常", exJa: "開けっ広げに話す", exKo: "숨김없이 말하다" },
-  { id: 245, word: "拈くれる", reading: "ひねくれる", meaning: "뒤틀리다, 비뚤어지다", tag: "日常", exJa: "根性がひねくれる", exKo: "심사가 뒤틀리다" },
-  { id: 246, word: "省く", reading: "はぶく", meaning: "생략하다, 줄이다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 247, word: "見つめる", reading: "みつめる", meaning: "응시하다, 주시하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 248, word: "賑やか", reading: "にぎやか", meaning: "번화함, 활기참, 북적임", tag: "日常", exJa: "この辺も賑やかになった", exKo: "이 일대도 번화해졌다" },
-  { id: 249, word: "焦らす", reading: "じらす", meaning: "애태우다, 초조하게 하다", tag: "日常", exJa: "わざと遅れて焦らす", exKo: "일부러 늦게 와서 초조하게 하다" },
-  { id: 250, word: "未読", reading: "みどく", meaning: "안 읽음", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 251, word: "歪む", reading: "ゆがむ", meaning: "비뚤어지다, 일그러지다", tag: "日常", exJa: "ネクタイが歪んでいる", exKo: "넥타이가 비뚤어져 있다" },
-  { id: 252, word: "非의 打所가 없다", reading: "ひのうちどころがない", meaning: "하나도 나무랄 데가 없다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 253, word: "ぺてん師", reading: "ぺてんし", meaning: "사기꾼", tag: "スラング", exJa: "-", exKo: "-" },
-  { id: 254, word: "ばらつく", reading: "ばらつく", meaning: "흩어지다, 흐트러지다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 255, word: "決めつける", reading: "きめつける", meaning: "단정하다, 호되게 꾸짖다", tag: "日常", exJa: "犯人と決め付ける", exKo: "범인으로 단정하다" },
-  { id: 256, word: "倒れ掛かる", reading: "たおれかかる", meaning: "넘어지며 기대다, 쓰러질 듯하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 257, word: "素性", reading: "すじょう", meaning: "혈통, 태생, 신원, 내력", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 258, word: "理에 かなう", reading: "리에かなう", meaning: "이치에 맞다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 259, word: "取払う", reading: "とりはらう", meaning: "철거하다, 없애다, 치우다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 260, word: "重荷", reading: "おもに", meaning: "무거운 짐, 과중한 책임", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 261, word: "吐き出す", reading: "은끼だす", meaning: "토해 내다, 내뱉다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 262, word: "無自覚", reading: "むじかく", meaning: "무자각, 지각이 없음", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 263, word: "手の平를返す", reading: "てのひらをかえす", meaning: "태도를 손바닥 뒤집듯 바꾸다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 264, word: "手のひら", reading: "てのひら", meaning: "손바닥", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 265, word: "都合", reading: "つごう", meaning: "형편, 사정, 도합", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 266, word: "偏屈", reading: "へんくつ", meaning: "성질이 비뚤어짐, 편벽", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 267, word: "遭遇", reading: "そうぐう", meaning: "조우, 뜻하지 않게 만남", tag: "日常", exJa: "未知との遭遇", exKo: "미지와의 조우" },
-  { id: 268, word: "聞捨てる", reading: "ききすてる", meaning: "듣고도 흘려버리다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 269, word: "長閑", reading: "のどか", meaning: "화창함, 평온하고 한가로움", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 270, word: "くみ取る", reading: "くみとる", meaning: "퍼내다, 헤아리다, 짐작하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 271, word: "張り上げる", reading: "はりあげる", meaning: "(소리를) 지르다, 외치다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 272, word: "ほの字", reading: "ほのじ", meaning: "(반함)", tag: "スラング", exJa: "-", exKo: "-" },
-  { id: 273, word: "ワロス", reading: "わろす", meaning: "웃김 (인터넷 용어)", tag: "スラング", exJa: "-", exKo: "-" },
-  { id: 274, word: "自分本位", reading: "じぶんほんい", meaning: "자기중심, 이기적", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 275, word: "立て直す", reading: "たてなおす", meaning: "다시 일으키다, 만회하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 276, word: "ぐっとくる", reading: "ぐっとくる", meaning: "강한 감동을 느끼다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 277, word: "背負う", reading: "せおう", meaning: "짊어지다, 등에 메다, 떠맡다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 278, word: "生み出す", reading: "うみだす", meaning: "새로 만들어 내다, 창출하다", tag: "日常", exJa: "新しい文化を生み出す", exKo: "새로운 문화를 창출하다" },
-  { id: 279, word: "抜け出す", reading: "ぬけだす", meaning: "빠져나가다, 벗어나다", tag: "日常", exJa: "不況から抜け出す", exKo: "불황에서 빠져나오다" },
-  { id: 280, word: "眼差し", reading: "まなざ시", meaning: "눈빛, 시선", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 281, word: "振(り)返る", reading: "ふりかえる", meaning: "뒤돌아보다, 회고하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 282, word: "面倒見", reading: "めんどうみ", meaning: "돌봄, 보살핌", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 283, word: "通報", reading: "つうほう", meaning: "통보, 신고", tag: "社会", exJa: "-", exKo: "-" },
-  { id: 284, word: "たたき付ける", reading: "たたきつける", meaning: "내동댕이치다, 세차게 내리치다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 285, word: "竹刀", reading: "しない", meaning: "죽도", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 286, word: "噛み合う", reading: "かみあう", meaning: "맞물리다, 의견이 일치하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 287, word: "DV", reading: "でぃーぶい", meaning: "가정 폭력", tag: "社会", exJa: "-", exKo: "-" },
-  { id: 288, word: "冷たい", reading: "つめたい", meaning: "차갑다, 냉정하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 289, word: "殻", reading: "から", meaning: "껍질, 자기만의 세계", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 290, word: "見掛けによらない", reading: "みかけによらない", meaning: "겉보기와는 다르다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 291, word: "抜き出す", reading: "ぬきだす", meaning: "꺼내다, 빼내다, 선발하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 292, word: "断ち切る", reading: "たちきる", meaning: "잘라 버리다, 단절하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 293, word: "日本刀", reading: "にほんとう", meaning: "일본도", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 294, word: "振り回す", reading: "ふりまわす", meaning: "휘두르다, 남용하다", tag: "日常", exJa: "ステッキを振り回す", exKo: "지팡이를 휘두르다" },
-  { id: 295, word: "蹲る", reading: "うずくまる", meaning: "웅크리다, 쭈그리고 앉다", tag: "日常", exJa: "膝を抱き抱えて蹲る", exKo: "무릎을 끌어안고 웅크리다" },
-  { id: 296, word: "預ける", reading: "あずける", meaning: "맡기다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 297, word: "見込み", reading: "みこみ", meaning: "예상, 전망, 가망", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 298, word: "取引き", reading: "とりひき", meaning: "거래, 흥정", tag: "ビジネス", exJa: "-", exKo: "-" }
-  { id: 301, word: "頭に来る", reading: "あたまにくる", meaning: "화가 나다, 울컥 치밀다", tag: "日常", exJa: "出すぎた親切が頭に来る", exKo: "지나친 친절에 화가 난다" },
-  { id: 302, word: "気張る", reading: "きばる", meaning: "분발하다, 힘을 내다, (배에) 힘을 주다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 303, word: "臆病者", reading: "おくびょうもの", meaning: "겁쟁이", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 304, word: "臆病", reading: "おくびょう", meaning: "겁이 많음", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 305, word: "鼻血", reading: "はなぢ", meaning: "코피, (비유) 빈털터리", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 306, word: "守秘", reading: "しゅひ", meaning: "(공무원 등의) 비밀 유지", tag: "ビジネス", exJa: "守秘義務を守る", exKo: "비밀 유지 의무를 지키다" },
-  { id: 307, word: "助かる", reading: "たすかる", meaning: "살아나다, 구조되다, 도움이 되다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 308, word: "助け", reading: "たすけ", meaning: "도움, 조력", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 309, word: "助ける", reading: "たすける", meaning: "돕다, 구하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 310, word: "救う", reading: "すくう", meaning: "구하다, 건지다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 311, word: "救い", reading: "すくい", meaning: "구원, 도움", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 312, word: "探す", reading: "さがす", meaning: "찾다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 313, word: "捜す", reading: "さがす", meaning: "(잃어버린 것을) 찾다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 314, word: "捜査", reading: "そうさ", meaning: "수사", tag: "社会", exJa: "-", exKo: "-" },
-  { id: 315, word: "探究", reading: "たんきゅう", meaning: "탐구", tag: "その他", exJa: "-", exKo: "-" },
-  { id: 316, word: "探る", reading: "さぐる", meaning: "살피다, 더듬어 찾다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 317, word: "手探り", reading: "てさぐり", meaning: "손으로 더듬음", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 318, word: "探検", reading: "たんけん", meaning: "탐험", tag: "その他", exJa: "-", exKo: "-" },
-  { id: 319, word: "捜索", reading: "そうさく", meaning: "수색", tag: "社会", exJa: "-", exKo: "-" },
-  { id: 320, word: "乗り越える", reading: "のりこえる", meaning: "타고 넘다, 극복하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 321, word: "踏ん張る", reading: "ふんばる", meaning: "버티다, 기를 쓰다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 322, word: "踏み出す", reading: "ふ미だす", meaning: "내딛다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 323, word: "踏み切る", reading: "ふみきる", meaning: "결단을 내리다, 실행에 옮기다", tag: "ビジネス", exJa: "-", exKo: "-" },
-  { id: 324, word: "踏み込む", reading: "ふみこむ", meaning: "발을 들여놓다, (남의 집 등에) 발을 들이다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 325, word: "踏まえる", reading: "ふまえる", meaning: "근거로 삼다, 입각하다", tag: "ビジネス", exJa: "-", exKo: "-" },
-  { id: 326, word: "踏む", reading: "ふむ", meaning: "밟다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 327, word: "突き進む", reading: "つきすすむ", meaning: "돌진하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 328, word: "突き抜ける", reading: "つきぬける", meaning: "뚫고 나가다, (비유) 특출나다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 329, word: "突き出す", reading: "つきだす", meaning: "내밀다, (경찰 등에) 넘기다", tag: "社会", exJa: "-", exKo: "-" },
-  { id: 330, word: "突き放す", reading: "つきはなす", meaning: "내던지다, 뿌리치다, 냉정하게 대하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 331, word: "突き返す", reading: "つきかえす", meaning: "거절하다, 되돌려 보내다", tag: "ビジネス", exJa: "-", exKo: "-" },
-  { id: 332, word: "突き当たる", reading: "つきあたる", meaning: "부딪히다, 막다른 곳에 이르다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 333, word: "突き当たり", reading: "つきあたり", meaning: "막다른 곳", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 334, word: "突き詰める", reading: "つきつめる", meaning: "끝까지 파고들다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 335, word: "突き破る", reading: "つきやぶる", meaning: "돌파하다, 부수고 나가다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 336, word: "突きつける", reading: "つきつける", meaning: "들이대다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 337, word: "突き合わせる", reading: "つきあわせる", meaning: "대조하다, 마주 대하다", tag: "ビジネス", exJa: "-", exKo: "-" },
-  { id: 338, word: "照らし合わせる", reading: "てらしあわせる", meaning: "대조하다, 비추어 보다", tag: "ビジネス", exJa: "-", exKo: "-" },
-  { id: 339, word: "照らす", reading: "てらす", meaning: "비추다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 340, word: "照れる", reading: "てれる", meaning: "수줍어하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 341, word: "照れくさい", reading: "てれくさい", meaning: "쑥스럽다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 342, word: "照れ笑い", reading: "てれわらい", meaning: "쑥스러운 웃음", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 343, word: "照れ屋", reading: "てれや", meaning: "수줍음을 잘 타는 사람", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 344, word: "照る", reading: "てる", meaning: "빛나다, 개다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 345, word: "晴れる", reading: "はれる", meaning: "개다, 풀리다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 346, word: "晴れ渡る", reading: "はれわたる", meaning: "활짝 개다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 347, word: "晴れやか", reading: "はれやか", meaning: "화창함, 명랑함", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 348, word: "晴れ舞台", reading: "はれぶたい", meaning: "화려한 무대", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 349, word: "見晴らし", reading: "みはらし", meaning: "전망, 조망", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 350, word: "見晴らす", reading: "みはらす", meaning: "멀리 바라보다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 351, word: "素晴らしい", reading: "すばらしい", meaning: "훌륭하다, 멋지다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 352, word: "素早い", reading: "すばやい", meaning: "재빠르다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 353, word: "素っ気ない", reading: "そっけない", meaning: "무정하다, 쌀쌀맞다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 354, word: "素っ裸", reading: "すっぱだか", meaning: "알몸", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 355, word: "素っ頓狂", reading: "すっとんきょう", meaning: "엉뚱함, 얼빠짐", tag: "スラング", exJa: "-", exKo: "-" },
-  { id: 356, word: "素っ飛ぶ", reading: "すっとぶ", meaning: "쏜살같이 날아가다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 357, word: "素通り", reading: "すどおり", meaning: "그냥 지나침", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 358, word: "素直", reading: "すなお", meaning: "솔직함, 순진함", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 359, word: "素人", reading: "しろう도", meaning: "초보자, 아마추어", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 360, word: "玄人", reading: "くろうと", meaning: "전문가, 프로", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 361, word: "素敵", reading: "すてき", meaning: "멋짐, 훌륭함", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 362, word: "捨て去る", reading: "すてさる", meaning: "내버리다, 끊어버리다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 363, word: "捨て身", reading: "すてみ", meaning: "몸을 던짐, 필사적임", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 364, word: "捨てる", reading: "すてる", meaning: "버리다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 365, word: "見捨てる", reading: "미すてる", meaning: "저버리다, 버려두다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 366, word: "切り捨てる", reading: "きりすてる", meaning: "베어 버리다, 내버리다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 367, word: "取り捨てる", reading: "とりすてる", meaning: "가려내서 버리다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 368, word: "投げ捨てる", reading: "나げすてる", meaning: "내던져 버리다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 369, word: "脱ぎ捨てる", reading: "ぬぎすてる", meaning: "벗어 던지다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 370, word: "焼き捨てる", reading: "やきすてる", meaning: "태워 버리다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 371, word: "呼び捨てる", reading: "よびすてる", meaning: "경칭 없이 부르다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 372, word: "呼び出す", reading: "よびだす", meaning: "호출하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 373, word: "呼びかける", reading: "よびかける", meaning: "부르다, 호소하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 374, word: "呼び止める", reading: "よびとめる", meaning: "불러 세우다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 375, word: "呼び戻す", reading: "よびもどす", meaning: "불러 되돌리다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 376, word: "呼び寄せる", reading: "よびよせる", meaning: "불러오다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 377, word: "呼び物", reading: "よびもの", meaning: "인기 있는 것, 압권", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 378, word: "呼ぶ", reading: "よぶ", meaning: "부르다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 379, word: "叫ぶ", reading: "さけぶ", meaning: "외치다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 380, word: "喚く", reading: "わめく", meaning: "아우성치다, 소리지르다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 381, word: "唸る", reading: "うなる", meaning: "웅성거리다, 신음하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 382, word: "囁く", reading: "ささやく", meaning: "속삭이다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 383, word: "呟く", reading: "つぶやく", meaning: "중얼거리다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 384, word: "ぼやく", reading: "ぼやく", meaning: "투덜거리다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 385, word: "喚起", reading: "かんき", meaning: "환기", tag: "その他", exJa: "-", exKo: "-" },
-  { id: 386, word: "呼応", reading: "こおう", meaning: "호응", tag: "その他", exJa: "-", exKo: "-" },
-  { id: 387, word: "称する", reading: "しょうする", meaning: "칭하다", tag: "その他", exJa: "-", exKo: "-" },
-  { id: 388, word: "称える", reading: "たたえる", meaning: "칭송하다", tag: "その他", exJa: "-", exKo: "-" },
-  { id: 389, word: "褒める", reading: "ほめる", meaning: "칭찬하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 390, word: "誇る", reading: "ほこる", meaning: "자랑하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 391, word: "誇らしい", reading: "ほこらしい", meaning: "자랑스럽다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 392, word: "誇り", reading: "ほこり", meaning: "자랑, 긍지", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 393, word: "自慢", reading: "じまん", meaning: "자랑", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 394, word: "奢る", reading: "おごる", meaning: "한턱내다, 사치하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 395, word: "振る舞う", reading: "ふるまう", meaning: "행동하다, 대접하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 396, word: "振る舞い", reading: "ふるまい", meaning: "행동, 대접", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 397, word: "振る", reading: "ふる", meaning: "흔들다, 거절하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 398, word: "振り回す", reading: "ふりまわす", meaning: "휘두르다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 399, word: "振り出し", reading: "ふりだし", meaning: "출발점, (어음 등의) 발행", tag: "ビジネス", exJa: "-", exKo: "-" },
-  { id: 400, word: "振り出しに戻る", reading: "ふりだしにもどる", meaning: "원점으로 돌아가다", tag: "日常", exJa: "-", exKo: "-" }
-  { id: 501, word: "覆す", reading: "くつがえす", meaning: "뒤집다, 엎다, 번복하다", tag: "ビジネス", exJa: "定説を覆す", exKo: "정설을 뒤집다" },
-  { id: 502, word: "尽くす", reading: "つくす", meaning: "다하다, 애쓰다, 진력하다", tag: "日常", exJa: " 최선을 다하다 (最善を尽くす)", exKo: "최선을 다하다" },
-  { id: 503, word: "脅かす", reading: "おびやかす", meaning: "위협하다, 위태롭게 하다", tag: "社会", exJa: "平和を脅かす", exKo: "평화를 위협하다" },
-  { id: 504, word: "脅かす", reading: "おどかす", meaning: "깜짝 놀라게 하다, 협박하다", tag: "日常", exJa: "後ろから脅かす", exKo: "뒤에서 깜짝 놀라게 하다" },
-  { id: 505, word: "怯える", reading: "おびえる", meaning: "겁내다, 무서워하다", tag: "日常", exJa: "大きな音に怯える", exKo: "큰 소리에 겁먹다" },
-  { id: 506, word: "更ける", reading: "ふける", meaning: "(밤이) 깊어지다", tag: "日常", exJa: "夜이 깊어지다 (夜が更ける)", exKo: "밤이 깊어지다" },
-  { id: 507, word: "老ける", reading: "ふける", meaning: "나이 먹다, 늙다", tag: "日常", exJa: "年より老けて見える", exKo: "나이보다 늙어 보이다" },
-  { id: 508, word: "挙げる", reading: "あげる", meaning: "들다, 올리다, (예를) 열거하다", tag: "ビジネス", exJa: "手を挙げる", exKo: "손을 들다" },
-  { id: 509, word: "掲げる", reading: "かかげる", meaning: "내걸다, 게양하다, 내세우다", tag: "ビジネス", exJa: "看板を掲げる", exKo: "간판을 내걸다" },
-  { id: 510, word: "避ける", reading: "さける", meaning: "피하다, 멀리하다", tag: "日常", exJa: "人目を避ける", exKo: "남의 눈을 피하다" },
-  { id: 511, word: "化ける", reading: "ばける", meaning: "변하다, 둔갑하다", tag: "日常", exJa: "狐が人間に化ける", exKo: "여우가 인간으로 둔갑하다" },
-  { id: 512, word: "惚れる", reading: "ほれる", meaning: "반하다, 홀딱 빠지다", tag: "日常", exJa: "一目惚れする", exKo: "첫눈에 반하다" },
-  { id: 513, word: "逸れる", reading: "それる", meaning: "빗나가다, 벗어나다", tag: "日常", exJa: "話が逸れる", exKo: "이야기가 딴 데로 새다" },
-  { id: 514, word: "紛れる", reading: "まぎれる", meaning: "혼동되다, 섞여서 알 수 없게 되다", tag: "日常", exJa: "人混みに紛れる", exKo: "군중 속에 뒤섞이다" },
-  { id: 515, word: "免れる", reading: "まぬがれる", meaning: "모면하다, 피하다", tag: "社会", exJa: "責任を免れる", exKo: "책임을 면하다" },
-  { id: 516, word: "駆ける", reading: "かける", meaning: "전력으로 달리다", tag: "日常", exJa: "草原を駆ける", exKo: "초원을 달리다" },
-  { id: 517, word: "賭ける", reading: "かける", meaning: "걸다, 내기하다", tag: "日常", exJa: "命を賭ける", exKo: "목숨을 걸다" },
-  { id: 518, word: "綻びる", reading: "ほころびる", meaning: "(꽃봉오리가) 벌어지다, (실밥이) 터지다", tag: "日常", exJa: "袖の口が綻びる", exKo: "소맷부리가 터지다" },
-  { id: 519, word: "滅びる", reading: "ほろびる", meaning: "멸망하다, 없어지다", tag: "社会", exJa: "文明が滅びる", exKo: "문명이 멸망하다" },
-  { id: 520, word: "顧みる", reading: "かえりみる", meaning: "돌아보다, 회상하다, 배려하다", tag: "ビジネス", exJa: "過去を顧みる", exKo: "과거를 돌아보다" },
-  { id: 521, word: "省みる", reading: "かえりみる", meaning: "돌이켜보다, 반성하다", tag: "日常", exJa: "自らを省みる", exKo: "스스로를 반성하다" },
-  { id: 522, word: "試みる", reading: "こころみる", meaning: "시도하다, 해보다", tag: "ビジネス", exJa: "新しい方法を試みる", exKo: "새로운 방법을 시도하다" },
-  { id: 523, word: "率いる", reading: "ひきいる", meaning: "거느리다, 인솔하다, 지휘하다", tag: "ビジネス", exJa: "チームを率いる", exKo: "팀을 이끌다" },
-  { id: 524, word: "強いる", reading: "しいる", meaning: "강요하다, 강제하다", tag: "社会", exJa: "沈黙を強いる", exKo: "침묵을 강요하다" },
-  { id: 525, word: "報いる", reading: "むくいる", meaning: "보답하다, 갚다", tag: "日常", exJa: "恩に報いる", exKo: "은혜에 보답하다" },
-  { id: 526, word: "悔いる", reading: "くいる", meaning: "후회하다, 뉘우치다", tag: "日常", exJa: "過ちを悔いる", exKo: "실수를 후회하다" },
-  { id: 527, word: "用いる", reading: "もちいる", meaning: "사용하다, 이용하다, 채용하다", tag: "ビジネス", exJa: "最新の技術を用いる", exKo: "최신 기술을 사용하다" },
-  { id: 528, word: "恥じる", reading: "はじる", meaning: "부끄러워하다", tag: "日常", exJa: "名を恥じない行動", exKo: "이름에 부끄럽지 않은 행동" },
-  { id: 529, word: "案じる", reading: "あんじる", meaning: "걱정하다, 궁리하다", tag: "日常", exJa: "今後を案じる", exKo: "앞날을 걱정하다" },
-  { id: 530, word: "演じる", reading: "えんじる", meaning: "연기하다, 공연하다", tag: "日常", exJa: "主役을 演じる", exKo: "주역을 연기하다" },
-  { id: 531, word: "禁じる", reading: "きんじる", meaning: "금하다, 금지하다", tag: "社会", exJa: "立ち入りを禁じる", exKo: "출입을 금하다" },
-  { id: 532, word: "準じる", reading: "じゅんじる", meaning: "준하다, 따르다", tag: "ビジネス", exJa: "規程に準じる", exKo: "규정에 준하다" },
-  { id: 533, word: "興じる", reading: "きょうじる", meaning: "즐거워하다, 흥겨워하다", tag: "日常", exJa: "遊びに興じる", exKo: "놀이에 흥겨워하다" },
-  { id: 534, word: "転じる", reading: "てんじる", meaning: "변하다, 바뀌다, 전환하다", tag: "ビジネス", exJa: "好転に転じる", exKo: "호전으로 바뀌다" },
-  { id: 535, word: "報じる", reading: "ほうじる", meaning: "보도하다, 알리다", tag: "社会", exJa: "ニュースを報じる", exKo: "뉴스를 보도하다" },
-  { id: 536, word: "ぺてん", reading: "ぺてん", meaning: "속임수, 사기", tag: "スラング", exJa: "ぺてんに掛ける", exKo: "사기를 치다" },
-  { id: 537, word: "猶", reading: "なお", meaning: "여전히, 역시, 더욱더", tag: "その他", exJa: "猶二週間ある", exKo: "여전히 2주일 남았다" },
-  { id: 538, word: "なだらか", reading: "なだらか", meaning: "완만함, 순조로움", tag: "日常", exJa: "なだらかな坂道", exKo: "완만한 언덕길" },
-  { id: 539, word: "放し", reading: "ぱなし", meaning: "계속 ~한 채로 둠 (방치)", tag: "日常", exJa: "出しっぱなし", exKo: "내놓은 채로 둠" },
-  { id: 540, word: "貝殻", reading: "かいがら", meaning: "조개껍데기", tag: "日常", exJa: "貝殻を拾う", exKo: "조개껍데기를 줍다" },
-  { id: 541, word: "イケボ", reading: "いけぼ", meaning: "꽃미남 목소리 (Cool Voice)", tag: "スラング", exJa: "彼は本当にイケボだね", exKo: "그는 정말 목소리가 좋다" },
-  { id: 542, word: "ばんばん", reading: "ばんばん", meaning: "펑펑, 척척, 기세 좋게", tag: "日常", exJa: "お金をばんばん使う", exKo: "돈을 펑펑 쓰다" },
-  { id: 543, word: "どうせなら", reading: "どうせなら", meaning: "이왕이면, 어차피 할 바에는", tag: "日常", exJa: "どうせなら一番いいのを買おう", exKo: "이왕이면 제일 좋은 걸 사자" },
-  { id: 544, word: "手間", reading: "てま", meaning: "수고, 품, 시간", tag: "ビジネス", exJa: "手間がかかる", exKo: "수고가 들다" },
-  { id: 545, word: "捗る", reading: "はかどる", meaning: "진척되다, 일이 잘 풀리다", tag: "ビジネス", exJa: "仕事が捗る", exKo: "업무가 잘 진척되다" },
-  { id: 546, word: "渋る", reading: "しぶる", meaning: "망설이다, 난색을 표하다", tag: "日常", exJa: "支払いを渋る", exKo: "지불을 주저하다" },
-  { id: 547, word: "粘る", reading: "ねばる", meaning: "끈기 있게 버티다, 점성이 있다", tag: "日常", exJa: "最後まで粘る", exKo: "끝까지 버티다" },
-  { id: 548, word: "損な우", reading: "そこなう", meaning: "해치다, 손상시키다, 기회를 놓치다", tag: "ビジネス", exJa: "健康を損なう", exKo: "건강을 해치다" },
-  { id: 549, word: "養う", reading: "や시なう", meaning: "기르다, 양육하다, 함양하다", tag: "日常", exJa: "家族を養う", exKo: "가족을 부양하다" },
-  { id: 550, word: "適う", reading: "かなう", meaning: "적합하다, 맞다, 일치하다", tag: "ビジネス", exJa: "理に適う", exKo: "이치에 맞다" },
-  { id: 551, word: "叶う", reading: "かなう", meaning: "(희망/꿈 등이) 이루어지다", tag: "日常", exJa: "夢が叶う", exKo: "꿈이 이루어지다" },
-  { id: 552, word: "敵う", reading: "かなう", meaning: "대적하다, 필적하다", tag: "日常", exJa: "彼には敵わない", exKo: "그에게는 당해낼 수 없다" },
-  { id: 553, word: "縛る", reading: "しばる", meaning: "묶다, 결박하다, 제한하다", tag: "日常", exJa: "規則で縛る", exKo: "규칙으로 속박하다" },
-  { id: 554, word: "絞る", reading: "しぼる", meaning: "짜다, 좁히다, 채근하다", tag: "ビジネス", exJa: "知恵を絞る", exKo: "지혜를 짜내다" },
-  { id: 555, word: "綴る", reading: "つづる", meaning: "철하다, 엮다, 글을 쓰다", tag: "その他", exJa: "思いを綴る", exKo: "마음을 글로 쓰다" },
-  { id: 556, word: "連なる", reading: "つらなる", meaning: "나란히 줄지어 있다, 이어지다", tag: "日常", exJa: "山々が連なる", exKo: "산들이 이어져 있다" },
-  { id: 557, word: "連ねる", reading: "つらねる", meaning: "늘어놓다, 동참시키다", tag: "ビジネス", exJa: "名を連ねる", exKo: "이름을 올리다" },
-  { id: 558, word: "交わる", reading: "まじわる", meaning: "교차하다, 사귀다", tag: "日常", exJa: "二つの線が交わる", exKo: "두 선이 교차하다" },
-  { id: 559, word: "交える", reading: "まじえる", meaning: "섞다, 나누다, 교차시키다", tag: "ビジネス", exJa: "言葉を交える", exKo: "말을 나누다" },
-  { id: 560, word: "染まる", reading: "そまる", meaning: "물들다, 영향을 받다", tag: "日常", exJa: "夕日に染まる", exKo: "석양에 물들다" },
-  { id: 561, word: "染める", reading: "そめる", meaning: "물들이다, 염색하다", tag: "日常", exJa: "髪を染める", exKo: "머리를 염색하다" },
-  { id: 562, word: "潜る", reading: "くぐる", meaning: "빠져나가다, 뚫고 나가다", tag: "日常", exJa: "門をくぐる", exKo: "문을 지나가다" },
-  { id: 563, word: "潜る", reading: "もぐる", meaning: "잠입하다, 잠수하다", tag: "日常", exJa: "海に潜る", exKo: "바다에 잠수하다" },
-  { id: 564, word: "焦げる", reading: "こげる", meaning: "눋다, 타다", tag: "日常", exJa: "パンが焦げる", exKo: "빵이 타다" },
-  { id: 565, word: "焦らす", reading: "じらす", meaning: "안달 나게 하다, 애태우다", tag: "日常", exJa: "返事をせずに焦らす", exKo: "대답을 안 하고 애태우다" },
-  { id: 566, word: "化ける", reading: "ばける", meaning: "변하다, 둔갑하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 567, word: "老ける", reading: "ふける", meaning: "늙다, 나이 먹다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 568, word: "更ける", reading: "ふける", meaning: "(밤이) 깊어지다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 569, word: "挙げる", reading: "あげる", meaning: "들다, 올리다", tag: "ビジネス", exJa: "-", exKo: "-" },
-  { id: 570, word: "掲げる", reading: "かかげる", meaning: "내걸다, 내세우다", tag: "ビジネス", exJa: "-", exKo: "-" },
-  { id: 571, word: "避ける", reading: "さける", meaning: "피하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 572, word: "惚れる", reading: "ほれる", meaning: "반하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 573, word: "逸れる", reading: "それる", meaning: "벗어나다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 574, word: "紛れる", reading: "まぎれる", meaning: "혼동되다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 575, word: "免れる", reading: "まぬがれる", meaning: "모면하다", tag: "社会", exJa: "-", exKo: "-" },
-  { id: 576, word: "駆ける", reading: "かける", meaning: "달리다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 577, word: "賭ける", reading: "かける", meaning: "걸다 (내기)", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 578, word: "綻びる", reading: "ほころ비る", meaning: "터지다, 벌어지다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 579, word: "滅びる", reading: "ほろびる", meaning: "멸망하다", tag: "社会", exJa: "-", exKo: "-" },
-  { id: 580, word: "顧みる", reading: "かえりみる", meaning: "돌아보다", tag: "ビジネス", exJa: "-", exKo: "-" },
-  { id: 581, word: "省みる", reading: "かえりみる", meaning: "반성하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 582, word: "試みる", reading: "こころみる", meaning: "시도하다", tag: "ビジネス", exJa: "-", exKo: "-" },
-  { id: 583, word: "率いる", reading: "ひきいる", meaning: "이끌다", tag: "ビジネス", exJa: "-", exKo: "-" },
-  { id: 584, word: "強いる", reading: "しいる", meaning: "강요하다", tag: "社会", exJa: "-", exKo: "-" },
-  { id: 585, word: "報いる", reading: "むくいる", meaning: "보답하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 586, word: "悔いる", reading: "くいる", meaning: "후회하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 587, word: "用いる", reading: "もちいる", meaning: "사용하다", tag: "ビジネス", exJa: "-", exKo: "-" },
-  { id: 588, word: "恥じる", reading: "はじる", meaning: "부끄러워하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 589, word: "案じる", reading: "あんじる", meaning: "걱정하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 590, word: "演じる", reading: "えんじる", meaning: "연기하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 591, word: "禁じる", reading: "きんじる", meaning: "금하다", tag: "社会", exJa: "-", exKo: "-" },
-  { id: 592, word: "準じる", reading: "じゅんじる", meaning: "준하다", tag: "ビジネス", exJa: "-", exKo: "-" },
-  { id: 593, word: "興じる", reading: "きょうじる", meaning: "즐거워하다", tag: "日常", exJa: "-", exKo: "-" },
-  { id: 594, word: "転じる", reading: "てんじる", meaning: "전환하다", tag: "ビジネス", exJa: "-", exKo: "-" },
-  { id: 595, word: "報じる", reading: "ほうじる", meaning: "보도하다", tag: "社会", exJa: "-", exKo: "-" },
-  { id: 596, word: "奏でる", reading: "かなでる", meaning: "연주하다", tag: "日常", exJa: "メロディー를 奏でる", exKo: "멜로디를 연주하다" },
-  { id: 597, word: "企てる", reading: "くわだてる", meaning: "계획하다, 기도하다, 꾀하다", tag: "ビジネス", exJa: "計画を企てる", exKo: "계획을 세우다" },
-  { id: 598, word: "兼ねる", reading: "かねる", meaning: "겸하다, ~하기 어렵다", tag: "ビジネス", exJa: "大は小を兼ねる", exKo: "큰 것이 작은 것을 겸한다" },
-  { id: 599, word: "聳える", reading: "そびえる", meaning: "우뚝 솟다", tag: "日常", exJa: "山が聳える", exKo: "산이 우뚝 솟아 있다" },
-  { id: 600, word: "称える", reading: "たたえる", meaning: "칭송하다, 기리다", tag: "その他", exJa: "功績を称える", exKo: "공적을 기리다" }
+  {
+    id: 1,
+    word: "頭に来る", /* [cite: 4] */
+    reading: "あたまにくる", /* [cite: 4] */
+    meaning: "화가 나다; 기분 나빠지다", /* [cite: 6] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 2,
+    word: "気張る", /* [cite: 8] */
+    reading: "きばる", /* [cite: 8] */
+    meaning: "힘을 주다; 분발하다", /* [cite: 9, 10] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 3,
+    word: "臆病者", /* [cite: 12] */
+    reading: "おくびょうもの", /* [cite: 12] */
+    meaning: "겁쟁이", /* [cite: 13] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 4,
+    word: "鼻血", /* [cite: 16] */
+    reading: "はなぢ", /* [cite: 16] */
+    meaning: "코피; 빈털터리가 되다", /* [cite: 17, 18] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 5,
+    word: "守秘", /* [cite: 19] */
+    reading: "しゅひ", /* [cite: 19] */
+    meaning: "비밀을 지킴", /* [cite: 20] */
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 6,
+    word: "助かる", /* [cite: 21] */
+    reading: "たすかる", /* [cite: 21] */
+    meaning: "살아나다; 도움이 되다", /* [cite: 22, 24] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 7,
+    word: "只管・一向", /* [cite: 25] */
+    reading: "ひたすら", /* [cite: 25] */
+    meaning: "오로지; 한결같이", /* [cite: 27] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 8,
+    word: "ワロタ", /* [cite: 32] */
+    reading: "わろた", /* [cite: 32] */
+    meaning: "빵터짐", /* [cite: 33] */
+    tag: "スラング",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 9,
+    word: "おなら", /* [cite: 36] */
+    reading: "おなら", /* [cite: 36] */
+    meaning: "방귀", /* [cite: 37] */
+    tag: "日常",
+    exJa: "おならをする", /* [cite: 34] */
+    exKo: "방귀를 뀌다" /* [cite: 35] */
+  },
+  {
+    id: 10,
+    word: "ポンコツ", /* [cite: 38] */
+    reading: "ぽんこつ", /* [cite: 38] */
+    meaning: "고물; 글러먹은 사람", /* [cite: 39] */
+    tag: "スラング",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 11,
+    word: "女王", /* [cite: 40] */
+    reading: "じょおう", /* [cite: 40] */
+    meaning: "여왕", /* [cite: 41] */
+    tag: "社会",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 12,
+    word: "ブッチする", /* [cite: 44] */
+    reading: "ぶっちする", /* [cite: 44] */
+    meaning: "무시하다; 약속을 깨다", /* [cite: 47] */
+    tag: "スラング",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 13,
+    word: "うんたらかんたら", /* [cite: 48] */
+    reading: "うんたらかんたら", /* [cite: 48] */
+    meaning: "어쩌구 저쩌구", /* [cite: 49] */
+    tag: "スラング",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 14,
+    word: "鼻に付く", /* [cite: 52] */
+    reading: "はなにつく", /* [cite: 52] */
+    meaning: "싫어지다; 진력나다", /* [cite: 53] */
+    tag: "日常",
+    exJa: "出すぎた親切が鼻に付く", /* [cite: 50] */
+    exKo: "지나친 친절이 역겹다" /* [cite: 51] */
+  },
+  {
+    id: 15,
+    word: "滲み出る", /* [cite: 54] */
+    reading: "にじみでる", /* [cite: 54] */
+    meaning: "스며 나오다; 자연히 드러나다", /* [cite: 55, 56] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  }
+{
+    id: 16,
+    word: "欲しがる",
+    reading: "ほしがる",
+    meaning: "탐내다; 갖고 싶어하다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 17,
+    word: "別嬪",
+    reading: "べっぴん",
+    meaning: "미인",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 18,
+    word: "取り消し",
+    reading: "とりけし",
+    meaning: "취소",
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 19,
+    word: "爽快",
+    reading: "そうかい",
+    meaning: "상쾌함",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 20,
+    word: "ぽい捨て",
+    reading: "ぽいすて",
+    meaning: "물건을 함부로 버리는 일",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 21,
+    word: "滅ぶ",
+    reading: "ほろぶ",
+    meaning: "망하다; 사라지다",
+    tag: "社会",
+    exJa: "美しい自然が滅んでゆく",
+    exKo: "아름다운 자연이 사라져 가다"
+  },
+  {
+    id: 22,
+    word: "女手",
+    reading: "おんなで",
+    meaning: "여자의 힘[일손]; 여자의 필적",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 23,
+    word: "足掛かり",
+    reading: "あしがかり",
+    meaning: "발판; 거점; 실마리",
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 24,
+    word: "越境",
+    reading: "えっきょう",
+    meaning: "월경 (국경을 넘음)",
+    tag: "社会",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 25,
+    word: "根性",
+    reading: "こんじょう",
+    meaning: "근성; 강한 기질",
+    tag: "日常",
+    exJa: "根性のある人",
+    exKo: "근성이 있는 사람"
+  },
+  {
+    id: 26,
+    word: "飛び付く",
+    reading: "とびつく",
+    meaning: "달려들다; 덤벼들다",
+    tag: "日常",
+    exJa: "流行にすぐとびつく性向",
+    exKo: "유행을 무턱대고 따르는 성향"
+  },
+  {
+    id: 27,
+    word: "まさに",
+    reading: "まさに",
+    meaning: "당연히; 바야흐로; 막",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 28,
+    word: "改革",
+    reading: "かいかく",
+    meaning: "개혁",
+    tag: "社会",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 29,
+    word: "招聘",
+    reading: "しょうへい",
+    meaning: "초빙",
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 30,
+    word: "集積",
+    reading: "しゅうせき",
+    meaning: "집적; 다량으로 모음",
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 31,
+    word: "一事が万事",
+    reading: "いちじがばんじ",
+    meaning: "한 가지를 보면 딴 것도 미루어 알 수 있다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 32,
+    word: "程遠い",
+    reading: "ほどとおい",
+    meaning: "동떨어지다; 차이가 많이 나다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 33,
+    word: "感嘆",
+    reading: "かんたん",
+    meaning: "감탄",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 34,
+    word: "潜在力",
+    reading: "せんざいりょく",
+    meaning: "잠재력",
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 35,
+    word: "躊躇い",
+    reading: "ためらい",
+    meaning: "주저; 망설임",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 36,
+    word: "痛ましい",
+    reading: "いたましい",
+    meaning: "애처롭다; 참혹하다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 37,
+    word: "隠蔽",
+    reading: "いんぺい",
+    meaning: "은폐",
+    tag: "社会",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 38,
+    word: "成熟",
+    reading: "せいじゅく",
+    meaning: "성숙",
+    tag: "社会",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 39,
+    word: "過ち",
+    reading: "あやまち",
+    meaning: "잘못; 실수; 오류",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 40,
+    word: "浮かれる",
+    reading: "うかれる",
+    meaning: "(마음이) 들뜨다; 신이 나다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+{
+    id: 41,
+    word: "符合",
+    reading: "ふごう",
+    meaning: "부합",
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 42,
+    word: "対話",
+    reading: "たいわ",
+    meaning: "대화",
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 43,
+    word: "紛争",
+    reading: "ふんそう",
+    meaning: "분쟁",
+    tag: "社会",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 44,
+    word: "永世中立",
+    reading: "えいせいちゅうりつ",
+    meaning: "영세 중립",
+    tag: "社会",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 45,
+    word: "傘下",
+    reading: "さんか",
+    meaning: "산하",
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 46,
+    word: "修める",
+    reading: "おさめる",
+    meaning: "닦다; 수양하다; 배우고 익히다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 47,
+    word: "ライフハック",
+    reading: "らいふはっく",
+    meaning: "라이프핵; 효율을 올리기 위한 기술",
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 48,
+    word: "吹き込む",
+    reading: "ふきこむ",
+    meaning: "불어 들어오다; 불어넣다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 49,
+    word: "先陣",
+    reading: "せんじん",
+    meaning: "선진; 맨 앞장; 선봉",
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 50,
+    word: "隣人",
+    reading: "りんじん",
+    meaning: "이웃 (사람)",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 51,
+    word: "葛藤",
+    reading: "かっとう",
+    meaning: "갈등",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 52,
+    word: "財政",
+    reading: "ざいせい",
+    meaning: "재정",
+    tag: "社会",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 53,
+    word: "改編",
+    reading: "かいへん",
+    meaning: "개편",
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 54,
+    word: "溶け込む",
+    reading: "とけこむ",
+    meaning: "녹아서 완전히 섞이다; 융화하다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 55,
+    word: "溶け込み",
+    reading: "とけこみ",
+    meaning: "용입",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 56,
+    word: "経由",
+    reading: "けいゆ",
+    meaning: "경유; 거쳐 지나는 것",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 57,
+    word: "防御",
+    reading: "ぼうぎょ",
+    meaning: "방어",
+    tag: "社会",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 58,
+    word: "強力",
+    reading: "きょうりょく",
+    meaning: "강력",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 59,
+    word: "決定打",
+    reading: "けっていだ",
+    meaning: "결정타; 결정적인 영향을 주는 행동",
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 60,
+    word: "既存",
+    reading: "きそん",
+    meaning: "기존",
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 61,
+    word: "深掘り",
+    reading: "ふかぼり",
+    meaning: "무언가를 깊게 파고듦; 밀접한 관계 구축",
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 62,
+    word: "現況",
+    reading: "げんきょう",
+    meaning: "현황",
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 63,
+    word: "答弁",
+    reading: "とうべん",
+    meaning: "답변; 질문에 대답하는 것",
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 64,
+    word: "探す",
+    reading: "さがす",
+    meaning: "찾다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 65,
+    word: "閉じこもる",
+    reading: "とじこもる",
+    meaning: "틀어박혀 나오지 않다; 두문불출하다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 66,
+    word: "創出",
+    reading: "そうしゅつ",
+    meaning: "창출",
+    tag: "ビジネス",
+    exJa: "新たな文化を創出する",
+    exKo: "새로운 문화를 창출하다"
+  },
+  {
+    id: 67,
+    word: "誘致",
+    reading: "ゆうち",
+    meaning: "유치; 이끌어 들임",
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 68,
+    word: "接ぎ木",
+    reading: "つぎき",
+    meaning: "접목",
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 69,
+    word: "閉鎖的",
+    reading: "へいさてき",
+    meaning: "폐쇄적",
+    tag: "社会",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 70,
+    word: "推進",
+    reading: "すいしん",
+    meaning: "추진",
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 71,
+    word: "速く来い",
+    reading: "はやくこい",
+    meaning: "급히 오너라",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 72,
+    word: "修士",
+    reading: "しゅうし",
+    meaning: "석사",
+    tag: "社会",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 73,
+    word: "着手",
+    reading: "ちゃくしゅ",
+    meaning: "착수",
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 74,
+    word: "契機",
+    reading: "けいき",
+    meaning: "계기",
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 75,
+    word: "至らぬ",
+    reading: "いたらぬ",
+    meaning: "미흡한; 모자라는",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 76,
+    word: "燥ぐ",
+    reading: "はしゃぐ",
+    meaning: "까불며 떠들다; 우쭐해지다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 77,
+    word: "腑抜ける",
+    reading: "ふぬける",
+    meaning: "얼빠지다; 무기력해지다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 78,
+    word: "犬も食わない",
+    reading: "いぬもくわない",
+    meaning: "개도 먹지 않는다; 아무도 거들떠보지 않다",
+    tag: "日常",
+    exJa: "夫婦喧嘩は犬も食わない",
+    exKo: "부부 싸움은 개도 안 말린다"
+  },
+  {
+    id: 79,
+    word: "面",
+    reading: "づら",
+    meaning: "(경멸조로) 얼굴; 낯",
+    tag: "スラング",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 80,
+    word: "光栄",
+    reading: "こうえい",
+    meaning: "광영; 영광",
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 81,
+    word: "目が丸くなる",
+    reading: "めがまるくなる",
+    meaning: "놀라서 눈이 동그래지다",
+    tag: "日常",
+    exJa: "びっくりして目が丸くなる。",
+    exKo: "깜짝 놀라 눈이 동그래지다"
+  },
+  {
+    id: 82,
+    word: "飲み込む",
+    reading: "のみこむ",
+    meaning: "삼키다; 이해하다; 납득하다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 83,
+    word: "KY",
+    reading: "けーわい",
+    meaning: "분위기 파악 못하는 것(사람)",
+    tag: "スラング",
+    exJa: "あの人KYすぎじゃない?",
+    exKo: "저 사람 너무 분위기 파악 못 하는 것 아냐?"
+  },
+  {
+    id: 84,
+    word: "ぶいぶい",
+    reading: "ぶいぶい",
+    meaning: "투덜투덜",
+    tag: "スラング",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 85,
+    word: "アポをとる",
+    reading: "あぽをとる",
+    meaning: "약속하다",
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 86,
+    word: "健気",
+    reading: "けなげ",
+    meaning: "씩씩하고 부지런함; 갸륵함",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 87,
+    word: "狭き門",
+    reading: "せまきもん",
+    meaning: "좁은 문; 난관",
+    tag: "社会",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 88,
+    word: "損切り",
+    reading: "そんぎり",
+    meaning: "손절매",
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 89,
+    word: "内職",
+    reading: "ないしょく",
+    meaning: "내직; 부업",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 90,
+    word: "受け止める",
+    reading: "うけとめる",
+    meaning: "받아 내다; 받아들이다",
+    tag: "ビジネス",
+    exJa: "指摘を前向きに受け止める",
+    exKo: "지적을 적극적으로 받아들이다"
+  },
+{
+    id: 91,
+    word: "所詮",
+    reading: "しょせん",
+    meaning: "어차피; 결국",
+    tag: "日常",
+    exJa: "所詮できない相談だ",
+    exKo: "도저히 되지도 않을 이야기다"
+  },
+  {
+    id: 92,
+    word: "大人げない",
+    reading: "おとなげない",
+    meaning: "어른답지 못하다; 유치하다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 93,
+    word: "遣らかす",
+    reading: "やらかす",
+    meaning: "저지르다",
+    tag: "日常",
+    exJa: "どえらいことを遣らかしてしまった",
+    exKo: "엄청난 일을 저지르고 말았다"
+  },
+  {
+    id: 94,
+    word: "よっ友",
+    reading: "よっとも",
+    meaning: "인사 정도만 나누는 친구",
+    tag: "スラング",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 95,
+    word: "宥める",
+    reading: "なだめる",
+    meaning: "달래다; 관대한 조치를 하다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 96,
+    word: "お馴染み",
+    reading: "おなじみ",
+    meaning: "친숙함; 잘 아는 사람",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 97,
+    word: "媚を売る",
+    reading: "こびをうる",
+    meaning: "아양 떨다; 아첨하다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 98,
+    word: "屈辱",
+    reading: "くつじょく",
+    meaning: "굴욕",
+    tag: "社会",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 99,
+    word: "緊張感",
+    reading: "きんちょうかん",
+    meaning: "긴장감",
+    tag: "日常",
+    exJa: "息苦しいほどの緊張感が漂う",
+    exKo: "숨 막힐 정도의 긴장감이 감돌다"
+  },
+  {
+    id: 100,
+    word: "燃え盛る",
+    reading: "もえさかる",
+    meaning: "한창 타다; 활활 타다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 101,
+    word: "外聞",
+    reading: "がいぶん",
+    meaning: "세상 소문; 평판; 체면",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 102,
+    word: "かなぐり捨てる",
+    reading: "かなぐりすてる",
+    meaning: "벗어 던지다; 벗어 팽개치다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 103,
+    word: "羽目になる",
+    reading: "はめになる",
+    meaning: "곤란한 상황에 처하다; 일이 꼬이다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 104,
+    word: "待ち伏せ",
+    reading: "まちぶせ",
+    meaning: "매복하고 기다림",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 105,
+    word: "焦げる",
+    reading: "こげる",
+    meaning: "눋다; 타다",
+    tag: "日常",
+    exJa: "肉がじりじりと焦げる",
+    exKo: "고기가 지글지글 타다"
+  },
+  {
+    id: 106,
+    word: "取り込む",
+    reading: "とりこむ",
+    meaning: "어수선하다; 거두어들이다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 107,
+    word: "意気込み",
+    reading: "いきごみ",
+    meaning: "분발함; 패기; 의욕",
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 108,
+    word: "立ち回り",
+    reading: "たちまわり",
+    meaning: "돌아다님; 자기 이익이 되도록 조처함",
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 109,
+    word: "地道",
+    reading: "じみち",
+    meaning: "착실함",
+    tag: "ビジネス",
+    exJa: "地道な人",
+    exKo: "착실한 사람"
+  },
+  {
+    id: 110,
+    word: "泥臭い",
+    reading: "どろくさい",
+    meaning: "흙내가 나다; 촌스럽다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 111,
+    word: "一際",
+    reading: "ひときわ",
+    meaning: "한층 더; 유달리",
+    tag: "日常",
+    exJa: "一際目を引く",
+    exKo: "한층 더 눈길을 끌다"
+  },
+  {
+    id: 112,
+    word: "目立つ",
+    reading: "めだつ",
+    meaning: "눈에 띄다; 두드러지다",
+    tag: "日常",
+    exJa: "その中でも一際目立つ生徒が1人いた",
+    exKo: "그중에서도 유독 눈에 띄는 학생이 한 명 있었다"
+  },
+  {
+    id: 113,
+    word: "悪羅悪羅系",
+    reading: "おらおらけい",
+    meaning: "거만하고 강압적인 태도의 남성",
+    tag: "スラング",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 114,
+    word: "いびる",
+    reading: "いびる",
+    meaning: "들볶다; 괴롭히다; 구박하다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 115,
+    word: "めそめそ",
+    reading: "めそめそ",
+    meaning: "훌쩍훌쩍 우는 모양",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 116,
+    word: "どん底",
+    reading: "どんぞこ",
+    meaning: "(맨) 밑바닥; 최악의 상태",
+    tag: "日常",
+    exJa: "人生のどん底を経験する",
+    exKo: "인생의 밑바닥을 경험하다"
+  },
+  {
+    id: 117,
+    word: "避ける",
+    reading: "さける",
+    meaning: "피하다; 삼가다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 118,
+    word: "前例",
+    reading: "ぜんれい",
+    meaning: "전례",
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 119,
+    word: "強まる",
+    reading: "つよまる",
+    meaning: "강해지다; 세지다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 120,
+    word: "裏付け",
+    reading: "うらづけ",
+    meaning: "확실한 증거; 뒷받침",
+    tag: "ビジネス",
+    exJa: "理論の裏付けがない",
+    exKo: "이론적인 뒷받침이 없다"
+  },
+  {
+    id: 121,
+    word: "真っ向",
+    reading: "まっこう",
+    meaning: "정면; 이마 한가운데",
+    tag: "日常",
+    exJa: "逃げないで真っ向から勝負する",
+    exKo: "피하지 않고 정면으로 승부하다"
+  },
+  {
+    id: 122,
+    word: "急ぐ",
+    reading: "いそぐ",
+    meaning: "급히[빨리] 가다",
+    tag: "日常",
+    exJa: "とっとと急ぐ",
+    exKo: "급히 가다"
+  },
+  {
+    id: 123,
+    word: "理想郷",
+    reading: "りそうきょう",
+    meaning: "이상향; 유토피아",
+    tag: "社会",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 124,
+    word: "コネ",
+    reading: "こね",
+    meaning: "연고; 연줄; 인맥",
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 125,
+    word: "足を運ぶ",
+    reading: "あしをはこぶ",
+    meaning: "실지로 그 곳에 가다; 찾아가보다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 126,
+    word: "ちくる",
+    reading: "ちくる",
+    meaning: "일러바치다; 고자질하다",
+    tag: "スラング",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 127,
+    word: "ごまんと",
+    reading: "ごまんと",
+    meaning: "많이; 얼마든지",
+    tag: "日常",
+    exJa: "そんな例ならごまんとあるさ",
+    exKo: "그런 예라면 얼마든지 있어"
+  },
+  {
+    id: 128,
+    word: "ろくでもない",
+    reading: "ろくでもない",
+    meaning: "대단치도 않다; 쓸데도 없다",
+    tag: "日常",
+    exJa: "碌でも無い話をするな",
+    exKo: "쓸데없는 이야기를 하지 마라"
+  },
+  {
+    id: 129,
+    word: "的外れ",
+    reading: "まとはずれ",
+    meaning: "빗나감; 요점을 벗어남",
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 130,
+    word: "白け",
+    reading: "しらけ",
+    meaning: "관심·감동이 없음",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 131,
+    word: "破る",
+    reading: "やぶる",
+    meaning: "깨다; 부수다; 돌파하다",
+    tag: "日常",
+    exJa: "優勝候補を破る",
+    exKo: "우승 후보를 패배시키다"
+  },
+  {
+    id: 132,
+    word: "操り人形",
+    reading: "あやつりにんぎょう",
+    meaning: "꼭두각시 인형",
+    tag: "社会",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 133,
+    word: "被る",
+    reading: "かぶる",
+    meaning: "겹치다; 중복되다",
+    tag: "ビジネス",
+    exJa: "政策がかぶる部分がある",
+    exKo: "정책이 겹치는 부분이 있다"
+  },
+  {
+    id: 134,
+    word: "きりがない",
+    reading: "きりがない",
+    meaning: "끝이 없다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 135,
+    word: "理屈",
+    reading: "りくつ",
+    meaning: "도리; 이치; 구실",
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 136,
+    word: "割り切る",
+    reading: "わりきる",
+    meaning: "명쾌하게 결론짓다; 딱 잘라 결론 내다",
+    tag: "ビジネス",
+    exJa: "これは理屈で割り切ることはできない",
+    exKo: "이것은 이치만으로 딱 잘라 단정 지을 수는 없다"
+  },
+  {
+    id: 137,
+    word: "焼ける",
+    reading: "やける",
+    meaning: "타다; 색이 변하다",
+    tag: "日常",
+    exJa: "山が焼ける",
+    exKo: "산불이 나다"
+  },
+  {
+    id: 138,
+    word: "抑揚",
+    reading: "よくよう",
+    meaning: "억양",
+    tag: "日常",
+    exJa: "抑揚のない話し方",
+    exKo: "억양이 없는 말투"
+  },
+  {
+    id: 139,
+    word: "絞め殺す",
+    reading: "しめころす",
+    meaning: "목을 졸라 죽이다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 140,
+    word: "どうやら",
+    reading: "どうやら",
+    meaning: "아무래도; 어쩐지; 간신히",
+    tag: "日常",
+    exJa: "どうやら風邪を引いたようだ",
+    exKo: "아무래도 감기가 든 모양이다"
+  },
+{
+    id: 141,
+    word: "自ずと",
+    reading: "おのずと",
+    meaning: "저절로; 자연히",
+    tag: "日常",
+    exJa: "年を取れば自ずと分かってくる",
+    exKo: "나이를 먹으면 자연히 알게 된다"
+  },
+  {
+    id: 142,
+    word: "執筆",
+    reading: "しっぴつ",
+    meaning: "집필",
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 143,
+    word: "ふて腐れる",
+    reading: "ふてくされる",
+    meaning: "부루퉁해지다; 토라지다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 144,
+    word: "あからさま",
+    reading: "あからさま",
+    meaning: "명백함; 분명함",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 145,
+    word: "誤魔化す",
+    reading: "ごまかす",
+    meaning: "속이다; 얼버무리다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 146,
+    word: "触れる",
+    reading: "ふれる",
+    meaning: "접촉하다; 닿다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 147,
+    word: "臑噛り",
+    reading: "すねかじり",
+    meaning: "부모의 신세를 짐 (또는 그런 사람)",
+    tag: "日常",
+    exJa: "すねかじりの分際でぜいたくだね。",
+    exKo: "부모에게 얹혀사는 처지에 사치스럽군"
+  },
+  {
+    id: 148,
+    word: "分際",
+    reading: "ぶんざい",
+    meaning: "신분; 분수",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 149,
+    word: "巻き戻す",
+    reading: "まきもどす",
+    meaning: "되감다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 150,
+    word: "べた惚れ",
+    reading: "べたぼれ",
+    meaning: "홀딱 반함",
+    tag: "スラング",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 151,
+    word: "押し売り",
+    reading: "おしうり",
+    meaning: "강매",
+    tag: "社会",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 152,
+    word: "病む",
+    reading: "やむ",
+    meaning: "앓다; 병들다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 153,
+    word: "淑やか",
+    reading: "しとやか",
+    meaning: "정숙함; 얌전함",
+    tag: "日常",
+    exJa: "そういう風に着たらおしとやかに見えるよ。",
+    exKo: "그렇게 입으니까 참해 보여."
+  },
+  {
+    id: 154,
+    word: "びり",
+    reading: "びり",
+    meaning: "제일 끝; 꼴찌",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 155,
+    word: "どか雪",
+    reading: "どかゆき",
+    meaning: "펑펑 내리는 눈",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 156,
+    word: "そっと",
+    reading: "そっと",
+    meaning: "살짝; 가만히; 몰래",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 157,
+    word: "お花畑",
+    reading: "おはなばたけ",
+    meaning: "꽃밭",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 158,
+    word: "危うく",
+    reading: "あやうく",
+    meaning: "가까스로; 겨우; 간신히",
+    tag: "日常",
+    exJa: "危ういところで助かる",
+    exKo: "위태로운 고비에서 간신히 살아나다"
+  },
+  {
+    id: 159,
+    word: "危うい",
+    reading: "あやうい",
+    meaning: "위태롭다; 아슬아슬하다",
+    tag: "日常",
+    exJa: "命が危うい",
+    exKo: "생명이 위태롭다"
+  },
+  {
+    id: 160,
+    word: "ざまあみろ",
+    reading: "ざまあみろ",
+    meaning: "꼴좋다",
+    tag: "スラング",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 161,
+    word: "振り回す",
+    reading: "ふりまわす",
+    meaning: "휘두르다",
+    tag: "日常",
+    exJa: "ステッキを振り回す",
+    exKo: "지팡이를 휘두르다"
+  },
+  {
+    id: 162,
+    word: "ハサミ",
+    reading: "はさみ",
+    meaning: "가위",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 163,
+    word: "ふるい落とす",
+    reading: "ふるいおとす",
+    meaning: "체로 쳐서 떨어뜨리다",
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 164,
+    word: "同い年",
+    reading: "おないどし",
+    meaning: "동갑; 같은 나이",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 165,
+    word: "コツ",
+    reading: "こつ",
+    meaning: "요령; 미립",
+    tag: "日常",
+    exJa: "コツをすっかり飲み込む",
+    exKo: "요령을 완전히 터득하다"
+  },
+  {
+    id: 166,
+    word: "頭文字",
+    reading: "かしらもじ",
+    meaning: "두문자; 머리글자",
+    tag: "日常",
+    exJa: "英文の頭文字は大文字で書く",
+    exKo: "영문의 머리글자는 대문자로 쓴다"
+  },
+  {
+    id: 167,
+    word: "日和",
+    reading: "ひより",
+    meaning: "날씨; 맑게 갠 날씨",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 168,
+    word: "宿る",
+    reading: "やどる",
+    meaning: "머무르다; 깃들다",
+    tag: "日常",
+    exJa: "睫に宿る露",
+    exKo: "속눈썹에 맺힌 이슬[눈물]"
+  },
+  {
+    id: 169,
+    word: "睫",
+    reading: "まつげ",
+    meaning: "속눈썹",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 170,
+    word: "ときめき",
+    reading: "ときめき",
+    meaning: "(기쁨이나 기대로) 가슴이 두근거림",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 171,
+    word: "足切り",
+    reading: "あしきり",
+    meaning: "일정 기준 미달자를 탈락시키는 일",
+    tag: "社会",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 172,
+    word: "ほっこり",
+    reading: "ほっこり",
+    meaning: "마음이 따뜻해지는 모양",
+    tag: "日常",
+    exJa: "心がほっこりする話",
+    exKo: "마음이 따뜻해지는 이야기"
+  },
+  {
+    id: 173,
+    word: "雲行きが怪しい",
+    reading: "くもゆきがあやしい",
+    meaning: "날씨(형세)가 수상하다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 174,
+    word: "百も承知",
+    reading: "ひゃくもしょうち",
+    meaning: "잘(충분히) 알고 있음",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 175,
+    word: "地に足をつける",
+    reading: "ちにあしをつける",
+    meaning: "매사에 확실히 진행시켜 나가는 것",
+    tag: "ビジネス",
+    exJa: "わくわくして足が地に着かない",
+    exKo: "가슴이 두근거려 안절부절못하다"
+  },
+  {
+    id: 176,
+    word: "巻き起こる",
+    reading: "まきおこる",
+    meaning: "돌연 일어나다",
+    tag: "社会",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 177,
+    word: "目を掛ける",
+    reading: "めをかける",
+    meaning: "돌보아 주다; 총애하다",
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 178,
+    word: "矛先",
+    reading: "ほこさき",
+    meaning: "창끝; 비난이나 공격의 방향",
+    tag: "社会",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 179,
+    word: "まさに",
+    reading: "まさに",
+    meaning: "지금 바로; 마침",
+    tag: "日常",
+    exJa: "客への態度はまさにそうあるべきだ",
+    exKo: "손님을 대하는 태도는 마땅히 그래야 한다"
+  },
+  {
+    id: 180,
+    word: "取るに足りない",
+    reading: "とるにたりない",
+    meaning: "하잘것없다; 하찮다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 181,
+    word: "薄ら",
+    reading: "うっすら",
+    meaning: "어렴풋이; 희미하게",
+    tag: "日常",
+    exJa: "今も薄すらと記憶に残っている",
+    exKo: "지금도 어렴풋이 기억에 남아 있다"
+  },
+  {
+    id: 182,
+    word: "頬",
+    reading: "ほお",
+    meaning: "볼; 뺨",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 183,
+    word: "顎",
+    reading: "あご",
+    meaning: "턱",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 184,
+    word: "牛耳る",
+    reading: "ぎゅうじる",
+    meaning: "(조직 등을) 좌지우지하다",
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 185,
+    word: "御尤も",
+    reading: "ごもっとも",
+    meaning: "지당함; 당연함",
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 186,
+    word: "隅",
+    reading: "すみ",
+    meaning: "모퉁이; 구석",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 187,
+    word: "撲滅",
+    reading: "ぼくめつ",
+    meaning: "박멸",
+    tag: "社会",
+    exJa: "蚊を撲滅する",
+    exKo: "모기를 박멸하다"
+  },
+  {
+    id: 188,
+    word: "引かれる",
+    reading: "ひかれる",
+    meaning: "(마음 등이) 끌리다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 189,
+    word: "程良い",
+    reading: "ほどよい",
+    meaning: "알맞다; 적당하다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 190,
+    word: "次第に",
+    reading: "しだいに",
+    meaning: "차츰; 점점",
+    tag: "日常",
+    exJa: "二人の仲が次第に隔たる",
+    exKo: "두 사람 사이가 점차 멀어지다"
+  },
+  {
+    id: 191,
+    word: "心細い",
+    reading: "こころぼそい",
+    meaning: "불안하다; 어쩐지 쓸쓸하다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 192,
+    word: "物腰",
+    reading: "ものごし",
+    meaning: "언행; 사람을 대하는 말씨",
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 193,
+    word: "瑞々しい",
+    reading: "みずみずしい",
+    meaning: "윤이 나고 싱싱하다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 194,
+    word: "差し支える",
+    reading: "さしつかえる",
+    meaning: "지장이 있다; 방해가 되다",
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 195,
+    word: "意気込む",
+    reading: "いきごむ",
+    meaning: "분발하다; 의욕에 불타다",
+    tag: "日常",
+    exJa: "新記録を狙いたいと意気込む",
+    exKo: "신기록을 노리고 싶다며 의욕을 보이다"
+  },
+  {
+    id: 196,
+    word: "ブレない",
+    reading: "ぶれない",
+    meaning: "흔들림이 없는 모양; 일관성 있는 모양",
+    tag: "ビジネス",
+    exJa: "柔軟だけど芯がブレない",
+    exKo: "유연하지만 심지가 굳다"
+  },
+  {
+    id: 197,
+    word: "怯える",
+    reading: "おびえる",
+    meaning: "겁먹다; 무서워 벌벌 떨다",
+    tag: "日常",
+    exJa: "石油値上げの声に怯える",
+    exKo: "석유 가격 인상 소리에 겁을 내다"
+  },
+  {
+    id: 198,
+    word: "嫌らしい",
+    reading: "いやらしい",
+    meaning: "불쾌한 느낌이 들다; 역겹다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 199,
+    word: "凄まじい",
+    reading: "すさまじい",
+    meaning: "굉장하다; 놀랍다; 무섭다",
+    tag: "日常",
+    exJa: "凄まじい量の資料を読んだ",
+    exKo: "엄청난 양의 자료를 읽었다"
+  },
+  {
+    id: 200,
+    word: "惜しい",
+    reading: "おしい",
+    meaning: "아깝다; 애석하다",
+    tag: "日常",
+    exJa: "惜しいところで失敗した",
+    exKo: "아깝게도 다 된 일을 실패했다"
+  },
+{
+    id: 201,
+    word: "頑固", /* [cite: 730] */
+    reading: "がんこ", /* [cite: 730] */
+    meaning: "완고(함); 외고집", /* [cite: 731] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 202,
+    word: "バズ", /* [cite: 733] */
+    reading: "ばず", /* [cite: 733] */
+    meaning: "버즈; 소문; 입소문", /* [cite: 734, 735] */
+    tag: "スラング",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 203,
+    word: "たどり着く", /* [cite: 743] */
+    reading: "たどりつく", /* [cite: 743] */
+    meaning: "겨우 목적지에 다다르다", /* [cite: 744] */
+    tag: "日常",
+    exJa: "マップを使って目的地にたどり着く", /* [cite: 741] */
+    exKo: "지도를 이용하여 겨우 목적지에 당도하다" /* [cite: 742] */
+  },
+  {
+    id: 204,
+    word: "裂ける", /* [cite: 746] */
+    reading: "さける", /* [cite: 746] */
+    meaning: "찢어지다; 터지다; 갈라지다", /* [cite: 747] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 205,
+    word: "余程", /* [cite: 750] */
+    reading: "よほど", /* [cite: 750] */
+    meaning: "상당히; 대단히; 꽤", /* [cite: 751] */
+    tag: "日常",
+    exJa: "現代人はよほどのことでは感動しない無感動状態になったようだ。", /* [cite: 748, 749] */
+    exKo: "현대인은 웬만한 일에는 감동하지 않는 무감동 상태가 된 듯하다." /* [cite: 748, 749] */
+  },
+  {
+    id: 206,
+    word: "うっかり", /* [cite: 758] */
+    reading: "うっかり", /* [cite: 758] */
+    meaning: "깜빡; 무심코; 멍청히", /* [cite: 759] */
+    tag: "日常",
+    exJa: "うっかり秘密[本心]をしゃべってしまう", /* [cite: 754] */
+    exKo: "무심코 비밀[본심]을 말해 버리다" /* [cite: 755] */
+  },
+  {
+    id: 207,
+    word: "相性", /* [cite: 760] */
+    reading: "あいしょう", /* [cite: 760] */
+    meaning: "궁합이 맞음; 성격이 잘 맞음", /* [cite: 761, 762] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 208,
+    word: "覗かせる", /* [cite: 763] */
+    reading: "のぞかせる", /* [cite: 763] */
+    meaning: "들여다 보이게 하다; 슬쩍 비치다", /* [cite: 764] */
+    tag: "日常",
+    exJa: "下心を覗かせる", /* [cite: 767] */
+    exKo: "속마음을 슬쩍 비치다" /* [cite: 768] */
+  },
+  {
+    id: 209,
+    word: "下心", /* [cite: 769] */
+    reading: "したごころ", /* [cite: 769] */
+    meaning: "속마음; 본심", /* [cite: 770] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 210,
+    word: "サボり", /* [cite: 773] */
+    reading: "さぼり", /* [cite: 773] */
+    meaning: "땡땡이, 농땡이", /* [cite: 774] */
+    tag: "スラング",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 211,
+    word: "潜り", /* [cite: 775] */
+    reading: "もぐり", /* [cite: 775] */
+    meaning: "강의를 몰래 훔쳐 듣는 일 (도강)", /* [cite: 776] */
+    tag: "スラング",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 212,
+    word: "こっそり", /* [cite: 779] */
+    reading: "こっそり", /* [cite: 779] */
+    meaning: "가만히; 살짝; 몰래", /* [cite: 780] */
+    tag: "日常",
+    exJa: "誰かとこっそり(と)連絡を取っている", /* [cite: 777] */
+    exKo: "누군가와 몰래 연락하고 있다" /* [cite: 778] */
+  },
+  {
+    id: 213,
+    word: "今更", /* [cite: 785] */
+    reading: "いまさら", /* [cite: 785] */
+    meaning: "이제 와서; 새삼스럽게", /* [cite: 786, 787] */
+    tag: "日常",
+    exJa: "今更後には引けない", /* [cite: 783] */
+    exKo: "이제 와서 물러설 [그만둘] 수는 없다" /* [cite: 784] */
+  },
+  {
+    id: 214,
+    word: "いっそ", /* [cite: 800] */
+    reading: "いっそ", /* [cite: 800] */
+    meaning: "도리어; 차라리", /* [cite: 801] */
+    tag: "日常",
+    exJa: "いっそ遠くへ行ってみるか", /* [cite: 798] */
+    exKo: "차라리 멀리 가 볼까?" /* [cite: 799] */
+  },
+  {
+    id: 215,
+    word: "片付ける", /* [cite: 804] */
+    reading: "かたづける", /* [cite: 804] */
+    meaning: "치우다; 정돈[정리]하다", /* [cite: 805, 806] */
+    tag: "日常",
+    exJa: "机の上を片付ける", /* [cite: 802] */
+    exKo: "책상 위를 정돈하다" /* [cite: 803] */
+  },
+  {
+    id: 216,
+    word: "ちょろい", /* [cite: 812] */
+    reading: "ちょろい", /* [cite: 812] */
+    meaning: "쉽다; 간단하다; 별것 아니다", /* [cite: 813] */
+    tag: "日常",
+    exJa: "こんな問題はちょろい", /* [cite: 810] */
+    exKo: "이런 문제는 식은 죽 먹기다" /* [cite: 811] */
+  },
+  {
+    id: 217,
+    word: "ちやほや", /* [cite: 820] */
+    reading: "ちやほや", /* [cite: 820] */
+    meaning: "상대를 추어올리는 모양", /* [cite: 821] */
+    tag: "日常",
+    exJa: "周囲からちやほやされていい気になる", /* [cite: 818] */
+    exKo: "주위에서 추어올리는 바람에 우쭐해지다" /* [cite: 819] */
+  },
+  {
+    id: 218,
+    word: "離す", /* [cite: 822] */
+    reading: "はなす", /* [cite: 822] */
+    meaning: "떼다; 풀다; 놓다", /* [cite: 823, 824] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 219,
+    word: "解禁", /* [cite: 826] */
+    reading: "かいきん", /* [cite: 826] */
+    meaning: "해금", /* [cite: 827] */
+    tag: "社会",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 220,
+    word: "持て囃す", /* [cite: 832] */
+    reading: "もてはやす", /* [cite: 832] */
+    meaning: "격찬하다; 몹시 칭찬하다", /* [cite: 833] */
+    tag: "日常",
+    exJa: "時の人として持て囃す", /* [cite: 830] */
+    exKo: "당대의 인물이라고 칭찬이 자자하다" /* [cite: 831] */
+  },
+  {
+    id: 221,
+    word: "遣らせ", /* [cite: 838] */
+    reading: "やらせ", /* [cite: 838] */
+    meaning: "미리 짜고 하는 일", /* [cite: 839] */
+    tag: "社会",
+    exJa: "あの番組はやらせだ。", /* [cite: 836] */
+    exKo: "저 프로그램은 미리 짜고 꾸민 것이다" /* [cite: 837] */
+  },
+  {
+    id: 222,
+    word: "滅多に", /* [cite: 850] */
+    reading: "めったに", /* [cite: 850] */
+    meaning: "좀처럼; 좀체", /* [cite: 851] */
+    tag: "日常",
+    exJa: "こんな機会はめったにないだろう", /* [cite: 848] */
+    exKo: "이런 기회는 좀처럼 없을 게다" /* [cite: 849] */
+  },
+  {
+    id: 223,
+    word: "掛け持ち", /* [cite: 854] */
+    reading: "かけもち", /* [cite: 854] */
+    meaning: "겸임; 겸무", /* [cite: 855] */
+    tag: "ビジネス",
+    exJa: "2校の講師を掛け持ちする", /* [cite: 852] */
+    exKo: "두 학교의 강사를 겸임하다" /* [cite: 853] */
+  },
+  {
+    id: 224,
+    word: "助っと", /* [cite: 856] */
+    reading: "すけっと", /* [cite: 856] */
+    meaning: "가세하여 돕는 사람; 조력하는 사람", /* [cite: 857] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 225,
+    word: "腰抜け", /* [cite: 858] */
+    reading: "こしぬけ", /* [cite: 858] */
+    meaning: "무기력하고 겁이 많음; 겁쟁이", /* [cite: 860] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 226,
+    word: "揺らぎ", /* [cite: 861] */
+    reading: "ゆらぎ", /* [cite: 861] */
+    meaning: "흔들림; 동요", /* [cite: 862] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 227,
+    word: "尖る", /* [cite: 869] */
+    reading: "とがる", /* [cite: 869] */
+    meaning: "뾰족해지다; 예민해지다; 화내다", /* [cite: 870, 871, 872] */
+    tag: "日常",
+    exJa: "神経が尖る", /* [cite: 863] */
+    exKo: "신경이 곤두서다" /* [cite: 864] */
+  },
+  {
+    id: 228,
+    word: "樹霊", /* [cite: 873] */
+    reading: "じゅれい", /* [cite: 873] */
+    meaning: "늙은 나무에 깃든 정령", /* [cite: 874] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 229,
+    word: "テリトリー", /* [cite: 875] */
+    reading: "てりとりー", /* [cite: 875] */
+    meaning: "테리터리; 영토; 전문 분야", /* [cite: 876, 877, 878] */
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 230,
+    word: "細かい", /* [cite: 881] */
+    reading: "こまかい", /* [cite: 881] */
+    meaning: "잘다; 까다롭다", /* [cite: 882, 884] */
+    tag: "日常",
+    exJa: "細かい話は抜きにしよう", /* [cite: 879] */
+    exKo: "자세한 이야기는 생략하기로 하자" /* [cite: 880] */
+  },
+  {
+    id: 231,
+    word: "香ばしい", /* [cite: 887] */
+    reading: "こうばしい", /* [cite: 887] */
+    meaning: "향기롭다; 구수하다", /* [cite: 888] */
+    tag: "日常",
+    exJa: "香ばしい香りが漂う", /* [cite: 885] */
+    exKo: "향기로운 냄새가 감돌다" /* [cite: 886] */
+  },
+  {
+    id: 232,
+    word: "鳴かず飛ばず", /* [cite: 891] */
+    reading: "なかずとばず", /* [cite: 891] */
+    meaning: "울지도 않고 날지도 않고", /* [cite: 892] */
+    tag: "社会",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 233,
+    word: "志す", /* [cite: 893] */
+    reading: "こころざす", /* [cite: 893] */
+    meaning: "뜻하다; 뜻을 두다", /* [cite: 894] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 234,
+    word: "社割り", /* [cite: 899] */
+    reading: "しゃわり", /* [cite: 899] */
+    meaning: "가게에서 취급하는 상품을 할인가격으로 구입할 수 있는 제도", /* [cite: 900] */
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 235,
+    word: "いい加減", /* [cite: 901] */
+    reading: "いいかげん", /* [cite: 901] */
+    meaning: "적당함; 알맞음; 꽤", /* [cite: 902, 903] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 236,
+    word: "傍線", /* [cite: 905] */
+    reading: "ぼうせん", /* [cite: 905] */
+    meaning: "방선; 밑줄", /* [cite: 906] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 237,
+    word: "余っ程", /* [cite: 907] */
+    reading: "よっぽど", /* [cite: 907] */
+    meaning: "꽤; 어지간히; 대단히", /* [cite: 908] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 238,
+    word: "歯車", /* [cite: 913] */
+    reading: "はぐるま", /* [cite: 913] */
+    meaning: "톱니바퀴; 전체를 구성하는 요소", /* [cite: 914, 915] */
+    tag: "社会",
+    exJa: "組織の歯車に過ぎない", /* [cite: 909] */
+    exKo: "조직의 일원에 불과하다" /* [cite: 910] */
+  },
+  {
+    id: 239,
+    word: "油", /* [cite: 916] */
+    reading: "あぶら", /* [cite: 916] */
+    meaning: "기름; 활력소; 원동력", /* [cite: 917, 919] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 240,
+    word: "塗れ", /* [cite: 920] */
+    reading: "まみれ", /* [cite: 920] */
+    meaning: "...투성이", /* [cite: 921] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 241,
+    word: "中華街", /* [cite: 922] */
+    reading: "ちゅうかがい", /* [cite: 922] */
+    meaning: "차이나타운", /* [cite: 925] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 242,
+    word: "鉄板", /* [cite: 926] */
+    reading: "てっぱん", /* [cite: 926] */
+    meaning: "철판", /* [cite: 927] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 243,
+    word: "落ち葉", /* [cite: 928] */
+    reading: "おちば", /* [cite: 928] */
+    meaning: "낙엽", /* [cite: 929] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 244,
+    word: "甘ったるい", /* [cite: 931] */
+    reading: "あまったるい", /* [cite: 931] */
+    meaning: "달콤하다; 달디달다", /* [cite: 932, 933] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 245,
+    word: "寝起き", /* [cite: 935] */
+    reading: "ねおき", /* [cite: 935] */
+    meaning: "기상과 취침; 잠에서 깨어남", /* [cite: 936, 937] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 246,
+    word: "つまみ出す", /* [cite: 938] */
+    reading: "つまみだす", /* [cite: 938] */
+    meaning: "집어내다; 끌어내다; 쫓아내다", /* [cite: 939, 941] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 247,
+    word: "モブキャラ", /* [cite: 942] */
+    reading: "もぶきゃら", /* [cite: 942] */
+    meaning: "이름이나 대사가 없는 단역 캐릭터", /* [cite: 943] */
+    tag: "スラング",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 248,
+    word: "雲泥の差", /* [cite: 944] */
+    reading: "うんでいのさ", /* [cite: 944] */
+    meaning: "운니지차; 천양지차", /* [cite: 945] */
+    tag: "社会",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 249,
+    word: "眠る", /* [cite: 946] */
+    reading: "ねむる", /* [cite: 946] */
+    meaning: "잠자다; 잠들다; 활용되지 않다", /* [cite: 947, 949] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 250,
+    word: "ふんぞり返る", /* [cite: 952] */
+    reading: "ふんぞりかえる", /* [cite: 952] */
+    meaning: "뽐내어 몸을 뒤로 젖히다; 뽐내다", /* [cite: 953] */
+    tag: "日常",
+    exJa: "椅子にふんぞり返る", /* [cite: 950] */
+    exKo: "의자에 턱 버티고 앉다" /* [cite: 951] */
+  },
+  {
+    id: 251,
+    word: "媒体", /* [cite: 958] */
+    reading: "ばいたい", /* [cite: 958] */
+    meaning: "매체", /* [cite: 959] */
+    tag: "社会",
+    exJa: "コミュニケーションの媒体", /* [cite: 956] */
+    exKo: "커뮤니케이션의 매체" /* [cite: 957] */
+  },
+  {
+    id: 252,
+    word: "火傷", /* [cite: 963] */
+    reading: "やけど", /* [cite: 963] */
+    meaning: "화상; 타격을 입음", /* [cite: 964, 965] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 253,
+    word: "助兵衛", /* [cite: 966] */
+    reading: "すけべえ", /* [cite: 966] */
+    meaning: "호색(함); 호색가; 색골", /* [cite: 967] */
+    tag: "スラング",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 254,
+    word: "やむを得ない", /* [cite: 968] */
+    reading: "やむをえない", /* [cite: 968] */
+    meaning: "할 수 없다; 어쩔 수 없다; 부득이하다", /* [cite: 969] */
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 255,
+    word: "止む", /* [cite: 970] */
+    reading: "やむ", /* [cite: 970] */
+    meaning: "멈추다; 그치다", /* [cite: 971, 972] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 256,
+    word: "中古", /* [cite: 974] */
+    reading: "ちゅうこ", /* [cite: 974] */
+    meaning: "중고", /* [cite: 975] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 257,
+    word: "鼻詰まり", /* [cite: 978] */
+    reading: "はなづまり", /* [cite: 978] */
+    meaning: "코 막힘", /* [cite: 979] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 258,
+    word: "荒れる", /* [cite: 984] */
+    reading: "あれる", /* [cite: 984] */
+    meaning: "거칠어지다; 사나워지다", /* [cite: 985, 986] */
+    tag: "日常",
+    exJa: "会議が荒れる", /* [cite: 982] */
+    exKo: "회의가 험악해지다" /* [cite: 983] */
+  },
+  {
+    id: 259,
+    word: "日焼けサロン", /* [cite: 988] */
+    reading: "ひやけさろん", /* [cite: 988] */
+    meaning: "선탠 살롱", /* [cite: 989] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 260,
+    word: "日焼け", /* [cite: 990] */
+    reading: "ひやけ", /* [cite: 990] */
+    meaning: "피부가 햇볕에 타서 검게 되는 일", /* [cite: 991] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 261,
+    word: "売れ残り", /* [cite: 994] */
+    reading: "うれのこり", /* [cite: 994] */
+    meaning: "잔품; 팔다 남은 물건", /* [cite: 995] */
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 262,
+    word: "目を見張る", /* [cite: 997] */
+    reading: "めをみはる", /* [cite: 997] */
+    meaning: "놀라거나 하여 눈을 크게 뜨다", /* [cite: 998] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 263,
+    word: "甲斐", /* [cite: 999] */
+    reading: "がい", /* [cite: 999] */
+    meaning: "...할 만한 값어치; 보람", /* [cite: 1000] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 264,
+    word: "貝殻", /* [cite: 1001] */
+    reading: "かいがら", /* [cite: 1001] */
+    meaning: "조가비; 조개껍데기", /* [cite: 1002] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 265,
+    word: "イケボ", /* [cite: 1004] */
+    reading: "いけぼ", /* [cite: 1004] */
+    meaning: "꽃미남 목소리", /* [cite: 1005] */
+    tag: "スラング",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 266,
+    word: "ばんばん", /* [cite: 1006] */
+    reading: "ばんばん", /* [cite: 1006] */
+    meaning: "펑펑; 퍽퍽; 척척", /* [cite: 1007] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 267,
+    word: "どうせなら", /* [cite: 1008] */
+    reading: "どうせなら", /* [cite: 1008] */
+    meaning: "이왕이면", /* [cite: 1009] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 268,
+    word: "猶", /* [cite: 1014] */
+    reading: "なお", /* [cite: 1014] */
+    meaning: "역시; 여전히", /* [cite: 1015] */
+    tag: "日常",
+    exJa: "期日はなお二週間ある", /* [cite: 1012] */
+    exKo: "기일은 아직 2주일이 (남아) 있다" /* [cite: 1013] */
+  },
+  {
+    id: 269,
+    word: "なだらか", /* [cite: 1018] */
+    reading: "なだらか", /* [cite: 1018] */
+    meaning: "완만함; 순조로움", /* [cite: 1019, 1020] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 270,
+    word: "ぺてん", /* [cite: 1022] */
+    reading: "ぺてん", /* [cite: 1022] */
+    meaning: "속임; 속임수; 사기", /* [cite: 1023] */
+    tag: "社会",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 271,
+    word: "放し", /* [cite: 1026] */
+    reading: "ぱなし", /* [cite: 1026] */
+    meaning: "그대로 둔다는 뜻", /* [cite: 1028] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 272,
+    word: "予防接種", /* [cite: 1030] */
+    reading: "よぼうせっしゅ", /* [cite: 1030] */
+    meaning: "예방 접종", /* [cite: 1031] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 273,
+    word: "緩む", /* [cite: 1032] */
+    reading: "ゆるむ", /* [cite: 1032] */
+    meaning: "느슨해지다; 헐거워지다", /* [cite: 1033] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 274,
+    word: "がくがく", /* [cite: 1036] */
+    reading: "がくがく", /* [cite: 1036] */
+    meaning: "바들바들; 부들부들", /* [cite: 1040] */
+    tag: "日常",
+    exJa: "足ががくがく震える", /* [cite: 1041] */
+    exKo: "다리가 바들바들 떨리다" /* [cite: 1042] */
+  },
+  {
+    id: 275,
+    word: "震える", /* [cite: 1043] */
+    reading: "ふるえる", /* [cite: 1043] */
+    meaning: "흔들리다; 진동하다; 떨리다", /* [cite: 1044, 1045] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 276,
+    word: "掛かり付け", /* [cite: 1048] */
+    reading: "かかりつけ", /* [cite: 1048] */
+    meaning: "언제나 그 의사의 진찰·치료를 받는 일", /* [cite: 1049] */
+    tag: "日常",
+    exJa: "掛かり付けの医者", /* [cite: 1046] */
+    exKo: "단골 의사" /* [cite: 1047] */
+  },
+  {
+    id: 277,
+    word: "欠かせない", /* [cite: 1050] */
+    reading: "かかせない", /* [cite: 1050] */
+    meaning: "빠뜨릴 수 없다; 없어서는 안 된다", /* [cite: 1051] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 278,
+    word: "苦情", /* [cite: 1052] */
+    reading: "くじょう", /* [cite: 1052] */
+    meaning: "불평; 불만", /* [cite: 1053] */
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 279,
+    word: "要領", /* [cite: 1055] */
+    reading: "ようりょう", /* [cite: 1055] */
+    meaning: "요령; 요점", /* [cite: 1056, 1058] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 280,
+    word: "講じる", /* [cite: 1059] */
+    reading: "こうじる", /* [cite: 1059] */
+    meaning: "강의하다; 강구하다", /* [cite: 1060, 1061] */
+    tag: "ビジネス",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 281,
+    word: "素晴らしい", /* [cite: 1063] */
+    reading: "すばらしい", /* [cite: 1063] */
+    meaning: "훌륭하다; 굉장하다; 멋지다", /* [cite: 1064] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 282,
+    word: "暑がる", /* [cite: 1066] */
+    reading: "あつがる", /* [cite: 1066] */
+    meaning: "더워하다", /* [cite: 1067] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 283,
+    word: "寒がる", /* [cite: 1068] */
+    reading: "さむがる", /* [cite: 1068] */
+    meaning: "추워하다", /* [cite: 1069] */
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  }
 ];
