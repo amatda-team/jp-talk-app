@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="単語帳">
-<title>単語帳 - Phase Final (Masterpiece)</title>
+<title>単語帳 - Phase Final (Refined Arrows)</title>
 
 <style>
   @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
@@ -119,22 +119,19 @@
     padding: 0; box-sizing: border-box; background-color: #F8F9FA; position: relative;
   }
 
-  /* 🌟 수정: 스크롤해도 미동도 않는 철통 고정 헤더 */
   .list-header-fixed {
     position: sticky; top: 0; left: 0; width: 100%;
     background-color: #F8F9FA; z-index: 50;
     padding: 20px 20px 10px 20px; box-sizing: border-box;
     display: flex; flex-direction: column; align-items: center;
-    border-bottom: 1px solid rgba(0,0,0,0.02); /* 헤더 경계선 은은하게 */
+    border-bottom: 1px solid rgba(0,0,0,0.02); 
   }
   
   .list-header-inner {
-    /* 🌟 B안 적용: 360px (카드 280px + 양옆 화살표 공간 40px씩) */
     width: 100%; max-width: 360px; position: relative; display: flex; align-items: center; justify-content: center;
   }
   .list-header-inner .back-btn { position: absolute; left: 0; top: -8px; padding: 0; }
 
-  /* 🌟 B안: 프로그레스 바가 화살표 공간까지 포함하여 안정적인 지붕 역할 */
   .tracker-container {
     position: relative; width: 100%; max-width: 360px;
     height: 24px; margin-top: 24px; margin-bottom: 4px;
@@ -144,10 +141,9 @@
     transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
   
-  /* 🌟 수정: 작고 힙한 레트로 픽셀 숫자 폰트 적용 */
   .tracker-thumb {
     text-align: right; 
-    font-family: 'VT323', 'Courier New', Courier, monospace; /* 픽셀 감성 폰트 */
+    font-family: 'VT323', 'Courier New', Courier, monospace; 
     font-size: 15px; font-weight: 900; letter-spacing: -0.5px;
     color: #1d1d1f; padding-right: 4px; padding-bottom: 2px;
   }
@@ -163,19 +159,16 @@
     height: 100%; background: #95D03A; border-radius: 2px; width: 0%; transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  /* 🌟 수정: 카드는 280px로 슬림하게, 여백을 넉넉히 */
   #list-container {
     width: 100%; max-width: 280px; 
     display: flex; flex-direction: column; gap: 12px; 
     padding-bottom: 40px; margin-top: 10px;
   }
   
-  /* 🌟 카드를 거대한 스위치로 만듦 */
   .list-item {
     background: #ffffff; border: 2px solid #1d1d1f; border-radius: 12px;
     padding: 14px 16px; box-shadow: 2px 2px 0px #1d1d1f;
-    cursor: pointer; /* 누를 수 있음을 명시 */
-    transition: transform 0.1s, box-shadow 0.1s;
+    cursor: pointer; transition: transform 0.1s, box-shadow 0.1s;
     -webkit-tap-highlight-color: transparent;
   }
   .list-item:active { transform: translate(1px, 1px); box-shadow: 1px 1px 0px #1d1d1f; }
@@ -183,20 +176,18 @@
   .list-header-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;}
   .list-word { font-size: 20px; font-weight: 700; color: #1d1d1f; letter-spacing: 0; }
   .list-reading { font-size: 13px; color: #86868b; font-weight: 600; }
-  .list-meaning-wrapper { margin-bottom: 4px; pointer-events: none; /* 클릭은 카드 전체가 흡수 */ }
+  .list-meaning-wrapper { margin-bottom: 4px; pointer-events: none; }
   
-  /* 먹칠 디자인 */
   .meaning-blind {
     display: inline-block; background-color: #1d1d1f; color: #1d1d1f; border-radius: 4px;
     padding: 2px 6px; font-size: 15px; font-weight: 700; transition: all 0.2s ease;
   }
   .meaning-blind.revealed { background-color: #E2F0A5; color: #1d1d1f; }
 
-  /* 예문 보기 버튼 */
   .ex-toggle-btn {
     display: inline-block; font-size: 12px; font-weight: 700; color: #86868b;
     background: #f1f2f6; padding: 6px 12px; border-radius: 8px; cursor: pointer; transition: background 0.1s; margin-top: 4px;
-    pointer-events: auto; /* 카드 클릭과 분리 */
+    pointer-events: auto; 
   }
   .ex-toggle-btn:active { background: #e2e4eb; }
 
@@ -215,22 +206,18 @@
     position: fixed; top: 0; bottom: 0; z-index: 40; cursor: pointer; 
     display: flex; align-items: center; justify-content: center;
     -webkit-tap-highlight-color: transparent;
-    /* 카드가 280px이므로, 화면 가로의 남는 절반 공간 전체를 차지함 */
     width: calc(50vw - 140px); 
   }
   
-  /* 화살표 위치를 카드(280px)에서 딱 15px 정도만 떨어지도록 섬세하게 고정 */
-  .side-hitbox.left { left: 0; justify-content: flex-end; padding-right: 15px; }
-  .side-hitbox.right { right: 0; justify-content: flex-start; padding-left: 15px; }
+  /* 🌟 수정: 화살표를 카드에서 더 멀찍이 떨어뜨림 (padding-right/left: 24px) */
+  .side-hitbox.left { left: 0; justify-content: flex-end; padding-right: 24px; }
+  .side-hitbox.right { right: 0; justify-content: flex-start; padding-left: 24px; }
 
-  /* 🌟 초박형 세로 겹화살표 & 연한 다크 그린 */
   .side-nav-icon {
-    /* 深緑 (다크그린) 컬러, 불투명도 25% (매우 은은함) */
     color: rgba(45, 138, 86, 0.25); 
     transition: transform 0.1s, color 0.1s;
   }
   
-  /* 오직 누를 때만(Active) 진해짐 (모바일 호버 버그 완벽 차단) */
   .side-hitbox:active .side-nav-icon {
     color: rgba(45, 138, 86, 0.8); transform: scale(0.9);
   }
@@ -295,7 +282,7 @@
       🚑 レスキュー <span class="badge-review" id="uiReviewCount">0</span>
     </button>
     <button class="action-btn btn-list" onclick="startListMode()">
-      📖 単語一覧 <span class="badge-cycle" id="uiDashCycle">1回読</span>
+      📖 単語一覧 <span class="badge-cycle" id="uiDashCycle">1回読 中</span>
     </button>
   </div>
 
@@ -352,16 +339,16 @@
   </div>
 
   <div class="side-hitbox left" onclick="prevListPage()">
-    <svg class="side-nav-icon" width="36" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="15 3 7 12 15 21" />
-      <polyline points="21 3 13 12 21 21" />
+    <svg class="side-nav-icon" width="24" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="13 6 7 12 13 18" />
+      <polyline points="19 6 13 12 19 18" />
     </svg>
   </div>
   
   <div class="side-hitbox right" onclick="nextListPage()">
-    <svg class="side-nav-icon" width="36" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="9 3 17 12 9 21" />
-      <polyline points="3 3 11 12 3 21" />
+    <svg class="side-nav-icon" width="24" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="11 6 17 12 11 18" />
+      <polyline points="5 6 11 12 5 18" />
     </svg>
   </div>
 
@@ -428,7 +415,7 @@
     document.getElementById('uiReviewCount').innerText = reviewCount;
     
     if(listState && listState.cycle) {
-      document.getElementById('uiDashCycle').innerText = `現在 ${listState.cycle}回読`;
+      document.getElementById('uiDashCycle').innerText = `${listState.cycle}回読 中`;
     }
 
     const dayListContainer = document.getElementById('uiDayList');
@@ -608,27 +595,23 @@
     localStorage.setItem('noodVocaListState', JSON.stringify(listState));
   }
 
-  // 🌟 수정: 카드 아무 곳이나 누르면 뜻이 열리고 닫히는 전체 스위치 함수
   window.toggleBlindWholeCard = function(id, cardElement) {
     const blindElement = cardElement.querySelector('.meaning-blind');
     if (!blindElement) return;
 
     const index = listState.revealedWords.indexOf(id);
     if (index > -1) {
-      // 닫기
       listState.revealedWords.splice(index, 1);
       blindElement.classList.remove('revealed');
     } else {
-      // 열기
       listState.revealedWords.push(id);
       blindElement.classList.add('revealed');
     }
     saveListState();
   }
 
-  // 🌟 수정: 예문 보기 버튼 클릭 시 카드 전체 스위치가 작동하지 않도록 이벤트 전파(Propagation) 차단
   window.toggleEx = function(event, exId) {
-    event.stopPropagation(); // 카드 토글 차단
+    event.stopPropagation(); 
     const exBox = document.getElementById(exId);
     if(exBox) exBox.classList.toggle('expanded');
   }
@@ -654,7 +637,6 @@
 
       const itemDiv = document.createElement('div');
       itemDiv.className = 'list-item';
-      // 🌟 카드 전체에 토글 이벤트 부착
       itemDiv.onclick = function() { toggleBlindWholeCard(w.id, this); };
 
       let exHtml = '';
@@ -684,7 +666,6 @@
       container.appendChild(itemDiv);
     });
     
-    // 🌟 페이지 이동 시 쾌적하게 맨 위로 스크롤
     document.getElementById('list-view').scrollTo({ top: 0, behavior: 'instant' });
   }
 
@@ -694,7 +675,7 @@
         listState.cycle += 1;
         listState.currentIndex = 0;
         listState.order = listState.order.sort(() => 0.5 - Math.random());
-        listState.revealedWords = []; // 다음 회독 시 뜻 가림막 초기화
+        listState.revealedWords = []; 
         saveListState();
         renderListPage();
       });
