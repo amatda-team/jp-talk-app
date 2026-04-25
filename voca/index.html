@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="単語帳">
-<title>単語帳 - Phase Final (Clear UX & Fixed Scoreboard)</title>
+<title>単語帳 - Phase Final (Smart Arrows & Clean Header)</title>
 
 <style>
   body { 
@@ -15,6 +15,7 @@
     margin: 0; padding: 0; color: #1d1d1f; -webkit-tap-highlight-color: transparent; 
   }
 
+  /* 대시보드 UI */
   #dashboard-view {
     padding: 20px 20px calc(40px + env(safe-area-inset-bottom)) 20px;
     animation: fadeIn 0.3s ease;
@@ -112,17 +113,43 @@
     animation: fadeIn 0.3s ease; width: 100%; box-sizing: border-box;
     background-color: #F8F9FA; position: relative;
   }
-  
-  .side-nav-btn {
-    position: fixed; top: 50%; transform: translateY(-50%);
-    width: 44px; height: 44px; background: rgba(255, 255, 255, 0.9); 
-    border: 2px solid #1d1d1f; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-    box-shadow: 2px 2px 0px #1d1d1f; z-index: 100; cursor: pointer; color: #1d1d1f;
-    transition: transform 0.1s, background 0.2s;
+
+  /* 🌟 수정: 헤더를 극도로 심플하게 합침 (단어장 + 페이지 넘버) */
+  .list-header-clean {
+    display: flex; align-items: center; gap: 6px; font-size: 16px; font-weight: 700; color: #1d1d1f;
   }
-  .side-nav-btn:active { background: #e2e4eb; transform: translateY(-50%) scale(0.95); }
-  .side-nav-btn.left { left: 8px; }
-  .side-nav-btn.right { right: 8px; }
+  .page-num-wrapper {
+    display: flex; align-items: center; background: #e5e5ea; 
+    border-radius: 6px; padding: 2px 6px; font-size: 14px; font-weight: 800;
+  }
+  /* 숫자 돌아가는 영역 크기 고정 */
+  .page-num-slot {
+    height: 20px; width: 24px; display: inline-flex; align-items: center; justify-content: center;
+    overflow: hidden; position: relative; color: #1d1d1f;
+  }
+  .page-total { color: #86868b; margin-left: 4px; font-size: 14px; }
+  
+  /* 🌟 수정: PC & 모바일 완벽 대응 플로팅 화살표 래퍼 */
+  .floating-nav-wrapper {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 100%; max-width: 420px; /* 단어장 너비(320px) + 양옆 여백 및 화살표 공간 */
+    display: flex; justify-content: space-between;
+    pointer-events: none; /* 빈 공간 클릭 통과 */
+    z-index: 100;
+  }
+  /* 투명하고 가벼운 화살표 디자인 */
+  .side-nav-btn {
+    pointer-events: auto; /* 버튼 클릭 활성화 */
+    width: 44px; height: 44px; 
+    background: rgba(255, 255, 255, 0.85); /* 반투명 화이트 */
+    border: none; border-radius: 50%; 
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* 은은한 그림자 */
+    cursor: pointer; color: #86868b;
+    transition: transform 0.1s, background 0.2s, color 0.2s;
+  }
+  .side-nav-btn:hover { background: #ffffff; color: #1d1d1f; box-shadow: 0 6px 16px rgba(0,0,0,0.15); }
+  .side-nav-btn:active { background: #f1f2f6; transform: scale(0.92); }
 
   #list-container {
     width: 100%; max-width: 320px; display: flex; flex-direction: column; 
@@ -167,24 +194,7 @@
     cursor: pointer; align-items: center; justify-content: center; z-index: 900;
   }
 
-  /* 🌟 수정: 스코어보드 디자인 (가로 너비 고정) */
-  .scoreboard-ui {
-    display: flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 800; color: #1d1d1f;
-  }
-  .score-cycle { color: #86868b; font-size: 14px; }
-  .score-box {
-    background: #E2F0A5; 
-    border: 2px solid #1d1d1f; border-radius: 8px;
-    display: flex; align-items: center; justify-content: center; /* 숫자 중앙 정렬 */
-    box-shadow: 2px 2px 0px #1d1d1f;
-    overflow: hidden; 
-    height: 24px;
-    width: 32px; /* 🌟 넓이 고정: 움찔거림 방지 */
-    position: relative;
-  }
-  .score-number {
-    display: inline-block; font-size: 15px;
-  }
+  /* 숫자 슬롯 애니메이션 */
   .slide-up-anim { animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
   .slide-down-anim { animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
   
@@ -289,21 +299,25 @@
       戻る
     </button>
     
-    <div class="scoreboard-ui">
-      <span class="score-cycle" id="uiListCycle">1回読</span>
-      <div class="score-box">
-        <span class="score-number" id="uiListPageNumber">1</span>
+    <div class="list-header-clean">
+      単語一覧
+      <div class="page-num-wrapper">
+        <div class="page-num-slot">
+          <span id="uiListPageNumber">1</span>
+        </div>
+        <span class="page-total" id="uiListTotalPage">/ 57</span>
       </div>
-      <span id="uiListTotalPage">/ 57</span>
     </div>
   </div>
 
-  <button class="side-nav-btn left" onclick="prevListPage()">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-  </button>
-  <button class="side-nav-btn right" onclick="nextListPage()">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-  </button>
+  <div class="floating-nav-wrapper">
+    <button class="side-nav-btn" onclick="prevListPage()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <button class="side-nav-btn" onclick="nextListPage()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+  </div>
 
   <div id="list-container"></div>
 </div>
@@ -418,7 +432,6 @@
       filteredList = db.slice(startIndex, startIndex + WORDS_PER_DAY);
     } else if (mode === "ミスノート") {
       filteredList = db.filter(w => userStats[w.id] && userStats[w.id].score < 0);
-      // 🌟 수정: 오답노트가 비어있을 때 단호한(?) 메시지
       if(filteredList.length === 0) {
         showCustomAlert("🤨", "まだミスがありません！\nまずはDay学習を進めてください。\n(아직 틀린 단어가 없습니다! 얼른 가서 공부하세요!)", "確認", null);
         return; 
@@ -444,18 +457,16 @@
 
   function loadNextCard() {
     if(filteredList.length === 0) {
-      // 🌟 수정: 모드별로 달라지는 완료 메시지
       if (currentMode === "ミスノート") {
         showCustomAlert("🔥", "ミスノートを完全に空にしました！\n(오답노트를 완벽하게 비웠습니다!)", "ホームに戻る", goHome);
       } else if (currentMode.startsWith("Day ")) {
-        // Day 회독 수 계산
         const dayNum = parseInt(currentMode.replace("Day ", ""));
         const startIndex = (dayNum - 1) * WORDS_PER_DAY;
         const chunk = db.slice(startIndex, startIndex + WORDS_PER_DAY);
         let minViews = Math.min(...chunk.map(w => userStats[w.id] ? userStats[w.id].views : 0));
         if(!isFinite(minViews)) minViews = 0;
         
-        showCustomAlert("🎉", `${currentMode} 学習完了！\n(현재 ${minViews}회독 완료했습니다)`, "ホームに戻る", goHome);
+        showCustomAlert("🎉", `${currentMode} 学習完了！\n(현재 ${minViews}회독 달성했습니다)`, "ホームに戻る", goHome);
       } else {
         showCustomAlert("🎉", "学習が完了しました！", "ホームに戻る", goHome);
       }
@@ -499,7 +510,6 @@
     const card = document.getElementById('card');
     if (!card.classList.contains('flipped')) {
       card.classList.add('flipped');
-      // 조회수(회독) 증가
       if(!userStats[currentCard.id]) userStats[currentCard.id] = { score: 0, views: 0 };
       userStats[currentCard.id].views = (userStats[currentCard.id].views || 0) + 1;
       saveStats();
@@ -538,9 +548,7 @@
     document.getElementById('list-view').style.display = 'flex';
     document.getElementById('global-ai-btn').style.display = 'none';
     
-    document.getElementById('uiListCycle').innerText = `${listState.cycle}回読`;
     document.getElementById('uiListTotalPage').innerText = `/ ${Math.ceil(listState.order.length / WORDS_PER_PAGE)}`;
-    
     renderListPage(null);
   }
 
@@ -614,7 +622,6 @@
         listState.cycle += 1;
         listState.currentIndex = 0;
         listState.order = listState.order.sort(() => 0.5 - Math.random());
-        document.getElementById('uiListCycle').innerText = `${listState.cycle}回読`;
         saveListState();
         renderListPage('up');
       });
@@ -670,12 +677,12 @@
 
     let apiKey = localStorage.getItem('geminiApiKey');
     if (!apiKey) {
-      apiKey = prompt("Google AI Studio에서 발급받은 Gemini API 키를 입력해주세요.\n(키는 스마트폰에 안전하게 보관됩니다.)");
+      apiKey = prompt("Google AI Studioから取得した Gemini APIキーを入力してください。\n(キーは端末内に安全に保存されます)");
       if (!apiKey) { closeAI(); return; }
       localStorage.setItem('geminiApiKey', apiKey);
     }
 
-    resultBox.innerHTML = `<p>「${currentCard.word}」에 대해 AI 선생님이 분석 중입니다...</p>`;
+    resultBox.innerHTML = `<p>「${currentCard.word}」についてAI先生が分析中です...</p>`;
     const promptText = `일본어 교육 전문가로서 일본어 단어 「${currentCard.word}」 (뜻: ${currentCard.meaning})에 대해 다음 3가지만 짧고 명확하게 한국어로 설명해.
 1. 1줄 뜻 요약
 2. 실생활 예문 1개 (일본어 원문과 한국어 해석)
@@ -694,9 +701,9 @@
       if (data.error) {
         const errMsg = data.error.message.toLowerCase();
         if (errMsg.includes("high demand") || errMsg.includes("overloaded") || errMsg.includes("quota")) {
-          resultBox.innerHTML = `<p style="color:#E07A5F; font-weight:bold;">현재 구글 AI 서버 접속자가 너무 많아 응답이 지연되고 있습니다.</p><p>조금 뒤에 다시 시도해주세요!</p>`;
+          resultBox.innerHTML = `<p style="color:#E07A5F; font-weight:bold;">現在Google AIサーバーが混み合っています。</p><p>少し待ってからもう一度お試しください。</p>`;
         } else {
-          resultBox.innerHTML = `<p>에러가 발생했습니다: ${data.error.message}</p><p>API 키가 잘못되었을 수 있습니다.</p>`;
+          resultBox.innerHTML = `<p>エラーが発生しました: ${data.error.message}</p><p>APIキーが間違っている可能性があります。</p>`;
           localStorage.removeItem('geminiApiKey'); 
         }
         return;
@@ -706,7 +713,7 @@
       localStorage.setItem('noodVocaAICache', JSON.stringify(aiCache));
       resultBox.innerHTML = simpleMarkdownToHTML(aiResponse);
     } catch (error) {
-      resultBox.innerHTML = "<p>통신에 실패했습니다. 인터넷 연결을 확인해주세요.</p>";
+      resultBox.innerHTML = "<p>通信に失敗しました。インターネット接続を確認してください。</p>";
     }
   }
 
