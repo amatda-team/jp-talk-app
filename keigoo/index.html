@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>敬語マスター V12</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body { background-color: #f8fafc; color: #1e293b; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; overflow: hidden; touch-action: pan-y; }
+        ::-webkit-scrollbar { display: none; }
+        .break-words-safe { overflow-wrap: break-word; word-break: normal; white-space: normal; }
+        /* 하단 바 아이콘 쏠림 방지를 위해 안전 영역 패딩을 정밀하게 조정 */
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+        .keep-together { display: inline-block; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        // 데이터 A: 단어장
+        const wordsData = [
+            { id: "w1", base: "聞く / 訪ねる", hon: "伺う", meaning: "여쭙다 / 방문하다 (겸양)", core_jp: "少々お伺いしてもよろしいでしょうか。", core_kr: "잠시 여쭤봐도 괜찮을까요?" },
+            { id: "w2", base: "見る", hon: "拝見する", meaning: "보다 (겸양)", core_jp: "資料を拝見いたします。", core_kr: "자료를 확인하겠습니다." },
+            { id: "w3", base: "行く / 来る", hon: "参る", meaning: "가다 / 오다 (겸양)", core_jp: "明日の14時に参ります。", core_kr: "내일 14시에 가겠습니다." },
+            { id: "w4", base: "言う", hon: "申す", meaning: "말하다 (겸양)", core_jp: "私はNood Vocaと申します。", core_kr: "저는 Nood Voca라고 합니다." },
+            { id: "w5", base: "もらう", hon: "いただく", meaning: "받다 / 먹다 (겸양)", core_jp: "資料をいただいてもよろしいでしょうか。", core_kr: "자료를 받아도 괜찮을까요?" },
+            { id: "w6", base: "する", hon: "いたす", meaning: "하다 (겸양)", core_jp: "よろしくお願いいたします。", core_kr: "잘 부탁드립니다." },
+            { id: "w7", base: "知っている", hon: "存じている", meaning: "알고 있다 (겸양)", core_jp: "その件につきましては存じております。", core_kr: "그 건에 대해서는 알고 있습니다." },
+            { id: "w8", base: "いる", hon: "おる", meaning: "있다 (겸양)", core_jp: "私は福岡におります。", core_kr: "저는 후쿠오카에 있습니다." }
+        ];
+
+        // 데이터 B: 예문 샤워
+        const examplesData = [
+            { id: "e1", day: 1, word_hon: "伺う", tag: "#区役所", jp: "中央区役所での転入手続きについてお伺いします。", kr: "주오구 구청에서의 전입 수속에 대해 여쭤봅니다.", highlight: "お伺いします。" },
+            { id: "e2", day: 1, word_hon: "いただく", tag: "#不動産", jp: "こちらの物件資料をいただいてもよろしいでしょうか。", kr: "이 매물 자료를 받아도 괜찮을까요?", highlight: "いただいてもよろしいでしょうか。" },
+            { id: "e3", day: 1, word_hon: "申す", tag: "#面接_共通", jp: "私の強みは課題解決能力だと自負しております。", kr: "저의 강점은 과제 해결 능력이라고 자부합니다.", highlight: "自負しております。" },
+            { id: "e4", day: 2, word_hon: "拝見する", tag: "#ビジネスメール", jp: "お送りいただいた資料を拝見いたしました。", kr: "보내주신 자료를 확인했습니다.", highlight: "拝見いたしました。" },
+            { id: "e5", day: 2, word_hon: "伺う", tag: "#バイト_面接", jp: "シフトの件でお伺いしたいのですが。", kr: "시프트 건으로 여쭤보고 싶은데요.", highlight: "お伺いしたいのですが。" },
+            { id: "e6", day: 3, word_hon: "参る", tag: "#不動産", jp: "明日の14時に店舗へ参ります。", kr: "내일 14시에 매장으로 가겠습니다.", highlight: "参ります。" }
+        ];
+
+        function App() {
+            const [activeTab, setActiveTab] = React.useState('words'); 
+            const [bookmarks, setBookmarks] = React.useState(new Set());
+            const [studyContext, setStudyContext] = React.useState(null);
+            const [studyCards, setStudyCards] = React.useState([]);
+            const [currentIndex, setCurrentIndex] = React.useState(0);
+            
+            const [wordPage, setWordPage] = React.useState(0);
+            const itemsPerPage = 4;
+            const totalWordPages = Math.ceil(wordsData.length / itemsPerPage);
+
+            const toggleBookmark = (id, e) => {
+                if (e) e.stopPropagation();
+                const newBookmarks = new Set(bookmarks);
+                if (newBookmarks.has(id)) newBookmarks.delete(id);
+                else newBookmarks.add(id);
+                setBookmarks(newBookmarks);
+            };
+
+            const enterStudyRoom = (type, value) => {
+                let cards = [];
+                if (type === 'day') cards = examplesData.filter(d => d.day === value);
+                if (type === 'scene') cards = examplesData.filter(d => d.tag === value);
+                setStudyCards(cards);
+                setCurrentIndex(0);
+                setStudyContext({ type, value });
+            };
+
+            const exitStudyRoom = () => setStudyContext(null);
+            const prevCard = () => { if (currentIndex > 0) setCurrentIndex(prev => prev - 1); };
+            const nextCard = () => { if (currentIndex < studyCards.length - 1) setCurrentIndex(prev => prev + 1); };
+
+            const prevWordPage = () => { if (wordPage > 0) setWordPage(prev => prev - 1); };
+            const nextWordPage = () => { if (wordPage < totalWordPages - 1) setWordPage(prev => prev + 1); };
+
+            const highlightText = (text, keyword) => {
+                if (!keyword) return text;
+                const parts = text.split(new RegExp(`(${keyword})`, 'g'));
+                return parts.map((part, i) => 
+                    part === keyword ? <span key={i} className="text-blue-600 font-bold keep-together">{part}</span> : part
+                );
+            };
+
+            const days = [...new Set(examplesData.map(d => d.day))].sort();
+            const scenes = [...new Set(examplesData.map(d => d.tag))].sort();
+
+            const renderShowerCard = () => (
+                <div className="h-full flex flex-col relative pt-2 pb-2">
+                    <div className="absolute inset-y-0 left-0 w-1/4 z-10" onClick={prevCard}></div>
+                    <div className="absolute inset-y-0 right-0 w-1/4 z-10" onClick={nextCard}></div>
+                    
+                    <div className="relative w-full flex-1 min-h-[50vh] max-w-sm mx-auto bg-white rounded-3xl border border-slate-200 p-8 flex flex-col justify-center items-center text-center shadow-lg">
+                        <button onClick={(e) => toggleBookmark(studyCards[currentIndex].id, e)} className="absolute top-5 right-5 text-2xl z-20 p-2">
+                            <i className={`fa-bookmark ${bookmarks.has(studyCards[currentIndex].id) ? 'fa-solid text-blue-500' : 'fa-regular text-slate-300'}`}></i>
+                        </button>
+                        
+                        <span className="text-blue-600 text-sm mb-2 font-bold tracking-wider">{studyCards[currentIndex].tag}</span>
+                        <span className="text-slate-400 text-xs mb-8 border-b border-slate-100 pb-2 px-4">{studyCards[currentIndex].word_hon}</span>
+                        
+                        <h2 className="text-[24px] font-medium text-slate-800 leading-relaxed mb-8 w-full break-words-safe">
+                            {highlightText(studyCards[currentIndex].jp, studyCards[currentIndex].highlight)}
+                        </h2>
+                        
+                        <p className="text-slate-600 text-sm bg-slate-50 w-full p-4 rounded-xl break-words-safe border border-slate-100">
+                            {studyCards[currentIndex].kr}
+                        </p>
+                    </div>
+
+                    <div className="mt-8 px-8">
+                        <div className="w-full bg-slate-200 rounded-full h-1.5">
+                            <div className="bg-blue-500 h-1.5 rounded-full transition-all duration-300" 
+                                 style={{ width: `${((currentIndex + 1) / studyCards.length) * 100}%` }}></div>
+                        </div>
+                        <div className="flex justify-between mt-3 text-slate-400 text-[10px] font-bold tracking-widest">
+                            <span className={currentIndex === 0 ? "invisible" : ""}>◀ 前へ</span>
+                            <span className={currentIndex === studyCards.length - 1 ? "invisible" : ""}>次へ ▶</span>
+                        </div>
+                    </div>
+                </div>
+            );
+
+            return (
+                <div className="flex flex-col h-screen max-w-md mx-auto bg-slate-50 relative">
+                    
+                    {studyContext !== null && (
+                        <header className="p-4 flex justify-between items-center bg-white border-b border-slate-200 z-20 h-16 shrink-0 shadow-sm sticky top-0">
+                            <button onClick={exitStudyRoom} className="text-blue-600 font-bold flex items-center gap-2 text-lg">
+                                <i className="fa-solid fa-chevron-left"></i> 
+                                {studyContext.type === 'day' ? `Day ${studyContext.value}` : studyContext.value}
+                            </button>
+                            <span className="text-xs text-slate-500 bg-slate-100 px-3 py-1 rounded-full font-bold">
+                                {currentIndex + 1} / {studyCards.length}
+                            </span>
+                        </header>
+                    )}
+
+                    <main className="flex-1 overflow-y-auto px-4 pb-24 pt-6">
+                        
+                        {studyContext !== null && renderShowerCard()}
+
+                        {activeTab === 'daily' && studyContext === null && (
+                            <div className="space-y-3">
+                                <div className="mb-4 flex items-end gap-2 px-1">
+                                    <h2 className="text-xl font-bold text-slate-800">デイリー</h2>
+                                    <span className="text-xs text-slate-400 font-medium pb-0.5">今日の学習ノルマ</span>
+                                </div>
+                                {days.map(d => (
+                                    <div key={d} onClick={() => enterStudyRoom('day', d)} 
+                                         className="p-4 bg-white rounded-2xl border border-slate-200 flex justify-between items-center active:bg-slate-50 transition shadow-sm cursor-pointer">
+                                        <span className="text-lg font-bold text-slate-800">Day {d}</span>
+                                        <div className="flex items-center gap-3">
+                                            <span className="text-xs text-blue-600 bg-blue-50 px-3 py-1 rounded-full font-bold border border-blue-100">
+                                                {examplesData.filter(item => item.day === d).length} 文
+                                            </span>
+                                            <i className="fa-solid fa-chevron-right text-slate-400"></i>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
+                        {activeTab === 'scene' && studyContext === null && (
+                            <div className="space-y-3">
+                                <div className="mb-4 flex items-end gap-2 px-1">
+                                    <h2 className="text-xl font-bold text-slate-800">シーン別</h2>
+                                    <span className="text-xs text-slate-400 font-medium pb-0.5">状況に合わせて準備</span>
+                                </div>
+                                {scenes.map(s => (
+                                    <div key={s} onClick={() => enterStudyRoom('scene', s)} 
+                                         className="p-4 bg-white rounded-2xl border border-slate-200 flex justify-between items-center active:bg-slate-50 transition shadow-sm cursor-pointer">
+                                        <span className="text-md font-bold text-blue-600">{s}</span>
+                                        <div className="flex items-center gap-3">
+                                            <span className="text-xs text-slate-500 bg-slate-100 px-3 py-1 rounded-full font-medium">
+                                                {examplesData.filter(item => item.tag === s).length} 文
+                                            </span>
+                                            <i className="fa-solid fa-chevron-right text-slate-400"></i>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
+                        {activeTab === 'words' && studyContext === null && (
+                            <div>
+                                <div className="mb-4 flex items-end gap-2 px-1">
+                                    <h2 className="text-xl font-bold text-slate-800">単語帳</h2>
+                                    <span className="text-xs text-slate-400 font-medium pb-0.5">敬語の基本定義</span>
+                                </div>
+                                
+                                <div className="space-y-3 relative">
+                                    <div className="absolute inset-y-0 left-0 w-1/5 z-10" onClick={prevWordPage}></div>
+                                    <div className="absolute inset-y-0 right-0 w-1/5 z-10" onClick={nextWordPage}></div>
+
+                                    {wordsData.slice(wordPage * itemsPerPage, (wordPage + 1) * itemsPerPage).map(w => (
+                                        <div key={w.id} className="p-4 bg-white rounded-2xl border border-slate-200 shadow-sm">
+                                            <div className="flex justify-between items-center mb-2">
+                                                <div className="flex items-baseline gap-2">
+                                                    <h3 className="text-lg font-bold text-slate-800">{w.hon}</h3>
+                                                    <span className="text-[10px] text-slate-400 font-medium">{w.base}</span>
+                                                </div>
+                                                <span className="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded border border-blue-100">{w.meaning}</span>
+                                            </div>
+                                            <p className="text-[13px] text-slate-400 break-words-safe">{w.core_jp}</p>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {/* ⭐️ 수정 완료: 절대 위치를 이용해 텍스트 정중앙 고정 & 투명한 대형 터치 패딩(p-4) 적용 */}
+                                <div className="mt-8 mb-10 relative flex justify-between items-center w-full h-10 px-2">
+                                    <button 
+                                        className={`z-20 p-4 -ml-4 text-xs font-bold text-slate-400 active:text-blue-500 transition-colors ${wordPage === 0 ? "invisible" : ""}`} 
+                                        onClick={prevWordPage}>
+                                        ◀ 前へ
+                                    </button>
+                                    
+                                    <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-slate-200/50 px-4 py-1.5 rounded-full text-[10px] text-slate-500 font-bold tracking-widest pointer-events-none">
+                                        PAGE {wordPage + 1} / {totalWordPages}
+                                    </span>
+                                    
+                                    <button 
+                                        className={`z-20 p-4 -mr-4 text-xs font-bold text-slate-400 active:text-blue-500 transition-colors ${wordPage === totalWordPages - 1 ? "invisible" : ""}`} 
+                                        onClick={nextWordPage}>
+                                        次へ ▶
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+
+                        {activeTab === 'saved' && studyContext === null && (
+                            <div className="space-y-4">
+                                <div className="mb-4 flex items-end gap-2 px-1">
+                                    <h2 className="text-xl font-bold text-slate-800">保存</h2>
+                                    <span className="text-xs text-slate-400 font-medium pb-0.5">ブックマークした例文</span>
+                                </div>
+                                
+                                {bookmarks.size === 0 ? (
+                                    <div className="text-center mt-20 text-slate-400 flex flex-col items-center">
+                                        <div className="w-16 h-16 bg-slate-100 rounded-full flex justify-center items-center mb-4">
+                                            <i className="fa-regular fa-bookmark text-2xl opacity-50"></i>
+                                        </div>
+                                        <p className="font-medium text-sm">保存された例文がありません。</p>
+                                    </div>
+                                ) : (
+                                    examplesData.filter(d => bookmarks.has(d.id)).map(data => (
+                                        <div key={data.id} className="p-4 bg-white rounded-2xl border border-slate-200 relative shadow-sm">
+                                            <div className="flex justify-between items-start mb-2">
+                                                <span className="text-[10px] font-bold text-slate-500 bg-slate-100 px-2 py-1 rounded-md">
+                                                    {data.word_hon}
+                                                </span>
+                                                <button onClick={() => toggleBookmark(data.id)} className="text-xl">
+                                                    <i className="fa-solid fa-bookmark text-blue-500"></i>
+                                                </button>
+                                            </div>
+                                            <span className="text-[11px] text-blue-600 block mb-2 font-bold">{data.tag}</span>
+                                            <p className="text-[15px] font-medium text-slate-800 mb-1 leading-relaxed break-words-safe">
+                                                {highlightText(data.jp, data.highlight)}
+                                            </p>
+                                            <p className="text-[13px] text-slate-400 break-words-safe">{data.kr}</p>
+                                        </div>
+                                    ))
+                                )}
+                            </div>
+                        )}
+                    </main>
+
+                    {/* ⭐️ 수정 완료: 전체 높이를 키우고, 상단 패딩(pt-2)을 줘서 아이콘을 안정적인 중앙으로 끌어내림 */}
+                    <nav className="absolute bottom-0 w-full min-h-[72px] pt-2 pb-safe bg-white/95 backdrop-blur-md border-t border-slate-200 flex justify-around items-center z-30 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+                        <button onClick={() => { setActiveTab('daily'); setStudyContext(null); }} 
+                                className={`flex-1 flex flex-col justify-center items-center gap-1.5 transition ${activeTab === 'daily' ? 'text-blue-600' : 'text-slate-400'}`}>
+                            <i className="fa-solid fa-calendar-check text-xl"></i>
+                            <span className="text-[10px] font-bold">デイリー</span>
+                        </button>
+                        <button onClick={() => { setActiveTab('scene'); setStudyContext(null); }} 
+                                className={`flex-1 flex flex-col justify-center items-center gap-1.5 transition ${activeTab === 'scene' ? 'text-blue-600' : 'text-slate-400'}`}>
+                            <i className="fa-solid fa-briefcase text-xl"></i>
+                            <span className="text-[10px] font-bold">シーン別</span>
+                        </button>
+                        <button onClick={() => { setActiveTab('words'); setStudyContext(null); }} 
+                                className={`flex-1 flex flex-col justify-center items-center gap-1.5 transition ${activeTab === 'words' ? 'text-blue-600' : 'text-slate-400'}`}>
+                            <i className="fa-solid fa-book-open text-xl"></i>
+                            <span className="text-[10px] font-bold">単語帳</span>
+                        </button>
+                        <button onClick={() => { setActiveTab('saved'); setStudyContext(null); }} 
+                                className={`flex-1 flex flex-col justify-center items-center gap-1.5 transition ${activeTab === 'saved' ? 'text-blue-600' : 'text-slate-400'}`}>
+                            <i className="fa-solid fa-bookmark text-xl"></i>
+                            <span className="text-[10px] font-bold">保存</span>
+                        </button>
+                    </nav>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
