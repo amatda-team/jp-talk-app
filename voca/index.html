@@ -112,8 +112,9 @@
     .btn-yes:hover { background-color: #e5efe9; transform: translateY(-3px); box-shadow: 0 6px 14px rgba(129, 178, 154, 0.25); }
   }
 
-  .btn-no:active { background-color: #fdf3f0; transform: scale(0.92); box-shadow: 0 2px 4px rgba(224, 122, 95, 0.1); }
-  .btn-yes:active { background-color: #e5efe9; transform: scale(0.92); box-shadow: 0 2px 4px rgba(129, 178, 154, 0.1); }
+/* 누르는 순간 찐한 색으로 꽉 채워지고 글씨가 하얗게 변함 */
+  .btn-no:active { background-color: #E07A5F !important; color: #ffffff !important; transform: scale(0.92); box-shadow: inset 0 3px 6px rgba(0,0,0,0.1); }
+  .btn-yes:active { background-color: #81B29A !important; color: #ffffff !important; transform: scale(0.92); box-shadow: inset 0 3px 6px rgba(0,0,0,0.1); }
 
   #list-view {
     display: none; flex-direction: column; align-items: center;
