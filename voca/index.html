@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="単語帳">
-<title>単語帳 - Phase Final V2</title>
+<title>単語帳 - Phase Final V3</title>
 
 <style>
   @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
@@ -59,7 +59,6 @@
   .status-ing { background: #e8f5e9; color: #2e7d32; } 
   .status-done { background: #ffeaa7; color: #d35400; border: 1px solid #fdcb6e; }
 
-  /* 디자인적으로 다시 부활한 프로그레스 바 */
   .day-progress-bar-bg { width: 100%; height: 6px; background: #f1f2f6; border-radius: 4px; margin-bottom: 6px; overflow: hidden; }
   .day-progress-bar-fill { height: 100%; background: #2ed573; transition: width 0.3s ease; }
   
@@ -101,11 +100,10 @@
   .ex-ja { font-size: 15px; color: #1d1d1f; margin-bottom: 8px; line-height: 1.5; font-weight: 600;}
   .ex-ko { font-size: 14px; color: #86868b; line-height: 1.4; }
 
-  /* 터치 민감도 개선 및 JS 클래스를 이용한 확정적 타격감 */
   .buttons { display: flex; justify-content: center; gap: 16px; margin-top: 32px; width: 100%; max-width: 350px; }
   .btn { 
     flex: 1; padding: 22px 0; border-radius: 20px; font-size: 18px; font-weight: 800; cursor: pointer; background: #ffffff; display: flex; align-items: center; justify-content: center; gap: 8px;
-    transition: all 0.1s ease-out;
+    transition: all 0.1s ease-out; /* 부드럽게 돌아오는 효과 */
     box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     touch-action: manipulation; 
     user-select: none; 
@@ -114,9 +112,9 @@
   .btn-no { color: #E07A5F; border: 2px solid #E07A5F; } 
   .btn-yes { color: #81B29A; border: 2px solid #81B29A; }
   
-  /* 자바스크립트로 제어되는 쫀득하고 강력한 터치 이펙트 클래스 */
-  .btn.pressed-no { background-color: #E07A5F !important; color: #ffffff !important; transform: scale(0.92); box-shadow: inset 0 4px 8px rgba(0,0,0,0.2); }
-  .btn.pressed-yes { background-color: #81B29A !important; color: #ffffff !important; transform: scale(0.92); box-shadow: inset 0 4px 8px rgba(0,0,0,0.2); }
+  /* 자바스크립트로 들어가는 쫀득한 즉각 터치 반응 */
+  .btn.pressed-no { background-color: #E07A5F !important; color: #ffffff !important; transform: scale(0.92); box-shadow: inset 0 4px 8px rgba(0,0,0,0.2); transition: none; }
+  .btn.pressed-yes { background-color: #81B29A !important; color: #ffffff !important; transform: scale(0.92); box-shadow: inset 0 4px 8px rgba(0,0,0,0.2); transition: none; }
 
   #list-view {
     display: none; flex-direction: column; align-items: center;
@@ -208,7 +206,8 @@
     <button class="action-btn btn-review" onclick="startStudy('レスキュー')">
       🚑 レスキュー <span class="badge-review" id="uiReviewCount">0</span>
     </button>
-    <button class="action-btn btn-list" onclick="startListMode(true)"> <!-- true 전달하여 강제 리셋 -->
+    <!-- forceReset 제거하여 보던 페이지 기억 -->
+    <button class="action-btn btn-list" onclick="startListMode()"> 
       📖 単語一覧 <span class="badge-cycle" id="uiDashCycle">リスト</span>
     </button>
   </div>
@@ -299,7 +298,6 @@
   let currentCard = null;
   let currentMode = ""; 
   
-  // V5: 프로그레스 바(진도) 부활 및 클리어 단어 저장용
   let userStats = JSON.parse(localStorage.getItem('noodVocaStats5')) || {};
   let listState = JSON.parse(localStorage.getItem('noodVocaListState')) || null;
 
@@ -315,9 +313,9 @@
     };
   }
 
-  function init() {
+function init() {
     if (listState && localStorage.getItem('noodVocaLastView') === 'list') {
-      startListMode(false); // 페이지 기억해서 렌더링
+      startListMode();
       return;
     }
     renderDashboard();
@@ -349,10 +347,16 @@
       if (completions > 0) {
         statusBadge = `<span class="day-status status-done">🔥 ${completions}回読</span>`;
       } else if (percent > 0) {
-        statusBadge = `<span class="day-status status-ing">진행중</span>`;
+        statusBadge = `<span class="day-status status-ing">進行中</span>`;
       } else {
-        statusBadge = `<span class="day-status status-new">미학습</span>`;
+        statusBadge = `<span class="day-status status-new">未学習</span>`;
       }
+
+      // 일본어 응원 문구 추가
+      let cheerMsg = "";
+      if (completions > 0) cheerMsg = "完璧！✨";
+      else if (percent > 0) cheerMsg = "がんばれ！🔥";
+      else cheerMsg = "始めよう！🌱";
 
       const row = document.createElement('div');
       row.className = 'day-row';
@@ -365,7 +369,7 @@
           <div class="day-progress-bar-bg">
             <div class="day-progress-bar-fill" style="width: ${percent}%"></div>
           </div>
-          <div class="day-stats">${clearedCount} / ${chunkLength} 단어 마스터 (${percent}%)</div>
+          <div class="day-stats">${clearedCount} / ${chunkLength} 完了 (${percent}%) · ${cheerMsg}</div>
         </div>
         <span class="day-icon">〉</span>
       `;
@@ -383,7 +387,6 @@
       const startIndex = (dayNum - 1) * WORDS_PER_DAY;
       const chunk = db.slice(startIndex, startIndex + WORDS_PER_DAY);
       
-      // 이미 맞혀서 클리어한 단어는 빼고 시작 (진도 유지 기능)
       let clearedList = userStats[mode] && userStats[mode].cleared ? userStats[mode].cleared : [];
       sessionWords = chunk.filter(w => !clearedList.includes(w.id));
       sessionMissed = [];
@@ -426,7 +429,7 @@
         if (currentMode.startsWith("Day ")) {
            if(!userStats[currentMode]) userStats[currentMode] = { completions: 0, cleared: [] };
            userStats[currentMode].completions++;
-           userStats[currentMode].cleared = []; // 회독 완료 시 진도바 리셋
+           userStats[currentMode].cleared = []; 
            saveStats();
            showCustomAlert("🎉", `${currentMode} 学習完了！\n\n(現在 🔥${userStats[currentMode].completions}回読 達成)`, "ホームに戻る", goHome);
         } else if (currentMode === "レスキュー") {
@@ -467,16 +470,17 @@
   }
 
   function mark(isKnown) {
-    // 1. 시각적 터치 이펙트 강제 적용 (0.2초간 유지)
     const btn = isKnown ? document.querySelector('.btn-yes') : document.querySelector('.btn-no');
+    
+    // 이펙트 시작 (CSS transition 강제 무시)
     btn.classList.add(isKnown ? 'pressed-yes' : 'pressed-no');
     
-    // 이펙트 해제 타이머
+    // 0.1초 뒤 이펙트 종료 (빠른 타격감)
     setTimeout(() => {
       btn.classList.remove('pressed-yes', 'pressed-no');
-    }, 200);
+    }, 100);
 
-    // 2. 카드 넘김 및 로직 처리 지연 (터치감을 느끼게 해준 뒤 넘어감)
+    // 동시에 0.1초 뒤 카드 로직 처리 진행
     setTimeout(() => {
       sessionWords.shift();
 
@@ -488,7 +492,7 @@
         } else if (currentMode.startsWith("Day ")) {
            if (!userStats[currentMode]) userStats[currentMode] = { completions: 0, cleared: [] };
            if (!userStats[currentMode].cleared) userStats[currentMode].cleared = [];
-           userStats[currentMode].cleared.push(currentCard.id); // 진도바에 반영되도록 클리어 목록에 추가
+           userStats[currentMode].cleared.push(currentCard.id); 
         }
       } else {
         sessionMissed.push(currentCard);
@@ -497,25 +501,25 @@
       
       saveStats();
       loadNextCard();
-    }, 200);
+    }, 100);
   }
 
   function saveStats() {
     localStorage.setItem('noodVocaStats5', JSON.stringify(userStats));
   }
 
-  // forceReset: 대시보드에서 들어갈 땐 true를 받아 1페이지로 강제 이동
-  function startListMode(forceReset = false) {
-    if (!listState || !listState.order || listState.order.length !== db.length) {
+  function startListMode() {
+    if (!listState || !listState.order) {
+      // 앱을 아예 처음 켰을 때의 초기 세팅
       listState = { cycle: 1, order: db.map(w => w.id), currentIndex: 0, revealedWords: [] };
-      saveListState();
+    } else if (listState.order.length !== db.length) {
+      // 단어가 추가(업데이트)되었을 때: 기존 배열에 없는 새 단어들만 찾아서 맨 뒤에 이어붙입니다!
+      const existingIds = new Set(listState.order);
+      const newIds = db.map(w => w.id).filter(id => !existingIds.has(id));
+      listState.order = [...listState.order, ...newIds]; // 뒤에 찰싹 붙이기
     }
+    saveListState();
     
-    if (forceReset && listState) {
-      listState.currentIndex = 0;
-      saveListState();
-    }
-
     if (!listState.revealedWords) listState.revealedWords = [];
 
     document.getElementById('dashboard-view').style.display = 'none';
