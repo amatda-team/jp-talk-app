@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="単語帳">
-<title>単語帳 - Phase Final</title>
+<title>単語帳 - Phase Final V2</title>
 
 <style>
   @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
@@ -50,15 +50,20 @@
   }
   .day-row:active { transform: scale(0.98); background: #fbfbfd; }
   
-  .day-info { flex: 1; margin-right: 16px; display: flex; flex-direction: column; justify-content: center;}
-  .day-title-area { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
-  .day-title { font-size: 18px; font-weight: 800; color: #2d3436; }
+  .day-info { flex: 1; margin-right: 16px; }
+  .day-title-area { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+  .day-title { font-size: 17px; font-weight: 800; color: #2d3436; }
   
-  .day-status { padding: 4px 10px; border-radius: 8px; font-size: 12px; font-weight: 800; }
+  .day-status { padding: 4px 8px; border-radius: 8px; font-size: 11px; font-weight: 800; }
   .status-new { background: #f1f2f6; color: #a4b0be; }
-  .status-done { background: #ffeaa7; color: #d35400; border: 1px solid #fdcb6e;}
+  .status-ing { background: #e8f5e9; color: #2e7d32; } 
+  .status-done { background: #ffeaa7; color: #d35400; border: 1px solid #fdcb6e; }
 
-  .day-stats { font-size: 13px; color: #86868b; font-weight: 600; }
+  /* 디자인적으로 다시 부활한 프로그레스 바 */
+  .day-progress-bar-bg { width: 100%; height: 6px; background: #f1f2f6; border-radius: 4px; margin-bottom: 6px; overflow: hidden; }
+  .day-progress-bar-fill { height: 100%; background: #2ed573; transition: width 0.3s ease; }
+  
+  .day-stats { font-size: 12px; color: #86868b; font-weight: 600; }
   .day-icon { color: #b2bec3; font-weight: bold; }
 
   #study-view {
@@ -96,25 +101,22 @@
   .ex-ja { font-size: 15px; color: #1d1d1f; margin-bottom: 8px; line-height: 1.5; font-weight: 600;}
   .ex-ko { font-size: 14px; color: #86868b; line-height: 1.4; }
 
+  /* 터치 민감도 개선 및 JS 클래스를 이용한 확정적 타격감 */
   .buttons { display: flex; justify-content: center; gap: 16px; margin-top: 32px; width: 100%; max-width: 350px; }
   .btn { 
     flex: 1; padding: 22px 0; border-radius: 20px; font-size: 18px; font-weight: 800; cursor: pointer; background: #ffffff; display: flex; align-items: center; justify-content: center; gap: 8px;
-    transition: all 0.15s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition: all 0.1s ease-out;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     touch-action: manipulation; 
     user-select: none; 
+    -webkit-tap-highlight-color: transparent;
   }
   .btn-no { color: #E07A5F; border: 2px solid #E07A5F; } 
   .btn-yes { color: #81B29A; border: 2px solid #81B29A; }
   
-  @media (hover: hover) {
-    .btn-no:hover { background-color: #fdf3f0; transform: translateY(-3px); box-shadow: 0 6px 14px rgba(224, 122, 95, 0.25); }
-    .btn-yes:hover { background-color: #e5efe9; transform: translateY(-3px); box-shadow: 0 6px 14px rgba(129, 178, 154, 0.25); }
-  }
-
-/* 누르는 순간 찐한 색으로 꽉 채워지고 글씨가 하얗게 변함 */
-  .btn-no:active { background-color: #E07A5F !important; color: #ffffff !important; transform: scale(0.92); box-shadow: inset 0 3px 6px rgba(0,0,0,0.1); }
-  .btn-yes:active { background-color: #81B29A !important; color: #ffffff !important; transform: scale(0.92); box-shadow: inset 0 3px 6px rgba(0,0,0,0.1); }
+  /* 자바스크립트로 제어되는 쫀득하고 강력한 터치 이펙트 클래스 */
+  .btn.pressed-no { background-color: #E07A5F !important; color: #ffffff !important; transform: scale(0.92); box-shadow: inset 0 4px 8px rgba(0,0,0,0.2); }
+  .btn.pressed-yes { background-color: #81B29A !important; color: #ffffff !important; transform: scale(0.92); box-shadow: inset 0 4px 8px rgba(0,0,0,0.2); }
 
   #list-view {
     display: none; flex-direction: column; align-items: center;
@@ -135,40 +137,16 @@
   }
   .list-header-inner .back-btn { position: absolute; left: 0; top: -8px; padding: 0; }
 
-  .tracker-container {
-    position: relative; width: 100%; max-width: 360px;
-    height: 24px; margin-top: 24px; margin-bottom: 4px;
-  }
-  .tracker-fill-wrap {
-    position: absolute; left: 0; top: 0; width: 0%; 
-    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  
-  .tracker-thumb {
-    text-align: right; 
-    font-family: 'VT323', 'Courier New', Courier, monospace; 
-    font-size: 15px; font-weight: 900; letter-spacing: -0.5px;
-    color: #1d1d1f; padding-right: 4px; padding-bottom: 2px;
-  }
-  .tracker-total {
-    position: absolute; right: 0; top: 0; 
-    font-family: 'VT323', 'Courier New', Courier, monospace;
-    font-size: 15px; font-weight: 900; color: #b2bec3;
-  }
-  .tracker-line-bg {
-    position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: #e5e5ea; border-radius: 2px;
-  }
-  .tracker-fill {
-    height: 100%; background: #95D03A; border-radius: 2px; width: 0%; transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
+  .tracker-container { position: relative; width: 100%; max-width: 360px; height: 24px; margin-top: 24px; margin-bottom: 4px; }
+  .tracker-fill-wrap { position: absolute; left: 0; top: 0; width: 0%; transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+  .tracker-thumb { text-align: right; font-family: 'VT323', monospace; font-size: 15px; font-weight: 900; letter-spacing: -0.5px; color: #1d1d1f; padding-right: 4px; padding-bottom: 2px; }
+  .tracker-total { position: absolute; right: 0; top: 0; font-family: 'VT323', monospace; font-size: 15px; font-weight: 900; color: #b2bec3; }
+  .tracker-line-bg { position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: #e5e5ea; border-radius: 2px; }
+  .tracker-fill { height: 100%; background: #95D03A; border-radius: 2px; width: 0%; transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
 
-  #list-container {
-    width: 100%; max-width: 280px; display: flex; flex-direction: column; gap: 12px; padding-bottom: 40px; margin-top: 10px;
-  }
+  #list-container { width: 100%; max-width: 280px; display: flex; flex-direction: column; gap: 12px; padding-bottom: 40px; margin-top: 10px; }
   
-  .list-item {
-    background: #ffffff; border: 2px solid #1d1d1f; border-radius: 12px; padding: 14px 16px; box-shadow: 2px 2px 0px #1d1d1f; cursor: pointer; transition: transform 0.1s, box-shadow 0.1s; -webkit-tap-highlight-color: transparent;
-  }
+  .list-item { background: #ffffff; border: 2px solid #1d1d1f; border-radius: 12px; padding: 14px 16px; box-shadow: 2px 2px 0px #1d1d1f; cursor: pointer; transition: transform 0.1s, box-shadow 0.1s; -webkit-tap-highlight-color: transparent; }
   .list-item:active { transform: translate(1px, 1px); box-shadow: 1px 1px 0px #1d1d1f; }
   .list-header-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;}
   .list-word { font-size: 20px; font-weight: 700; color: #1d1d1f; letter-spacing: 0; }
@@ -230,7 +208,7 @@
     <button class="action-btn btn-review" onclick="startStudy('レスキュー')">
       🚑 レスキュー <span class="badge-review" id="uiReviewCount">0</span>
     </button>
-    <button class="action-btn btn-list" onclick="startListMode()">
+    <button class="action-btn btn-list" onclick="startListMode(true)"> <!-- true 전달하여 강제 리셋 -->
       📖 単語一覧 <span class="badge-cycle" id="uiDashCycle">リスト</span>
     </button>
   </div>
@@ -261,8 +239,8 @@
   </div>
 
   <div class="buttons">
-    <button class="btn btn-no" onclick="mark(false)">🤔 分からない</button>
-    <button class="btn btn-yes" onclick="mark(true)">✅ 分かる</button>
+    <button class="btn btn-no" ontouchstart="" onclick="mark(false)">🤔 分からない</button>
+    <button class="btn btn-yes" ontouchstart="" onclick="mark(true)">✅ 分かる</button>
   </div>
 </div>
 
@@ -321,8 +299,8 @@
   let currentCard = null;
   let currentMode = ""; 
   
-  // ⭐️ 중요: 데이터 구조가 완전히 바뀌었으므로 'noodVocaStats4'로 버전을 올립니다.
-  let userStats = JSON.parse(localStorage.getItem('noodVocaStats4')) || {};
+  // V5: 프로그레스 바(진도) 부활 및 클리어 단어 저장용
+  let userStats = JSON.parse(localStorage.getItem('noodVocaStats5')) || {};
   let listState = JSON.parse(localStorage.getItem('noodVocaListState')) || null;
 
   function showCustomAlert(icon, message, btnText, callback) {
@@ -339,7 +317,7 @@
 
   function init() {
     if (listState && localStorage.getItem('noodVocaLastView') === 'list') {
-      startListMode();
+      startListMode(false); // 페이지 기억해서 렌더링
       return;
     }
     renderDashboard();
@@ -359,16 +337,21 @@
     const totalDays = Math.ceil(totalCount / WORDS_PER_DAY);
     for(let i=1; i<=totalDays; i++) {
       const dayKey = `Day ${i}`;
-      const completions = userStats[dayKey] ? userStats[dayKey].completions : 0;
+      const stat = userStats[dayKey] || { completions: 0, cleared: [] };
+      const completions = stat.completions || 0;
+      const clearedCount = stat.cleared ? stat.cleared.length : 0;
       
       const startIndex = (i - 1) * WORDS_PER_DAY;
       const chunkLength = db.slice(startIndex, startIndex + WORDS_PER_DAY).length;
+      const percent = Math.round((clearedCount / chunkLength) * 100);
 
       let statusBadge = '';
-      if (completions === 0) {
-        statusBadge = '<span class="day-status status-new">未学習</span>';
-      } else {
+      if (completions > 0) {
         statusBadge = `<span class="day-status status-done">🔥 ${completions}回読</span>`;
+      } else if (percent > 0) {
+        statusBadge = `<span class="day-status status-ing">진행중</span>`;
+      } else {
+        statusBadge = `<span class="day-status status-new">미학습</span>`;
       }
 
       const row = document.createElement('div');
@@ -377,8 +360,12 @@
         <div class="day-info">
           <div class="day-title-area">
             <span class="day-title">Day ${i}</span>
+            ${statusBadge}
           </div>
-          <div class="day-stats">${chunkLength}単語 ${statusBadge}</div>
+          <div class="day-progress-bar-bg">
+            <div class="day-progress-bar-fill" style="width: ${percent}%"></div>
+          </div>
+          <div class="day-stats">${clearedCount} / ${chunkLength} 단어 마스터 (${percent}%)</div>
         </div>
         <span class="day-icon">〉</span>
       `;
@@ -394,7 +381,11 @@
     if (mode.startsWith("Day ")) {
       const dayNum = parseInt(mode.replace("Day ", ""));
       const startIndex = (dayNum - 1) * WORDS_PER_DAY;
-      sessionWords = db.slice(startIndex, startIndex + WORDS_PER_DAY);
+      const chunk = db.slice(startIndex, startIndex + WORDS_PER_DAY);
+      
+      // 이미 맞혀서 클리어한 단어는 빼고 시작 (진도 유지 기능)
+      let clearedList = userStats[mode] && userStats[mode].cleared ? userStats[mode].cleared : [];
+      sessionWords = chunk.filter(w => !clearedList.includes(w.id));
       sessionMissed = [];
       sessionWords = sessionWords.sort(() => 0.5 - Math.random());
     } else if (mode === "レスキュー") {
@@ -425,7 +416,6 @@
   function loadNextCard() {
     if(sessionWords.length === 0) {
       if(sessionMissed.length > 0) {
-        // 1사이클 끝났지만 모르는 단어가 남은 경우 (알림 띄우고 셔플 진행)
         showCustomAlert("👏", "よくできました！<br><br>今回のDayで分からなかった単語だけをシャッフルしてもう一度出題します。", "次へ", () => {
            sessionWords = sessionMissed.sort(() => 0.5 - Math.random());
            sessionMissed = [];
@@ -433,10 +423,10 @@
         });
         return;
       } else {
-        // 모든 단어를 다 맞혀서 완전히 끝난 경우 (회독수 추가)
         if (currentMode.startsWith("Day ")) {
-           if(!userStats[currentMode]) userStats[currentMode] = { completions: 0 };
+           if(!userStats[currentMode]) userStats[currentMode] = { completions: 0, cleared: [] };
            userStats[currentMode].completions++;
+           userStats[currentMode].cleared = []; // 회독 완료 시 진도바 리셋
            saveStats();
            showCustomAlert("🎉", `${currentMode} 学習完了！\n\n(現在 🔥${userStats[currentMode].completions}回読 達成)`, "ホームに戻る", goHome);
         } else if (currentMode === "レスキュー") {
@@ -477,35 +467,55 @@
   }
 
   function mark(isKnown) {
-    // 보고 있는 카드 빼기
-    sessionWords.shift();
-
-    if (!userStats[currentCard.id]) userStats[currentCard.id] = { rescue: false };
-
-    if(isKnown) {
-      // 안다고 누르면 레스큐 보관함에서 빼줌
-      if(currentMode === "レスキュー") {
-         userStats[currentCard.id].rescue = false;
-      }
-    } else {
-      // 모른다고 누르면 다시 풀어야 하므로 배열에 넣고, 전역 레스큐 보관함에도 추가
-      sessionMissed.push(currentCard);
-      userStats[currentCard.id].rescue = true;
-    }
+    // 1. 시각적 터치 이펙트 강제 적용 (0.2초간 유지)
+    const btn = isKnown ? document.querySelector('.btn-yes') : document.querySelector('.btn-no');
+    btn.classList.add(isKnown ? 'pressed-yes' : 'pressed-no');
     
-    saveStats();
-    setTimeout(() => { loadNextCard(); }, 150);
+    // 이펙트 해제 타이머
+    setTimeout(() => {
+      btn.classList.remove('pressed-yes', 'pressed-no');
+    }, 200);
+
+    // 2. 카드 넘김 및 로직 처리 지연 (터치감을 느끼게 해준 뒤 넘어감)
+    setTimeout(() => {
+      sessionWords.shift();
+
+      if (!userStats[currentCard.id]) userStats[currentCard.id] = { rescue: false };
+
+      if(isKnown) {
+        if(currentMode === "レスキュー") {
+           userStats[currentCard.id].rescue = false;
+        } else if (currentMode.startsWith("Day ")) {
+           if (!userStats[currentMode]) userStats[currentMode] = { completions: 0, cleared: [] };
+           if (!userStats[currentMode].cleared) userStats[currentMode].cleared = [];
+           userStats[currentMode].cleared.push(currentCard.id); // 진도바에 반영되도록 클리어 목록에 추가
+        }
+      } else {
+        sessionMissed.push(currentCard);
+        userStats[currentCard.id].rescue = true;
+      }
+      
+      saveStats();
+      loadNextCard();
+    }, 200);
   }
 
   function saveStats() {
-    localStorage.setItem('noodVocaStats4', JSON.stringify(userStats));
+    localStorage.setItem('noodVocaStats5', JSON.stringify(userStats));
   }
 
-  function startListMode() {
+  // forceReset: 대시보드에서 들어갈 땐 true를 받아 1페이지로 강제 이동
+  function startListMode(forceReset = false) {
     if (!listState || !listState.order || listState.order.length !== db.length) {
       listState = { cycle: 1, order: db.map(w => w.id), currentIndex: 0, revealedWords: [] };
       saveListState();
     }
+    
+    if (forceReset && listState) {
+      listState.currentIndex = 0;
+      saveListState();
+    }
+
     if (!listState.revealedWords) listState.revealedWords = [];
 
     document.getElementById('dashboard-view').style.display = 'none';
