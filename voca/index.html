@@ -80,7 +80,7 @@
   }
   .study-title { font-size: 16px; font-weight: 700; color: #1d1d1f; }
 
-  /* ✅ 수정: 브루탈리즘 스타일로 통일 */
+  /* 브루탈리즘 스타일 */
   .card { 
     background: #FFFFFF; border-radius: 24px;
     border: 2px solid #1d1d1f;
@@ -101,14 +101,25 @@
   .ex-ja { font-size: 15px; color: #1d1d1f; margin-bottom: 8px; line-height: 1.5; font-weight: 600;}
   .ex-ko { font-size: 14px; color: #86868b; line-height: 1.4; }
 
-  .buttons { display: flex; justify-content: center; gap: 12px; margin-top: 24px; width: 100%; max-width: 350px; }
+  /* O/X 버튼 크기, 민감도 및 쫀득한 애니메이션 적용 영역 */
+  .buttons { display: flex; justify-content: center; gap: 16px; margin-top: 32px; width: 100%; max-width: 350px; }
   .btn { 
-    flex: 1; padding: 16px 0; border-radius: 18px; font-size: 16px; font-weight: 700; cursor: pointer; background: #ffffff; display: flex; align-items: center; justify-content: center; gap: 6px;
+    flex: 1; padding: 22px 0; border-radius: 20px; font-size: 18px; font-weight: 800; cursor: pointer; background: #ffffff; display: flex; align-items: center; justify-content: center; gap: 8px;
+    transition: all 0.15s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    touch-action: manipulation; /* 더블 터치 지연 300ms 완벽 제거 */
+    user-select: none; /* 연속 터치 시 텍스트 선택 방지 */
   }
   .btn-no { color: #E07A5F; border: 2px solid #E07A5F; } 
-  .btn-no:active { background-color: #fdf3f0; transform: scale(0.95); }
   .btn-yes { color: #81B29A; border: 2px solid #81B29A; }
-  .btn-yes:active { background-color: #e5efe9; transform: scale(0.95); }
+  
+  @media (hover: hover) {
+    .btn-no:hover { background-color: #fdf3f0; transform: translateY(-3px); box-shadow: 0 6px 14px rgba(224, 122, 95, 0.25); }
+    .btn-yes:hover { background-color: #e5efe9; transform: translateY(-3px); box-shadow: 0 6px 14px rgba(129, 178, 154, 0.25); }
+  }
+
+  .btn-no:active { background-color: #fdf3f0; transform: scale(0.92); box-shadow: 0 2px 4px rgba(224, 122, 95, 0.1); }
+  .btn-yes:active { background-color: #e5efe9; transform: scale(0.92); box-shadow: 0 2px 4px rgba(129, 178, 154, 0.1); }
 
   #list-view {
     display: none; flex-direction: column; align-items: center;
@@ -147,7 +158,6 @@
   .tracker-total {
     position: absolute; right: 0; top: 0; 
     font-family: 'VT323', 'Courier New', Courier, monospace;
-    /* ✅ 수정: thumb과 같은 크기로 */
     font-size: 15px; font-weight: 900; color: #b2bec3;
   }
   .tracker-line-bg {
@@ -197,7 +207,6 @@
   .list-ex-box .ex-ja { font-size: 14px; font-weight: 600; color: #1d1d1f; margin-bottom: 6px; line-height: 1.4; }
   .list-ex-box .ex-ko { font-size: 13px; color: #86868b; }
 
-  /* ✅ 수정: 화살표 위치 & 크기 완전 재설계 */
   .side-hitbox {
     position: fixed; top: 0; bottom: 0; z-index: 40; cursor: pointer;
     display: flex; align-items: center;
@@ -220,14 +229,14 @@
     .side-hitbox:hover .side-nav-icon { color: rgba(45, 138, 86, 0.5); }
   }
 
+  /* AI 버튼 안전하게 완벽 숨김 처리 */
   #global-ai-btn {
-    display: none; position: fixed; bottom: calc(24px + env(safe-area-inset-bottom)); right: 24px;
+    display: none !important; position: fixed; bottom: calc(24px + env(safe-area-inset-bottom)); right: 24px;
     background: linear-gradient(135deg, #A78BFA, #7C3AED); color: white; border: none; border-radius: 50%;
     width: 58px; height: 58px; font-size: 26px; box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3); 
     cursor: pointer; align-items: center; justify-content: center; z-index: 900;
   }
 
-  /* ✅ 수정: 안내 메시지 박스 텍스트 넘침 방지 */
   .custom-alert-overlay {
     display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0, 0, 0, 0.5); z-index: 9999; 
@@ -334,7 +343,6 @@
     </div>
   </div>
 
-  <!-- ✅ 수정: 화살표 SVG height=80, viewBox 조정 -->
   <div class="side-hitbox left" onclick="prevListPage()">
     <svg class="side-nav-icon" width="28" height="80" viewBox="0 0 24 80" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
       <polyline points="13 27 7 40 13 53" />
@@ -398,7 +406,6 @@
   }
 
   function init() {
-    // ✅ 수정: list-view 새로고침 복원
     if (listState && localStorage.getItem('noodVocaLastView') === 'list') {
       startListMode();
       return;
@@ -491,7 +498,6 @@
     document.getElementById('list-view').style.display = 'none';
     document.getElementById('dashboard-view').style.display = 'block';
     document.getElementById('global-ai-btn').style.display = 'none';
-    // ✅ 수정: 홈으로 갈 때 저장된 뷰 상태 초기화
     localStorage.removeItem('noodVocaLastView');
     renderDashboard(); 
   }
@@ -591,7 +597,6 @@
     document.getElementById('list-view').style.display = 'flex';
     document.getElementById('global-ai-btn').style.display = 'none';
     
-    // ✅ 수정: list-view 진입 시 저장
     localStorage.setItem('noodVocaLastView', 'list');
     
     document.getElementById('uiTrackerTotal').innerText = Math.ceil(listState.order.length / WORDS_PER_PAGE);
@@ -630,7 +635,6 @@
     const totalPages = Math.ceil(listState.order.length / WORDS_PER_PAGE);
     const currentPage = Math.floor(listState.currentIndex / WORDS_PER_PAGE) + 1;
     
-    // ✅ 수정: 마지막 페이지에서 숫자가 정확히 겹치도록 퍼센트 계산 수정
     const percent = totalPages <= 1 ? 100 : ((currentPage - 1) / (totalPages - 1)) * 100;
     document.getElementById('uiTrackerFill').style.width = `${percent}%`;
     document.getElementById('uiTrackerFillWrap').style.width = `${percent}%`;
