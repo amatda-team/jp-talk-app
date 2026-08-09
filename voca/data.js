@@ -1411,5 +1411,113 @@ const db = [
     tag: "日常",
     exJa: "-",
     exKo: "-"
+  },
+  {
+    id: 158,
+    word: "保証",
+    reading: "ほしょう",
+    meaning: "보증",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 159,
+    word: "控える",
+    reading: "ひかえる",
+    meaning: "삼가다, 앞두다, 대기하다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 160,
+    word: "抑える",
+    reading: "おさえる",
+    meaning: "억누르다, 억제하다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 161,
+    word: "縮小",
+    reading: "しゅくしょう",
+    meaning: "축소",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 162,
+    word: "いかざるをえない",
+    reading: "いかざるをえない",
+    meaning: "가지 않을 수 없다 (行かざるを得ない)",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 163,
+    word: "研修",
+    reading: "けんしゅう",
+    meaning: "연수",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 164,
+    word: "主体",
+    reading: "しゅたい",
+    meaning: "주체",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 165,
+    word: "陥る",
+    reading: "おちいる",
+    meaning: "빠지다, (좋지 않은 상태에) 떨어지다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 166,
+    word: "配属",
+    reading: "はいぞく",
+    meaning: "배속",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 167,
+    word: "につれて",
+    reading: "につれて",
+    meaning: "~함에 따라",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 168,
+    word: "減少",
+    reading: "げんしょう",
+    meaning: "감소",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
+  },
+  {
+    id: 169,
+    word: "差し控える",
+    reading: "さしひかえる",
+    meaning: "삼가다, 보류하다",
+    tag: "日常",
+    exJa: "-",
+    exKo: "-"
   }
 ];
