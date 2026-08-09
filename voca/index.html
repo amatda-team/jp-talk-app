@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="単語帳">
-<title>単語帳 - Phase Final V5 (Layout Perfected)</title>
+<title>単語帳 - Safe Area Perfected</title>
 
 <style>
   @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
@@ -17,8 +17,9 @@
     margin: 0; padding: 0; color: #1d1d1f; -webkit-tap-highlight-color: transparent; 
   }
 
+  /* 홈 화면: 상단 안전 영역(노치) 확보 */
   #dashboard-view {
-    padding: 20px 20px calc(40px + env(safe-area-inset-bottom)) 20px;
+    padding: calc(24px + env(safe-area-inset-top)) 20px calc(40px + env(safe-area-inset-bottom)) 20px;
     animation: fadeIn 0.3s ease;
   }
   .dash-header { margin-bottom: 24px; text-align: center; }
@@ -65,10 +66,10 @@
   .day-stats { font-size: 12px; color: #86868b; font-weight: 600; }
   .day-icon { color: #b2bec3; font-weight: bold; }
 
-  /* --- 학습 뷰 레이아웃 개선 --- */
+  /* 학습 화면 */
   #study-view {
     display: none; flex-direction: column; align-items: center;
-    padding: calc(30px + env(safe-area-inset-top)) 20px calc(40px + env(safe-area-inset-bottom));
+    padding: calc(24px + env(safe-area-inset-top)) 20px calc(40px + env(safe-area-inset-bottom));
     min-height: 100dvh; box-sizing: border-box;
     animation: fadeIn 0.3s ease;
   }
@@ -91,7 +92,6 @@
     top: 50%; transform: translateY(-50%); 
   }
 
-  /* 카드 사이즈 조절 및 중앙 정렬 보조 */
   .card { 
     background: #FFFFFF; border-radius: 24px;
     border: 2px solid #1d1d1f; box-shadow: 4px 4px 0px #1d1d1f;
@@ -114,7 +114,6 @@
   .ex-ja { font-size: 15px; color: #1d1d1f; margin-bottom: 8px; line-height: 1.5; font-weight: 600;}
   .ex-ko { font-size: 14px; color: #86868b; line-height: 1.4; }
 
-  /* 버튼 영역 밀착 및 크기 대폭 확대 */
   .buttons { display: flex; justify-content: center; gap: 16px; margin-top: 24px; margin-bottom: auto; width: 100%; max-width: 350px; }
   .btn { 
     flex: 1; padding: 26px 0; border-radius: 22px; font-size: 20px; font-weight: 800; cursor: pointer; background: #ffffff; display: flex; align-items: center; justify-content: center; gap: 8px;
@@ -130,6 +129,7 @@
   .btn.pressed-no { background-color: #E07A5F !important; color: #ffffff !important; transform: scale(0.92); box-shadow: inset 0 4px 8px rgba(0,0,0,0.2); transition: none; }
   .btn.pressed-yes { background-color: #81B29A !important; color: #ffffff !important; transform: scale(0.92); box-shadow: inset 0 4px 8px rgba(0,0,0,0.2); transition: none; }
 
+  /* 단어 일람 화면: 고정 헤더 상단 패딩 수정 */
   #list-view {
     display: none; flex-direction: column; align-items: center;
     height: 100dvh; overflow-y: auto; overflow-x: hidden;
@@ -139,17 +139,17 @@
   .list-header-fixed {
     position: sticky; top: 0; left: 0; width: 100%;
     background-color: #F8F9FA; z-index: 50;
-    padding: 20px 20px 10px 20px; box-sizing: border-box;
+    padding: calc(16px + env(safe-area-inset-top)) 20px 10px 20px; box-sizing: border-box;
     display: flex; flex-direction: column; align-items: center;
     border-bottom: 1px solid rgba(0,0,0,0.02); 
   }
   
   .list-header-inner {
-    width: 100%; max-width: 360px; position: relative; display: flex; align-items: center; justify-content: center;
+    width: 100%; max-width: 360px; position: relative; display: flex; align-items: center; justify-content: center; height: 24px;
   }
-  .list-header-inner .back-btn { position: absolute; left: 0; top: -8px; padding: 0; transform: none; }
+  .list-header-inner .back-btn { position: absolute; left: 0; top: 50%; transform: translateY(-50%); padding: 0; }
 
-  .tracker-container { position: relative; width: 100%; max-width: 360px; height: 24px; margin-top: 24px; margin-bottom: 4px; }
+  .tracker-container { position: relative; width: 100%; max-width: 360px; height: 24px; margin-top: 16px; margin-bottom: 4px; }
   .tracker-fill-wrap { position: absolute; left: 0; top: 0; width: 0%; transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
   .tracker-thumb { text-align: right; font-family: 'VT323', monospace; font-size: 15px; font-weight: 900; letter-spacing: -0.5px; color: #1d1d1f; padding-right: 4px; padding-bottom: 2px; }
   .tracker-total { position: absolute; right: 0; top: 0; font-family: 'VT323', monospace; font-size: 15px; font-weight: 900; color: #b2bec3; }
